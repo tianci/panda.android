@@ -1,0 +1,36 @@
+<FrameLayout android:id="@+id/test"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="panda.android.demo.MainActivity">
+
+    <TextView
+        android:id="@+id/main_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@android:color/holo_red_light"
+        android:gravity="center"
+        android:text="This is main content view"
+        android:contentDescription="This is main content view"/>
+
+    <TextView
+        android:id="@+id/guide_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@android:color/holo_green_light"
+        android:gravity="center"
+        android:text="this is a guide view, click to finish"
+        android:contentDescription="this is a guide view"/>
+
+    <ImageView
+        android:id="@+id/launch_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_blue_dark"
+        android:contentDescription="this is a launch view"
+        android:src="@android:drawable/ic_btn_speak_now"/>
+
+</FrameLayout>
