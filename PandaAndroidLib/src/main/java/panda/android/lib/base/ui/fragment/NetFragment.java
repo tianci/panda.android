@@ -1,10 +1,5 @@
 package panda.android.lib.base.ui.fragment;
 
-import com.litesuits.android.log.Log;
-
-import panda.android.lib.R;
-import panda.android.lib.base.control.SimpleSafeTask;
-import panda.android.lib.base.model.NetResultInfo;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
@@ -12,6 +7,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import panda.android.lib.R;
+import panda.android.lib.base.control.SimpleSafeTask;
+import panda.android.lib.base.model.NetResultInfo;
+import panda.android.lib.base.util.Log;
 
 /**
  * 加载网页数据的通用模型，包含 进度条控制、结果显示控制。
@@ -40,7 +40,7 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 	/**
 	 * 设置正在加载显示的view
 	 * 
-	 * @param mViewNoResult
+	 * @param view
 	 *            the mViewNoResult to set
 	 */
 	public void setViewProgress(View view) {
@@ -50,7 +50,7 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 	/**
 	 * 设置有结果时显示的view
 	 * 
-	 * @param mViewNoResult
+	 * @param view
 	 *            the mViewNoResult to set
 	 */
 	public void setViewResult(View view) {
@@ -60,7 +60,7 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 	/**
 	 * 设置没有结果时显示的view
 	 * 
-	 * @param mViewNoResult
+	 * @param view
 	 *            the mViewNoResult to set
 	 */
 	public void setViewNoResult(View view) {

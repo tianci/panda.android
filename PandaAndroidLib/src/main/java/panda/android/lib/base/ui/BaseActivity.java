@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import panda.android.lib.R;
-import panda.android.lib.base.BaseApp;
 import panda.android.lib.base.ui.fragment.BaseFragment;
 import panda.android.lib.base.util.FragmentUtil;
 import panda.android.lib.base.util.Log;
@@ -20,7 +19,7 @@ public abstract class BaseActivity<T extends BaseFragment> extends FragmentActiv
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.panda_activity_main);
 		if (savedInstanceState == null) {
-			mainFragment = initMainFragment();
+            mainFragment = initMainFragment();
 			mainFragment.setCanFinishActivity(true);
 //			getSupportFragmentManager().beginTransaction()
 //					.add(R.id.container, mainFragment).commit();
@@ -28,7 +27,7 @@ public abstract class BaseActivity<T extends BaseFragment> extends FragmentActiv
 		}
 		// Log.d(TAG, OSUtil.getDeviceInfoByUmeng(getApplicationContext()));
 		
-		BaseApp.getInstance().addActivity(this); 
+//		BaseApp.getInstance().addActivity(this);
 	}
 	
 	public abstract T initMainFragment();

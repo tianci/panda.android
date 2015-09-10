@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PandaAndroid.iml" filepath="$PROJECT_DIR$/PandaAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/PandaAndroidDemo/PandaAndroidDemo.iml" filepath="$PROJECT_DIR$/PandaAndroidDemo/PandaAndroidDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/PandaAndroidLib/PandaAndroidLib.iml" filepath="$PROJECT_DIR$/PandaAndroidLib/PandaAndroidLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/panda.android.iml" filepath="$PROJECT_DIR$/panda.android.iml" />
     </modules>
   </component>
 </project>

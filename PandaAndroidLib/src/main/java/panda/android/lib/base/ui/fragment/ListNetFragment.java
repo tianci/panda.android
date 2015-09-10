@@ -84,7 +84,9 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 			showNoResult(result);
 			return;
 		}
+        hiddenNoResult();
 		if (result.getList().size() < mPageSize) {
+            Log.w(TAG, "showLoadAllNetData");
 			showLoadAllNetData();
 		}
 		List<O> list = result.getList();
