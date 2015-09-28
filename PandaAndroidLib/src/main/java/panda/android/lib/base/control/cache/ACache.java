@@ -43,6 +43,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,14 +53,17 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import panda.android.lib.base.util.Log;
+
 /**
  * 来自 https://github.com/yangfuhai/ASimpleCache
  * @author Michael Yang（www.yangfuhai.com） update at 2013.08.07
  */
 public class ACache {
+	private static final String TAG = ACache.class.getSimpleName();
 	public static final int TIME_HOUR = 60 * 60;
 	public static final int TIME_DAY = TIME_HOUR * 24;
-	private static final int MAX_SIZE = 1000 * 1000 * 50; // 50 mb
+	private static final int MAX_SIZE = 1024 * 1024 * 1024; // 1024 mb
 	private static final int MAX_COUNT = Integer.MAX_VALUE; // 不限制存放数据的数量
 	private static Map<String, ACache> mInstanceMap = new HashMap<String, ACache>();
 	private ACacheManager mCache;
@@ -68,7 +73,10 @@ public class ACache {
 	}
 
 	public static ACache get(Context ctx, String cacheName) {
-		File f = new File(ctx.getCacheDir(), cacheName);
+		File f = new File(ctx.getCacheDir(), cacheName); // storage in  /data/data/<package name>/cacheName
+//		File f = new File(ctx.getExternalFilesDir(), cacheName); // storage in  /SDCard/Android/data/你的应用包名/file/cacheName
+//		File f = new File(ctx.getExternalCacheDir(), cacheName); // storage in  /SDCard/Android/data/你的应用包名/cache/cacheName
+		Log.d(TAG, "cache file is " + f.getAbsolutePath());
 		return get(f, MAX_SIZE, MAX_COUNT);
 	}
 
@@ -98,10 +106,37 @@ public class ACache {
 		if (!cacheDir.exists() && !cacheDir.mkdirs()) {
 			throw new RuntimeException("can't make dirs in " + cacheDir.getAbsolutePath());
 		}
+		Log.d(TAG, "cacheDir + " + cacheDir.getAbsolutePath());
 		mCache = new ACacheManager(cacheDir, max_size, max_count);
 	}
 
-	/**
+    public void downloadFile(String url, OutputStream ostream) {
+        try {
+            URL u = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+            conn.connect();
+            InputStream stream = conn.getInputStream();
+
+            byte[] buff = new byte[1024];
+            int counter;
+
+            while ((counter = stream.read(buff)) > 0){
+                ostream.write(buff, 0, counter);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // cache update
+                ostream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.d(TAG, "done...");
+        }
+    }
+
+    /**
 	 * Provides a means to save a cached file before the data are available.
 	 * Since writing about the file is complete, and its close method is called,
 	 * its contents will be registered in the cache. Example of use:
@@ -364,7 +399,26 @@ public class ACache {
 		return new FileInputStream(file);
 	}
 
-	/**
+    /**
+     *
+     * @param key
+     *            the file name.
+     * @return (File or null) File previously saved in cache.
+     * @throws FileNotFoundException
+     *             if the file can not be opened
+     */
+    public File getFile(String key) throws FileNotFoundException {
+        Log.d(TAG, "getFile, key = " + key);
+        File file = mCache.get(key);
+        if (!file.exists()) {
+            return null;
+        }
+        Log.d(TAG, "getFile, file = " + file.getAbsolutePath());
+        return file;
+    }
+
+
+    /**
 	 * 保存 byte数据 到 缓存中
 	 * 
 	 * @param key
@@ -694,12 +748,22 @@ public class ACache {
 		}
 
 		private File newFile(String key) {
-			return new File(cacheDir, key.hashCode() + "");
+//            String filename = "";
+//            try {
+//                filename = URLEncoder.encode(key, "utf-8");
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//                filename = key.hashCode()+"";
+//            }
+//			return new File(cacheDir, key.hashCode() + "");
+			return new File(cacheDir, key);
 		}
 
 		private boolean remove(String key) {
-			File image = get(key);
-			return image.delete();
+            Log.d(TAG, "remove, key = " + key);
+            File image = get(key);
+            Log.d(TAG, "remove, image = " + image.getAbsolutePath());
+            return image.delete();
 		}
 
 		private void clear() {

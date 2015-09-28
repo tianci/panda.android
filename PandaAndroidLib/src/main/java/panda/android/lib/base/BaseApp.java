@@ -58,7 +58,6 @@ public class BaseApp extends Application {
 	 * @return 系统文件加的名称
 	 */
 	public String getAppDir() {
-		return Environment.getExternalStorageDirectory().getPath();
+		return Environment.getExternalStorageDirectory().getPath()+ "/" + getPackageName();
 	}
-
 }
