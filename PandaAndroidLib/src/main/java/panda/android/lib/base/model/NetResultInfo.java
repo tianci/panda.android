@@ -27,5 +27,12 @@ public class NetResultInfo extends BaseModel {
 	public void setRespDesc(String respDesc) {
 		this.respDesc = respDesc;
 	}
-	
+
+
+	public static NetResultInfo getMockData() {
+		NetResultInfo result = new NetResultInfo();
+		result.setRespCode(RETURN_CODE_000000);
+		result.setRespDesc("OK");
+		return result;
+	}
 }

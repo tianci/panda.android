@@ -80,7 +80,7 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 	@Override
 	final protected void showResult(ListNetResultInfo<O> result) {
 		super.showResult(result);
-		if (result == null || result.getList() == null) {
+		if (result == null || result.getList() == null || result.getList().size() == 0) {
 			showNoResult(result);
 			return;
 		}

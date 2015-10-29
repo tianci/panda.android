@@ -40,6 +40,8 @@ public class DeviceInfoFragment extends BaseFragment {
 		display.getSize(size);
 		width = size.x;
 		height = size.y;
+		info += String.format("手机的型号：%s\n", android.os.Build.MODEL);
+		info += String.format("SDK版本：%d\n", android.os.Build.VERSION.SDK_INT);
 		info += String.format("手机的屏幕像素大小为：%d×%d\n", width, height);
 		info += String.format("手机的屏幕分辨率为：%d×%d\n", displayMetrics.widthPixels, displayMetrics.heightPixels);
 		info += String.format("手机的每寸像素[dpi]为：%d\n", displayMetrics.densityDpi); //屏幕密度（每寸像素：120/160/240/320）  

@@ -4,6 +4,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.umeng.analytics.MobclickAgent;
+
 import panda.android.lib.base.ui.fragment.BaseFragment;
 
 public class FragmentUtil {
@@ -20,6 +22,7 @@ public class FragmentUtil {
 			FragmentActivity activity, int containerViewId) {
 		// Add the fragment to the activity, pushing this transaction
 		// on to the back stack.
+		DevUtil.closeImm(activity);
 		addFragmentToStack(null, newFragment, activity, containerViewId);
 	}
 
@@ -99,6 +102,7 @@ public class FragmentUtil {
 	public static void onPageStart(Object object) {
 		String simpleName = object.getClass().getSimpleName();
 		Log.d(TAG, "onPageStart " + simpleName);
+		MobclickAgent.onPageStart(simpleName);
 	}
 	
 	/**
@@ -108,6 +112,7 @@ public class FragmentUtil {
 	public static void onPageEnd(Object object) {
 		String simpleName = object.getClass().getSimpleName();
 		Log.d(TAG, "onPageEnd " + simpleName);
+		MobclickAgent.onPageEnd(simpleName);
 	}
 
 }

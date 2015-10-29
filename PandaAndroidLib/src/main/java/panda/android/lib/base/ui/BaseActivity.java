@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.umeng.analytics.MobclickAgent;
 
 import panda.android.lib.R;
 import panda.android.lib.base.ui.fragment.BaseFragment;
@@ -22,6 +24,8 @@ public abstract class BaseActivity<T extends BaseFragment> extends FragmentActiv
     private T mainFragment;
 
     private SystemBarTintManager tintManager;
+    private long lastExitTime;
+    private boolean isDoubleClickExit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,10 @@ public abstract class BaseActivity<T extends BaseFragment> extends FragmentActiv
         setContentView(R.layout.panda_activity_main);
         if (savedInstanceState == null) {
             mainFragment = initMainFragment();
+            if (mainFragment == null){
+                finish();
+                return;
+            }
             mainFragment.setCanFinishActivity(true);
 //			getSupportFragmentManager().beginTransaction()
 //					.add(R.id.container, mainFragment).commit();
@@ -62,11 +70,17 @@ public abstract class BaseActivity<T extends BaseFragment> extends FragmentActiv
     public void onResume() {
         Log.d(TAG, "onResume");
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     public void onPause() {
         Log.d(TAG, "onPause");
         super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    public void setIsDoubleClickExit(boolean mIsDoubleClickExit) {
+        isDoubleClickExit = mIsDoubleClickExit;
     }
 
     @Override
@@ -77,7 +91,14 @@ public abstract class BaseActivity<T extends BaseFragment> extends FragmentActiv
             Log.d(TAG, "onBackPressed 1");
             super.onBackPressed();
         } else {
-            Log.d(TAG, "onBackPressed 2");
+            if (isDoubleClickExit){
+                if((System.currentTimeMillis()- lastExitTime) > 2000){
+                    Log.d(TAG, "onBackPressed 2");
+                    Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    lastExitTime = System.currentTimeMillis();
+                    return;
+                }
+            }
             mainFragment.exit();
         }
     }

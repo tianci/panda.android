@@ -92,9 +92,14 @@
     <orderEntry type="library" exported="" name="lib-liteasync" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="lib-litehttp" level="project" />
+    <orderEntry type="library" exported="" name="systembartint-1.0.3" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="lib-eventbus" level="project" />
+    <orderEntry type="library" exported="" name="lite-http-2.1.5" level="project" />
+    <orderEntry type="library" exported="" name="lib-liteorm" level="project" />
+    <orderEntry type="library" exported="" name="analytics-5.6.1" level="project" />
+    <orderEntry type="library" exported="" name="lite-orm-1.5.4" level="project" />
     <orderEntry type="library" exported="" name="butterknife-5.1.2" level="project" />
   </component>
 </module>

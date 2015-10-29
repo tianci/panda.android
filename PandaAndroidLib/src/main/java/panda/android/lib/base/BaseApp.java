@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Environment;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,6 +31,13 @@ public class BaseApp extends Application {
 		instance = this;
 		// BaseRepositoryCollection.initClientCCG(getApplicationContext(),
 		// null);
+
+        MobclickAgent.openActivityDurationTrack(false);
+
+//		MobclickAgent.setDebugMode(true);
+//		MobclickAgent.reportError(getApplicationContext(), "上传测试日志");
+//		String test = null;
+//		test.toString();
 	}
 
 	// add Activity

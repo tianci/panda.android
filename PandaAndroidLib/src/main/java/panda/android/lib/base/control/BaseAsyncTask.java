@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.litesuits.android.async.SafeTask;
 
-import panda.android.lib.base.util.DevUtil;
+import panda.android.lib.base.util.Log;
 
 
 /**
@@ -16,7 +16,8 @@ import panda.android.lib.base.util.DevUtil;
  * @param <Result>
  */
 public abstract class BaseAsyncTask<Params, Progress, Result> extends SafeTask<Params, Progress, Result> {
-	
+
+	private static final String TAG = BaseAsyncTask.class.getSimpleName();
 	private Context context;
 	
 	public BaseAsyncTask(Context context) {
@@ -28,7 +29,7 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends SafeTask<P
 		if(e == null){
 			return;
 		}
-		DevUtil.showInfo(getContext(), e.getMessage());
+		Log.d(TAG, e.getMessage());
 	}
 
 	public Context getContext() {
