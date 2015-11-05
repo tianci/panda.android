@@ -1,5 +1,6 @@
 package panda.android.lib.base.ui;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -10,8 +11,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.PopupWindow;
-
-import panda.android.lib.R;
 
 /**
  * 生产典型的修饰性view，如Dialog、Animation、PopupWindow
@@ -29,7 +28,7 @@ public class UIFactory {
      */
     public static Dialog getDialog(Context context,
                                    View contentView, boolean cancelable) {
-        Dialog loadingDialog = new Dialog(context, R.style.DialogTheme);
+        Dialog loadingDialog = new Dialog(context);
         loadingDialog.setContentView(contentView);
         loadingDialog.setCancelable(cancelable);
         loadingDialog.setCanceledOnTouchOutside(false);
@@ -48,6 +47,17 @@ public class UIFactory {
         Animation animProgress = AnimationUtils.loadAnimation(context, animId);
         animProgress.setInterpolator(i);
         return animProgress;
+    }
+
+    /**
+     * 获取弹出框
+     * 使用方法：popupWindow.showAsDropDown(??)/popupWindow.showAtLocation(??)
+     * @param activity
+     * @param contentViewId
+     * @return
+     */
+    public static PopupWindow getPopupWindow(final Activity activity, int contentViewId) {
+        return getPopupWindow(activity, activity.getLayoutInflater().inflate(contentViewId, null));
     }
 
     /**

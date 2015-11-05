@@ -70,7 +70,7 @@ public abstract class BaseFragment extends Fragment implements
 				// 防止透传点击事件。
 			}
 		});
-		ButterKnife.inject(this, view);
+		ButterKnife.bind(this, view);
 		return view;
 	}
 
@@ -208,7 +208,7 @@ public abstract class BaseFragment extends Fragment implements
 	public void onDestroyView() {
 		if(DEBUG)
 			Log.d(TAG, id + " onDestroyView");
-		ButterKnife.reset(this);
+		ButterKnife.unbind(this);
 		super.onDestroyView();
 	}
 	

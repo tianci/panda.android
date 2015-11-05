@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingLeft="@dimen/width_720_1280_24"
+              android:paddingRight="@dimen/width_720_1280_24"
+              android:background="#f3f3f3"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/fl_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/height_720_1280_20"
+        android:layout_marginTop="@dimen/height_720_1280_20"
+        android:paddingLeft="@dimen/width_720_1280_24"
+        android:paddingRight="@dimen/width_720_1280_24"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/progress_bar_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正在下载"
+            android:layout_gravity="center_horizontal"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_720_1280_40"
+            android:progress="0"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_contain"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_720_1280_111"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="@dimen/width_720_1280_24"
+        android:paddingRight="@dimen/width_720_1280_24"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="#64bb77"
+            android:text="确定"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_720_1280_30"/>
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="#939393"
+            android:layout_marginLeft="@dimen/width_720_1280_24"
+            android:text="取消"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_720_1280_30"/>
+    </LinearLayout>
+
+</LinearLayout>

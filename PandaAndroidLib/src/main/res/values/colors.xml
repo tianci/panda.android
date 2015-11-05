@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主色调 -->
+    <color name="colorPrimary">#00C9B0</color>
+    <!-- 主色调加深版 -->
+    <color name="colorPrimaryDark">#049CAD</color>
+    <!--强调色-->
+    <color name="colorAccent">#FF4081</color>
+</resources>

@@ -26,6 +26,7 @@ public abstract class BaseActivity<T extends BaseFragment> extends FragmentActiv
     private SystemBarTintManager tintManager;
     private long lastExitTime;
     private boolean isDoubleClickExit = false;
+    private boolean userTintManager = false; //是否使用tintManager
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +50,14 @@ public abstract class BaseActivity<T extends BaseFragment> extends FragmentActiv
         /**
          * 设置系统通知栏的的颜色
          */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
+        if (userTintManager){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                setTranslucentStatus(true);
+            }
+            tintManager = new SystemBarTintManager(this);
+            tintManager.setStatusBarTintEnabled(true);
+            tintManager.setNavigationBarTintEnabled(true);
         }
-        tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setNavigationBarTintEnabled(true);
     }
 
     public abstract T initMainFragment();
@@ -132,6 +135,9 @@ public abstract class BaseActivity<T extends BaseFragment> extends FragmentActiv
      * @param res
      */
     public void setStatusBarTintResource(int res) {
+        if (!userTintManager){
+            return;
+        }
         tintManager.setTintColor(getResources().getColor(res));
 //        tintManager.setStatusBarTintResource(android.R.color.holo_blue_dark);
 //        tintManager.setNavigationBarTintResource(android.R.color.holo_blue_dark);
