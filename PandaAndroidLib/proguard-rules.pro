@@ -104,6 +104,8 @@
     java.lang.Object writeReplace();
     java.lang.Object readResolve();
 }
+-keepclasseswithmembernames class * implements java.io.Serializable{*;}
+
 #保持枚举 enum 类不被混淆 如果混淆报错，建议直接使用上面的 -keepclassmembers class * implements java.io.Serializable即可
 -keepclassmembers enum * {
   public static **[] values();

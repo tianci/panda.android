@@ -16,6 +16,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    //app使用一下配置来引入混淆文件，PandaAndroidLib不要打开混淆，否则会引发某些编译错误
+//    buildTypes {
+//        release {
+//            //是否进行混淆
+//            minifyEnabled true
+//            // 混淆文件的位置
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//        debug {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt') , 'proguard-rules.pro'
+//        }
+//    }
+
 }
 
 dependencies {
@@ -24,10 +39,13 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile files('libs/lite-orm-1.5.4.jar')
-    compile files('libs/lite-http-2.1.5.jar')
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.umeng.analytics:analytics:latest.integration'
+    compile ('com.weiwangcn.betterspinner:library:1.1.0') {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
+    compile files('libs/lite-orm-1.5.4.jar')
+    compile files('libs/lite-http-2.1.5.jar')
     compile files('libs/lite-async-1.0.0.jar')
 }
 

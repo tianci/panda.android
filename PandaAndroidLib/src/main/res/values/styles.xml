@@ -8,7 +8,7 @@
     </style>
 
     <!--AlderDialog主题-->
-    <style name="Theme.DeviceDefault.Dialog.Alert" parent="@android:style/Theme.Holo.Light.Dialog">
+    <style name="PandaTheme.Dialog.Alert" parent="@android:style/Theme.Holo.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowTitleStyle">@style/DialogWindowTitle</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -29,9 +29,9 @@
         -->
 
         <!-- Dialog属性 -->
-        <item name="android:dialogTheme">@style/Theme.DeviceDefault.Dialog</item>
+        <item name="android:dialogTheme">@style/PandaTheme.Dialog</item>
         <!-- alertDialog属性 -->
-        <item name="android:alertDialogTheme">@style/Theme.DeviceDefault.Dialog.Alert</item>
+        <item name="android:alertDialogTheme">@style/PandaTheme.Dialog.Alert</item>
     </style>
 
     <!-- Activity切换动画 -->
@@ -71,7 +71,7 @@
     </style>
 
     <!-- Application theme.(默认带Activity切换动画) -->
-    <style name="MainAppTheme" parent="AppBaseTheme">
+    <style name="PandaTheme.MainApp" parent="AppBaseTheme">
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <!--<item name="android:textColor">@android:color/white</item>-->
@@ -83,75 +83,75 @@
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
         <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
 
+        <item name="android:textColorHint">#c4c4c4</item>
     </style>
 
     <!-- MainActivity theme.(不带Activity切换动画，适用于入口Activity) -->
-    <style name="MainActivityTheme" parent="AppBaseTheme">
+    <style name="PandaTheme.MainActivity" parent="AppBaseTheme">
         <item name="android:windowNoTitle">true</item>
         <!--<item name="android:windowIsTranslucent">true</item>-->
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
 
-
-    <!--Base application theme.-->
-    <style name="AppTheme" parent="MainAppTheme">
-        <!--<item name="android:textSize">@dimen/text_size_720_1280_30</item>-->
-        <!--<item name="android:background">#f7f7f7</item>-->
-
-        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-        <!--<item name="colorAccent">@color/colorAccent</item>-->
-    </style>
-
     <!-- layout的背景 -->
-    <style name="LayoutTheme">
+    <style name="PandaTheme.Layout" parent="AppBaseTheme">
         <item name="android:background">#f7f7f7</item>
     </style>
 
     <!-- 1级文本（标题、大按钮） -->
-    <style name="FirstTextTheme" parent="android:Widget">
-        <item name="android:textColor">#222222</item>
+    <style name="PandaTheme.FirstText" parent="android:Widget">
         <item name="android:textSize">@dimen/text_size_720_1280_42</item>
+        <item name="android:textColor">#222222</item>
     </style>
 
     <!-- 2级文本（二级标题、列表标题） -->
-    <style name="SecondTextTheme" parent="android:Widget">
-        <item name="android:textColor">#666666</item>
+    <style name="PandaTheme.SecondText" parent="android:Widget">
         <item name="android:textSize">@dimen/text_size_720_1280_36</item>
+        <item name="android:textColor">#999999</item>
     </style>
 
+    <!-- 2级文本（二级标题、列表标题） -->
+    <style name="PandaTheme.SecondText.Title" parent="PandaTheme.SecondText">
+        <item name="android:textColor">#222222</item>
+    </style>
+
+
     <!-- 3级文本（列表说明） -->
-    <style name="ThirdTextTheme" parent="android:Widget">
+    <style name="PandaTheme.ThirdText" parent="android:Widget">
         <item name="android:textColor">#999999</item>
         <item name="android:textSize">@dimen/text_size_720_1280_30</item>
     </style>
 
     <!-- 4级文本（辅助文字） -->
-    <style name="FourTextTheme" parent="android:Widget">
+    <style name="PandaTheme.FourText" parent="android:Widget">
         <item name="android:textColor">#999999</item>
         <item name="android:textSize">@dimen/text_size_720_1280_24</item>
     </style>
 
     <!-- 导航条样式 -->
-    <style name="NavTheme" parent="FirstTextTheme">
+    <style name="PandaTheme.Nav" parent="PandaTheme.FirstText">
         <item name="android:background">@drawable/nav_background</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
     <!-- 按钮 -->
-    <style name="ButtonTheme" parent="FirstTextTheme">
+    <style name="PandaTheme.Button" parent="PandaTheme.FirstText">
+        <item name="android:height">@dimen/height_720_1280_96</item>
         <item name="android:background">@drawable/btn_background</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
     </style>
 
     <!-- 边框 -->
-    <style name="DivideTheme" parent="android:Widget">
-        <item name="android:background">#d1d1d1</item>
+    <style name="PandaTheme.Divide" parent="android:Widget">
+        <item name="android:background">#dddddd</item>
     </style>
 
     <!--Dialog主题-->
-    <style name="Theme.DeviceDefault.Dialog" parent="@android:style/Theme.DeviceDefault.Light.Dialog">
+    <style name="PandaTheme.Dialog" parent="@android:style/Theme.DeviceDefault.Light.Dialog">
         <!-- 边框 -->
         <item name="android:windowFrame">@null</item>
         <!-- 是否浮现在activity之上 -->
@@ -167,11 +167,25 @@
     </style>
 
     <!-- 主页按钮-->
-    <style name="MainButtonTheme">
+    <style name="PandaTheme.MainButton" parent="">
         <item name="android:textColor">#ffffff</item>
         <item name="android:background">@null</item>
         <item name="android:gravity">center_vertical|left</item>
         <item name="android:drawablePadding">1dp</item>
+    </style>
+
+    <!--ListView-->
+    <style name="PandaTheme.ListView" parent="">
+        <item name="android:divider">#dddddd</item>
+        <item name="android:dividerHeight">@dimen/height_720_1280_4</item>
+    </style>
+
+    <style name="PandaTheme.EditText" parent="PandaTheme.SecondText">
+        <item name="android:background">@drawable/et_bg</item>
+    </style>
+
+    <style name="PandaTheme.BetterSpinner" parent="PandaTheme.SecondText">
+        <item name="android:background">@drawable/et_bg</item>
     </style>
 
 </resources>

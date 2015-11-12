@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import panda.android.lib.R;
 import panda.android.lib.base.control.SimpleSafeTask;
 import panda.android.lib.base.model.NetResultInfo;
+import panda.android.lib.base.ui.UIUtil;
 import panda.android.lib.base.util.Log;
 
 /**
@@ -82,7 +83,10 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 		if (mViewNoResult == null) {
 			mViewNoResult = createdView.findViewById(R.id.net_no_result);
 		}
+		mDialogProgress = UIUtil.getLoadingDlg(getActivity(), false);
+		hiddenNoResult();
 		hiddenProgress();
+//		hiddenResult();
 		return createdView;
 	}
 
@@ -164,6 +168,10 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 	}
 
 	protected void showResult(T result) {
+		showResult();
+	}
+
+	protected void showResult() {
 		if (mViewResult != null) {
 			mViewResult.setVisibility(View.VISIBLE);
 		}

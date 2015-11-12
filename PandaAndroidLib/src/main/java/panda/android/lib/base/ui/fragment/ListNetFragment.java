@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import panda.android.lib.base.model.ListNetResultInfo;
+import panda.android.lib.base.util.DevUtil;
 import panda.android.lib.base.util.Log;
 
 
@@ -80,7 +81,11 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 	@Override
 	final protected void showResult(ListNetResultInfo<O> result) {
 		super.showResult(result);
-		if (result == null || result.getList() == null || result.getList().size() == 0) {
+		if (result == null){
+			showNetErrResult();
+		}
+		if (result.getList() == null || result.getList().size() == 0) {
+			hiddenResult();
 			showNoResult(result);
 			return;
 		}
@@ -95,6 +100,14 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 		}
 		mStartIndex += list.size();
 		showResult(list);
+	}
+
+	/**
+	 * 获取数据为null，网络失败
+	 */
+	public void showNetErrResult() {
+		DevUtil.showInfo(getActivity(), "访问网络失败");
+		getActivity().finish();
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package panda.android.lib.base.control;
 
+import android.app.Dialog;
 import android.content.Context;
 
 import com.litesuits.android.async.SafeTask;
@@ -19,20 +20,45 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends SafeTask<P
 
 	private static final String TAG = BaseAsyncTask.class.getSimpleName();
 	private Context context;
+    private Dialog mLoadingDlg;
 	
 	public BaseAsyncTask(Context context) {
-		this.setContext(context);
+		this(context, null);
 	}
 
-	@Override
+	public BaseAsyncTask(Context context, Dialog loadingDlg) {
+		setContext(context);
+        mLoadingDlg = loadingDlg;
+	}
+
+    @Override
+    protected void onPreExecuteSafely() throws Exception {
+        super.onPreExecuteSafely();
+        if (mLoadingDlg != null){
+            mLoadingDlg.show();
+        }
+    }
+
+    @Override
 	protected void onPostExecuteSafely(Result result, Exception e) {
+        if (mLoadingDlg != null){
+            mLoadingDlg.dismiss();
+        }
 		if(e == null){
 			return;
 		}
 		Log.d(TAG, e.getMessage());
 	}
 
-	public Context getContext() {
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        if (mLoadingDlg != null){
+            mLoadingDlg.dismiss();
+        }
+    }
+
+    public Context getContext() {
 		return context;
 	}
 

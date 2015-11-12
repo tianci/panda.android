@@ -28,10 +28,10 @@ public class FragmentUtil {
 
 	/**
 	 * 在Activity层面隐藏lastfragment，显示newfragment。
-	 * @param lastfragment
-	 * @param newfragment
+	 * @param lastFragment
+	 * @param newFragment
 	 * @param activity
-	 * @param mainContent
+	 * @param containerViewId
 	 */
 	public static void addFragmentToStack(BaseFragment lastFragment, BaseFragment newFragment, FragmentActivity activity, int containerViewId) {
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();

@@ -11,7 +11,11 @@ import com.litesuits.http.parser.impl.FileParser;
 import com.litesuits.http.request.AbstractRequest;
 import com.litesuits.http.request.FileRequest;
 import com.litesuits.http.request.JsonRequest;
+import com.litesuits.http.request.content.HttpBody;
 import com.litesuits.http.request.content.JsonBody;
+import com.litesuits.http.request.content.multi.FilePart;
+import com.litesuits.http.request.content.multi.MultipartBody;
+import com.litesuits.http.request.param.HttpMethods;
 import com.litesuits.http.request.param.HttpParamModel;
 import com.litesuits.http.response.Response;
 
@@ -105,6 +109,51 @@ public class BaseRepositoryCollection {
             }
             DevUtil.showInfo(mContext, "onFailure");
         }
+    }
+
+    /**
+     * 上传文件到服务端（在非UI线程执行）
+     * @param fileList
+     */
+    public static <T> T executeRequest(String url, String[] fileList, HttpMethods method, Type resultType){
+        MultipartBody body = new MultipartBody();
+        for (String file:fileList) {
+            body.addPart(new FilePart("files", new File(file), "image/jpeg"));
+        }
+        return executeRequest(url, body, method, resultType);
+    }
+
+    /**
+     * 将参数拼接到url上，传输参数到服务端（在非UI线程执行）
+     */
+    public static <T> T executeRequest(String url, HttpParamModel httpparams, HttpMethods method, Type resultType){
+        if ( httpparams!=null && (method == HttpMethods.Post || method == HttpMethods.Put || method == HttpMethods.Head || method == HttpMethods.Patch)){
+//            request.setHttpBody(new JsonBody(httpparams));
+            url = url + "?" + ClassUtils.obj2PostParams(httpparams);
+            Log.d(TAG, "url = " + url);
+        }
+        return executeRequest(url, (HttpBody)null, method, resultType);
+    }
+
+    public static <T> T executeRequest(String url, HttpBody httpBody, HttpMethods method, Type resultType){
+        if (mLiteHttp == null){
+            Log.e(TAG, "mLiteHttp == null");
+            return null;
+        }
+        AbstractRequest<T> request = new JsonRequest(url, resultType);
+        request.setMethod(method);
+        Log.d(TAG, "executeRequest, " + request.getMethod());
+        if (httpBody != null){
+            request.setHttpBody(httpBody);
+        }
+        Response res = mLiteHttp.execute(request);
+        Log.d(TAG, "accessNetwork, " + res.toString());
+        T netResult = (T) res.getResult();
+//        if (netResult == null) {
+//            NullPointerException nullPointerException = new NetException(NET_ERR_TIPS);
+//            throw nullPointerException;
+//        }
+        return netResult;
     }
 
 
