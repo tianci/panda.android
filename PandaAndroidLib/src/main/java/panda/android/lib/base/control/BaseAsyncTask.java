@@ -5,8 +5,6 @@ import android.content.Context;
 
 import com.litesuits.android.async.SafeTask;
 
-import panda.android.lib.base.util.Log;
-
 
 /**
  * 基础的异步任务类
@@ -47,7 +45,7 @@ public abstract class BaseAsyncTask<Params, Progress, Result> extends SafeTask<P
 		if(e == null){
 			return;
 		}
-		Log.d(TAG, e.getMessage());
+        e.printStackTrace();
 	}
 
     @Override

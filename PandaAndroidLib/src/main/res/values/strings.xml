@@ -1,5 +1,8 @@
 <resources>
 
     <string name="app_name">PandaAndroidLib</string>
+    <string name="download_failure">下载失败</string>
+    <string name="can_not_find_activity">找不到指定的页面</string>
+    <string name="exit_msg">再点击一次退出程序</string>
 
 </resources>

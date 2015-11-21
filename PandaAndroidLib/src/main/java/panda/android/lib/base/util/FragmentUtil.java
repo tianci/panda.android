@@ -39,7 +39,7 @@ public class FragmentUtil {
 			//自动检测自后一个Fragment
 			lastFragment = getLastFragment(fragmentManager, containerViewId);
 		}
-		FragmentTransaction ft = fragmentManager .beginTransaction();
+		FragmentTransaction ft = fragmentManager.beginTransaction();
 		if(lastFragment !=null && lastFragment != newFragment){
 			lastFragment.onFragmentPause();
 			ft.hide(lastFragment);
@@ -69,14 +69,14 @@ public class FragmentUtil {
 	
 	/**
 	 * 在Fragment层面隐藏lastfragment，显示newfragment。
-	 * @param lastfragment
-	 * @param newfragment
-	 * @param activity
-	 * @param mainContent
+	 * @param lastFragment
+	 * @param newFragment
+	 * @param parentFragment
+	 * @param containerViewId
 	 */
 	public static void addFragmentToStack(BaseFragment lastFragment, BaseFragment newFragment, BaseFragment parentFragment, int containerViewId) {
 		FragmentManager fragmentManager = parentFragment.getChildFragmentManager();
-		FragmentTransaction ft = fragmentManager .beginTransaction();
+		FragmentTransaction ft = fragmentManager.beginTransaction();
 		if(lastFragment != newFragment){
 			ft.hide(lastFragment);
 		}

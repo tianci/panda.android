@@ -15,13 +15,16 @@ import com.litesuits.http.request.content.HttpBody;
 import com.litesuits.http.request.content.JsonBody;
 import com.litesuits.http.request.content.multi.FilePart;
 import com.litesuits.http.request.content.multi.MultipartBody;
+import com.litesuits.http.request.content.multi.StringPart;
 import com.litesuits.http.request.param.HttpMethods;
 import com.litesuits.http.request.param.HttpParamModel;
 import com.litesuits.http.response.Response;
 
 import java.io.File;
 import java.lang.reflect.Type;
+import java.util.Map;
 
+import panda.android.lib.R;
 import panda.android.lib.base.util.DevUtil;
 import panda.android.lib.base.util.Log;
 
@@ -107,7 +110,7 @@ public class BaseRepositoryCollection {
             if (mLoadingDlg != null){
                 mLoadingDlg.dismiss();
             }
-            DevUtil.showInfo(mContext, "onFailure");
+            DevUtil.showInfo(mContext, mContext.getString(R.string.download_failure));
         }
     }
 
@@ -118,7 +121,9 @@ public class BaseRepositoryCollection {
     public static <T> T executeRequest(String url, String[] fileList, HttpMethods method, Type resultType){
         MultipartBody body = new MultipartBody();
         for (String file:fileList) {
-            body.addPart(new FilePart("files", new File(file), "image/jpeg"));
+            Log.d(TAG, "executeRequest, file = " + file);
+			//可以进一步优化为自动判断mime
+            body.addPart(new FilePart("files", new File(file), "image/*"));
         }
         return executeRequest(url, body, method, resultType);
     }
@@ -126,16 +131,34 @@ public class BaseRepositoryCollection {
     /**
      * 将参数拼接到url上，传输参数到服务端（在非UI线程执行）
      */
-    public static <T> T executeRequest(String url, HttpParamModel httpparams, HttpMethods method, Type resultType){
-        if ( httpparams!=null && (method == HttpMethods.Post || method == HttpMethods.Put || method == HttpMethods.Head || method == HttpMethods.Patch)){
+    public static <T> T executeGetRequest(String url, HttpParamModel httpparams, Type resultType){
+        if ( httpparams!=null){
 //            request.setHttpBody(new JsonBody(httpparams));
             url = url + "?" + ClassUtils.obj2PostParams(httpparams);
-            Log.d(TAG, "url = " + url);
         }
-        return executeRequest(url, (HttpBody)null, method, resultType);
+        return executeRequest(url, (HttpBody)null, HttpMethods.Get, resultType);
     }
 
+    /**
+     * 将参数按照form形式组织，传输参数到服务端（在非UI线程执行）
+     */
+    public static <T> T executeRequest(String url, HttpParamModel httpparams, HttpMethods method, Type resultType){
+//        Log.d(TAG, "httpparams = " + httpparams);
+        MultipartBody body = new MultipartBody();
+        if (httpparams!=null){
+//            request.setHttpBody(new JsonBody(httpparams));
+//            url = url + "?" + ClassUtils.obj2PostParams(httpparams);
+            Map<String,Object> maps =  ClassUtils.setObjParamsToMap(httpparams);
+            for (String key : maps.keySet()) {
+                body.addPart(new StringPart(key, maps.get(key).toString()));
+            }
+        }
+        return executeRequest(url, (HttpBody)body, method, resultType);
+    }
+
+
     public static <T> T executeRequest(String url, HttpBody httpBody, HttpMethods method, Type resultType){
+        Log.d(TAG, "url = " + url);
         if (mLiteHttp == null){
             Log.e(TAG, "mLiteHttp == null");
             return null;

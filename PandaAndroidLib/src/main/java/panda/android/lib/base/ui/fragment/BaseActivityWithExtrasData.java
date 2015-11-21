@@ -13,7 +13,7 @@ import panda.android.lib.base.ui.BaseActivity;
  *
  * Created by shitianci on 15/8/19.
  */
-public abstract class BaseActivityWithExtrasData<T extends BaseFragment, D extends BaseModel> extends BaseActivity<T>{
+public abstract class BaseActivityWithExtrasData<T extends BaseFragment, D> extends BaseActivity<T>{
 
     public static final String ACTIVITY_EXTRA_DATA = "data";
 

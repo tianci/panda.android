@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import panda.android.lib.R;
 import panda.android.lib.base.control.SimpleSafeTask;
+import panda.android.lib.base.model.ListNetResultInfo;
 import panda.android.lib.base.model.NetResultInfo;
 import panda.android.lib.base.ui.UIUtil;
 import panda.android.lib.base.util.Log;
@@ -83,7 +84,15 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 		if (mViewNoResult == null) {
 			mViewNoResult = createdView.findViewById(R.id.net_no_result);
 		}
-		mDialogProgress = UIUtil.getLoadingDlg(getActivity(), false);
+		mDialogProgress = UIUtil.getLoadingDlg(getActivity(), true);
+		mDialogProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                netTask.cancel(true);
+                netTask = null;
+                exit();
+            }
+        });
 		hiddenNoResult();
 		hiddenProgress();
 //		hiddenResult();
@@ -117,12 +126,23 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 			@Override
 			protected void onPostExecuteSafely(T result, Exception e) {
 				hiddenProgress();
+                hiddenResult();
 				super.onPostExecuteSafely(result, e);
-				if (result == null
-						|| result.getRespCode() != NetResultInfo.RETURN_CODE_000000) {
-					showNoResult(result);
+				if (e != null || result == null){
+					showNetErrResult();
 					return;
 				}
+                hiddenNetErrResult();
+				if (result.getRespCode() != NetResultInfo.RETURN_CODE_000000) {
+                    showNoResult();
+					return;
+				}
+                hiddenNoResult();
+                if (result instanceof ListNetResultInfo && ((ListNetResultInfo)result).getList().size() == 0){
+                    showNoResult(result);
+                    return;
+                }
+                hiddenNoResult();
 				showResult(result);
 			}
 
@@ -135,7 +155,7 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 		return;
 	}
 
-	protected void showProgress() {
+    protected void showProgress() {
 		Log.d(TAG, "showProgress, mViewProgress = " + mViewProgress);
 		if (mViewProgress != null) {
 			mViewProgress.setVisibility(View.VISIBLE);
@@ -168,28 +188,56 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 	}
 
 	protected void showResult(T result) {
-		showResult();
+        hiddenNoResult();
+        showResult();
 	}
 
 	protected void showResult() {
+        Log.d(TAG, "showResult");
 		if (mViewResult != null) {
 			mViewResult.setVisibility(View.VISIBLE);
 		}
 	}
 
-	protected void hiddenResult() {
-		if (mViewResult != null) {
-			mViewResult.setVisibility(View.GONE);
-		}
-	}
-
-	protected void showNoResult(T result) {
+	/**
+	 * 访问网络失败
+	 */
+	public void showNetErrResult() {
+		// TODO: 15/11/19 需要增加独立的页面
+        Log.d(TAG, "showNetErrResult");
 		if (mViewNoResult != null) {
 			mViewNoResult.setVisibility(View.VISIBLE);
 		}
 	}
 
+    private void hiddenNetErrResult() {
+        // TODO: 15/11/19 需要增加独立的页面
+        hiddenNoResult();
+    }
+
+
+    protected void hiddenResult() {
+        Log.d(TAG, "hiddenResult");
+		if (mViewResult != null) {
+			mViewResult.setVisibility(View.GONE);
+		}
+	}
+
+    protected void showNoResult() {
+        Log.d(TAG, "showNoResult");
+        if (mViewNoResult != null) {
+            mViewNoResult.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Deprecated
+	protected void showNoResult(T result) {
+        Log.d(TAG, "showNoResult");
+        showNoResult();
+	}
+
 	protected void hiddenNoResult() {
+        Log.d(TAG, "hiddenNoResult");
 		if (mViewNoResult != null) {
 			mViewNoResult.setVisibility(View.GONE);
 		}
@@ -210,6 +258,5 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 	public void setDialogProgress(Dialog dialogProgress) {
 		this.mDialogProgress = dialogProgress;
 	}
-
 
 }

@@ -6,14 +6,15 @@ import android.os.Environment;
 
 import com.litesuits.http.HttpConfig;
 import com.litesuits.http.LiteHttp;
+import com.litesuits.http.data.NameValuePair;
 import com.umeng.analytics.MobclickAgent;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import panda.android.lib.base.model.net.BaseRepositoryCollection;
-import panda.android.lib.base.util.Log;
+import panda.android.lib.base.util.FileUtil;
 
 
 /**
@@ -47,11 +48,17 @@ public class BaseApp extends Application {
 		instance = this;
 		// BaseRepositoryCollection.initClientCCG(getApplicationContext(),
 		// null);
+        List<NameValuePair> commonHeaders = new ArrayList<>();
+        NameValuePair pair1 = new NameValuePair("Content-type","text/html");
+        NameValuePair pair2 = new NameValuePair("charset","utf-8");
+        commonHeaders.add(pair1);
+        commonHeaders.add(pair2);
         HttpConfig config = new HttpConfig(this) // configuration quickly
                 .setDebugged(true)                   // log output when debugged
                 .setDetectNetwork(true)              // detect network before connect
                 .setDoStatistics(true)               // statistics of time and traffic
                 .setUserAgent("Mozilla/5.0 (...)")   // set custom User-Agent
+                .setCommonHeaders(commonHeaders)
                 .setTimeOut(10000, 10000);             // connect and socket timeout: 10s
         liteHttp = BaseRepositoryCollection.initLiteHttp(config);
 
@@ -68,26 +75,8 @@ public class BaseApp extends Application {
 //		String test = null;
 //		test.toString();
 
-        initAppDirs();
+        FileUtil.checkDir(getAppDir());
 	}
-
-    private void initAppDirs() {
-        File cacheDir = new File(getAppDir());
-//        try {
-//            cacheDir.createNewFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        if (cacheDir.exists() && !cacheDir.isDirectory()){
-            //删除同名文件
-            Log.d(TAG,  cacheDir.getAbsolutePath() + "is not directory");
-            cacheDir.delete();
-        }
-        if (!cacheDir.exists() && !cacheDir.mkdirs()) {
-            throw new RuntimeException("can't make dirs in " + cacheDir.getAbsolutePath());
-        }
-        Log.d(TAG,  cacheDir.getAbsolutePath() + ".exists() = " + cacheDir.exists());
-    }
 
     // add Activity
 	public void addActivity(Activity activity) {
@@ -116,7 +105,7 @@ public class BaseApp extends Application {
 	 * @return 系统文件加的名称
 	 */
 	public String getAppDir() {
-		return Environment.getExternalStorageDirectory().getPath()+ "/" + getPackageName();
+		return Environment.getExternalStorageDirectory().getPath()+ "/" + getPackageName() + "/";
 	}
 
     /**

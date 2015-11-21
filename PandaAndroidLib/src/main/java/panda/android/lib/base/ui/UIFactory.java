@@ -76,6 +76,7 @@ public class UIFactory {
         popupWindow.setBackgroundDrawable(dw);
         popupWindow.setTouchable(true);
         popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchInterceptor(new View.OnTouchListener() {
 
             @Override

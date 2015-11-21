@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import panda.android.lib.R;
 import panda.android.lib.base.ui.fragment.BaseFragment;
 import panda.android.lib.base.util.DevUtil;
-import panda.android.lib.base.util.FragmentUtil;
 import panda.android.lib.base.util.Log;
 
 /**
@@ -27,12 +26,10 @@ public abstract class TabFragment extends BaseFragment {
 
 	private static final String TAG = TabFragment.class.getSimpleName();
 	private View[] mTabs;
-	private int currentTabIndex;
-	private long firstTime;
+    private int currentTabIndex = -1;
 	private int mDefaultPage = 0;
-	private boolean isExitDoubleCheck = false;
 
-	@Override
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View onCreateView = super.onCreateView(inflater, container,
@@ -69,17 +66,13 @@ public abstract class TabFragment extends BaseFragment {
 		mTabs[mTabs.length-1].setNextFocusRightId(mTabs[0].getId());
 	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
-	
 	public void enableBackStackChangedListener() {
 		getActivity().getSupportFragmentManager().addOnBackStackChangedListener(onBackStackChangedListener);
 	}
-	
-	public void enableExitDoubleCheck() {
-		isExitDoubleCheck  = true;
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 	}
 	
 	@Override
@@ -89,43 +82,50 @@ public abstract class TabFragment extends BaseFragment {
 	
 	private void chooseTab(View v) {
 		Log.d(TAG, "choose Tab:" + v);
-		int index = 0;
-		for (int i : getBtnIds()) {
-			if (i == v.getId()) {
-				break;
-			}
-			index++;
-		}
-		if (currentTabIndex == index || index >= getBtnIds().length) {
-			return;
-		}
-		mTabs[currentTabIndex].setSelected(false);
-		chooseTab(index);
+        int nextIndex = 0;
+        for (int i : getBtnIds()) {
+            if (i == v.getId()) {
+                break;
+            }
+            nextIndex++;
+        }
+        Log.d(TAG, "currentTabIndex = " + currentTabIndex + ", nextIndex = " + nextIndex);
+        if (currentTabIndex == nextIndex) {
+            chooseSame();
+            return;
+        }
+        unChooseTab(currentTabIndex);
+        chooseTab(nextIndex);
 	}
 
-	public void chooseTab(int index) {
-		Log.d(TAG, "chooseTab " + index);
-		openFragment(getChildFragments()[currentTabIndex], getChildFragments()[index]);
+    public void chooseSame() {
+        unChooseTab(currentTabIndex);
+        currentTabIndex = -1;
+    }
+
+    public void unChooseTab(int index) {
+        Log.d(TAG, "unChooseTab " + index);
+        if (index < 0 || index >= getBtnIds().length) {
+            return;
+        }
+        mTabs[index].setSelected(false);
+        mTabs[index].setFocusable(false);
+    }
+
+    public void chooseTab(int index) {
+        Log.d(TAG, "chooseTab " + index);
+        if (index < 0 || index >= getBtnIds().length) {
+            return;
+        }
 		currentTabIndex = index;
-		mTabs[currentTabIndex].setSelected(true);
-		mTabs[currentTabIndex].setFocusable(true);
-		mTabs[currentTabIndex].requestFocus();
+		mTabs[index].setSelected(true);
+		mTabs[index].setFocusable(true);
+		mTabs[index].requestFocus();
 	}
 
-	private void openFragment(BaseFragment Lastfragment,
-			BaseFragment newfragment) {
-		FragmentUtil.addFragmentToStack(Lastfragment, newfragment, this,
-				R.id.main_content);
-	}
-
-	public static void openSecondFragment(FragmentActivity activity,
-			BaseFragment newfragment) {
-		FragmentUtil.addFragmentToStack(newfragment, activity, R.id.container);
-	}
-
-	private boolean needFinish() {
+	protected boolean needFinish() {
 		if (!isExitDoubleCheck) {
-			return true; 
+			return true;
 		}
 		if (currentTabIndex == mDefaultPage) {
 			if (firstTime + 2000 > System.currentTimeMillis()) {
@@ -141,23 +141,11 @@ public abstract class TabFragment extends BaseFragment {
 		return false;
 	}
 
-	public void exit() {
-		if (needFinish()) {
-			super.exit();
-		}
-	};
-
 	/**
 	 * 获取Tab栏按钮的ID
 	 * @return
 	 */
 	public abstract int[] getBtnIds();
-
-	/**
-	 * 获取按钮栏对应的Fragment
-	 * @return
-	 */
-	public abstract BaseFragment[] getChildFragments();
 
 	public int getDefaultPage() {
 		return mDefaultPage;
@@ -168,6 +156,10 @@ public abstract class TabFragment extends BaseFragment {
 		currentTabIndex = defaultPage;
 		chooseTab(defaultPage);
 	}
+
+    public int getCurrentTabIndex() {
+        return currentTabIndex;
+    }
 
 	OnBackStackChangedListener onBackStackChangedListener = new OnBackStackChangedListener() {
 		private int mLastBackStackEntryCount = 0;

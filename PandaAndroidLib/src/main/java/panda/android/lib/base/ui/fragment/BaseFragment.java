@@ -32,6 +32,8 @@ public abstract class BaseFragment extends Fragment implements
 	private String id = OSUtil.getObjectInfo(this);
 	private boolean needPageStatistic = false; //是否需要统计页面跳转
 	private boolean isCanFinishActivity = false; //退出时是否需要销毁Activity，表示它是主Fragment
+	protected boolean isExitDoubleCheck = false;
+	protected long firstTime;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,20 +105,6 @@ public abstract class BaseFragment extends Fragment implements
 		return null;
 	};
 
-	
-	public void exit(){
-		DevUtil.closeImm(getActivity());
-		if (isCanFinishActivity) {
-			getActivity().finish();
-		}
-		else{
-			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.popBackStack();
-		}
-	}
-	
-	
-	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -255,5 +243,37 @@ public abstract class BaseFragment extends Fragment implements
 	public void setCanFinishActivity(boolean isFinishActivity) {
 		this.isCanFinishActivity = isFinishActivity;
 	}
+
+	public void enableExitDoubleCheck() {
+		isExitDoubleCheck  = true;
+	}
+
+
+	protected boolean needFinish() {
+		if (!isExitDoubleCheck) {
+			return true;
+		}
+		if (firstTime + 2000 > System.currentTimeMillis()) {
+			return true;
+		} else {
+			DevUtil.showInfo(getActivity(),getString(R.string.exit_msg) );
+		}
+		firstTime = System.currentTimeMillis();
+		return false;
+	}
+
+	public void exit() {
+        Log.d(TAG, "exit");
+		if (needFinish()) {
+			DevUtil.closeImm(getActivity());
+			if (isCanFinishActivity) {
+				getActivity().finish();
+			}
+			else{
+				FragmentManager fragmentManager = getFragmentManager();
+				fragmentManager.popBackStack();
+			}
+		}
+	};
 
 }

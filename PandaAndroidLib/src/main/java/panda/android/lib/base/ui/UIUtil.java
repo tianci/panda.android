@@ -3,6 +3,7 @@ package panda.android.lib.base.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -18,8 +19,8 @@ import java.io.File;
 import butterknife.ButterKnife;
 import panda.android.lib.R;
 import panda.android.lib.base.model.net.BaseRepositoryCollection;
-import panda.android.lib.base.util.ApkUtil;
 import panda.android.lib.base.util.DevUtil;
+import panda.android.lib.base.util.IntentUtil;
 import panda.android.lib.base.util.Log;
 
 /**
@@ -91,12 +92,15 @@ public class UIUtil {
      * @return
      */
     private static Dialog getFileDownloadDlg(final Context context, final String url, final String description, final String filePath, final String title, final String leftBtnText, final String rigthBtnText) {
+        Log.d(TAG, "url = " + url);
+        Log.d(TAG, "description = " + description);
+        Log.d(TAG, "filePath = " + filePath);
         final View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_progress, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title)
                 .setMessage(description)
                 .setView(contentView)
-                .setCancelable(true);
+                .setCancelable(false);
         final Dialog dialog = builder.create();
 
         final DialogProgressViewHolder DialogProgressViewHolder = new DialogProgressViewHolder(contentView);
@@ -137,7 +141,7 @@ public class UIUtil {
                             @Override
                             public void onSuccess(File data, Response<File> response) {
                                 super.onSuccess(data, response);
-                                ApkUtil.install(context, response.getResult().getPath());
+                                IntentUtil.openFile(context, new File(response.getResult().getPath()));
                                 dialog.dismiss();
                                 upgradeRequest = null;
                             }
@@ -173,15 +177,15 @@ public class UIUtil {
                 dialog.dismiss();
             }
         });
-//        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//            @Override
-//            public void onDismiss(DialogInterface dialog) {
-//                if (upgradeRequest != null) {
-//                    upgradeRequest.cancel();
-//                    upgradeRequest = null;
-//                }
-//            }
-//        });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (upgradeRequest != null) {
+                    upgradeRequest.cancel();
+                    upgradeRequest = null;
+                }
+            }
+        });
         return dialog;
     }
 
@@ -207,7 +211,7 @@ public class UIUtil {
      * @return
      */
     public static Dialog getUpgradeDlg(final Context context, final String url, final String description, final String filePath) {
-        return getFileDownloadDlg(context, url, description, filePath, "升级提示", "立刻升级", "稍后在说");
+        return getFileDownloadDlg(context, url, description, filePath, "升级提示", "立刻升级", "稍后再说");
     }
 
 }

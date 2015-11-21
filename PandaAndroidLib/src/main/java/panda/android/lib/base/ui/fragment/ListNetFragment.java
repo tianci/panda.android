@@ -106,6 +106,7 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 	 * 获取数据为null，网络失败
 	 */
 	public void showNetErrResult() {
+		super.showNetErrResult();
 		DevUtil.showInfo(getActivity(), "访问网络失败");
 		getActivity().finish();
 	}
