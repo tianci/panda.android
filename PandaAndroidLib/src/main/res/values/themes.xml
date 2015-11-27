@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- theme是一组能够应用到一个app中所有界面的格式属性，一般用于Activity，setTheme()；
+    可以参考sdk里面的themes.xml-->
+<resources>
+
+</resources>

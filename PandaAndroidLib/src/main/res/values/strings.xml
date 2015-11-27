@@ -1,8 +1,8 @@
 <resources>
 
     <string name="app_name">PandaAndroidLib</string>
-    <string name="download_failure">обтьй╖╟э</string>
-    <string name="can_not_find_activity">ур╡╩╣╫ж╦╤╗╣дрЁцФ</string>
-    <string name="exit_msg">ты╣Ц╩Вр╩╢нмкЁЖЁлпР</string>
+    <string name="download_failure">Д╦▀Х╫╫Е╓╠Х╢╔</string>
+    <string name="can_not_find_activity">Ф┴╬Д╦█Е┬╟Ф▄┤Е╝ Г └И║╣И²╒</string>
+    <string name="exit_msg">Е├█Г┌╧Е┤╩Д╦─Ф╛║И──Е┤╨Г╗▀Е╨▐</string>
 
 </resources>

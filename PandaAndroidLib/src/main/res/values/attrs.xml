@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 这个文件里面放置自定义属性。
+    android自带很多属性，比如我们布局的时候使用的layout_width,layout_height等等，
+    android自带的attrs.xml文件在sdk/platforms/android-版本号/data/res/values/attrs.xml
+    属性值类型参考：http://blog.csdn.net/dalancon/article/details/20359535
+    使用方法参考：
+        http://blog.csdn.net/dalancon/article/details/20359675
+        http://blog.csdn.net/dalancon/article/details/20359997
+        http://blog.csdn.net/dalancon/article/details/20360223
+     -->
+<resources>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- theme是一组能够应用到一个app中所有界面的格式属性，一般用于Activity，setTheme()；
+    可以参考sdk里面的themes.xml-->
+<resources>
+    <style name="PandaTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Dialog属性 -->
+        <item name="android:dialogTheme">@style/PandaTheme.Dialog</item>
+        <!-- alertDialog属性 -->
+        <item name="android:alertDialogTheme">@style/PandaTheme.Dialog.Alert</item>
+    </style>
+
+    <!-- Variant of {@link #PandaTheme} with no title bar -->
+    <style name="PandaTheme.NoTitleBar">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- Variant of {@link #PandaTheme} that has no title bar and no status bar.  This theme
+         sets {@link android.R.attr#windowFullscreen} to true.  -->
+    <style name="PandaTheme.NoTitleBar.Fullscreen">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- No title bar, but Action Mode bars will overlay application content
+         instead of pushing it down to make room. -->
+    <style name="PandaTheme.NoTitleBar.OverlayActionModes">
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+
+    <!-- Default theme with an Action Bar. -->
+    <style name="PandaTheme.WithActionBar">
+        <item name="android:windowActionBar">true</item>
+    </style>
+
+    <!-- Application theme.(默认带Activity切换动画) -->
+    <style name="PandaTheme.MainApp" parent="PandaTheme.NoTitleBar">
+        <!-- 与@android:style/Animation想冲突，同时使用会导致对方失效 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+        <item name="android:windowAnimationStyle">@style/PandaTheme.ActivityAnimation</item>
+        <item name="android:textColorHint">#c4c4c4</item>
+    </style>
+
+    <!-- MainActivity theme.(不带Activity切换动画，适用于入口Activity) -->
+    <style name="PandaTheme.MainActivity" parent="PandaTheme.NoTitleBar">
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+    </style>
+</resources>
