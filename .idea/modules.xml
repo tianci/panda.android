@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/PandaAndroid3rd/EaseMobChatUiDemo/EaseMobChatUiDemo.iml" filepath="$PROJECT_DIR$/PandaAndroid3rd/EaseMobChatUiDemo/EaseMobChatUiDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PandaAndroid3rd/PandaAndroid3rd.iml" filepath="$PROJECT_DIR$/PandaAndroid3rd/PandaAndroid3rd.iml" />
       <module fileurl="file://$PROJECT_DIR$/PandaAndroidDemo/PandaAndroidDemo.iml" filepath="$PROJECT_DIR$/PandaAndroidDemo/PandaAndroidDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/PandaAndroidLib/PandaAndroidLib.iml" filepath="$PROJECT_DIR$/PandaAndroidLib/PandaAndroidLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/panda.android.iml" filepath="$PROJECT_DIR$/panda.android.iml" />
