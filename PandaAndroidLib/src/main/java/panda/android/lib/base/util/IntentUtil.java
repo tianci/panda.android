@@ -3,6 +3,7 @@ package panda.android.lib.base.util;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 
 import java.io.File;
 
@@ -15,6 +16,9 @@ import panda.android.lib.base.ui.fragment.BaseActivityWithExtrasData;
  * @author shitianci
  */
 public class IntentUtil {
+
+
+    private static final String TAG = IntentUtil.class.getSimpleName();
 
     /**
      * 跳转到指定组件。
@@ -66,5 +70,25 @@ public class IntentUtil {
             e.printStackTrace();
             DevUtil.showInfo(context, context.getString(R.string.can_not_find_activity));
         }
+    }
+
+    /**
+     * 打印Intent的数据
+     * @param intent
+     */
+    public static String getIntentInfo(Intent intent) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("IntentInfo: ");
+        try {
+            Bundle bundle = intent.getExtras();
+            for (String key: bundle.keySet())
+            {
+                sb.append(key + ":" +bundle.get(key) + ";");
+            }
+//            Log.i(TAG, sb.toString());
+        }
+        catch (Exception e){
+        }
+        return sb.toString();
     }
 }

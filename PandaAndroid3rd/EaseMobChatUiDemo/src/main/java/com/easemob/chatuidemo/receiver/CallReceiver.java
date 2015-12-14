@@ -23,12 +23,18 @@ import com.easemob.chatuidemo.activity.VideoCallActivity;
 import com.easemob.chatuidemo.activity.VoiceCallActivity;
 import com.easemob.util.EMLog;
 
+import panda.android.lib.base.util.IntentUtil;
+import panda.android.lib.base.util.Log;
+
 public class CallReceiver extends BroadcastReceiver{
 
-	@Override
+    private static final String TAG = CallReceiver.class.getSimpleName();
+
+    @Override
 	public void onReceive(Context context, Intent intent) {
 		if(!DemoHXSDKHelper.getInstance().isLogined())
 		    return;
+		Log.d(TAG, IntentUtil.getIntentInfo(intent));
 		//拨打方username
 		String from = intent.getStringExtra("from");
 		//call type

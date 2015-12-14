@@ -13,8 +13,6 @@
  */
 package com.easemob.chatuidemo.activity;
 
-import java.util.UUID;
-
 import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.media.SoundPool;
@@ -45,8 +43,14 @@ import com.easemob.chatuidemo.R;
 import com.easemob.chatuidemo.utils.CameraHelper;
 import com.easemob.exceptions.EMServiceNotReadyException;
 
+import java.util.UUID;
+
+import panda.android.lib.base.util.IntentUtil;
+import panda.android.lib.base.util.Log;
+
 public class VideoCallActivity extends CallActivity implements OnClickListener {
 
+    private static final String TAG = VideoCallActivity.class.getSimpleName();
     private SurfaceView localSurface;
     private SurfaceHolder localSurfaceHolder;
     private static SurfaceView oppositeSurface;
@@ -124,6 +128,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
         username = getIntent().getStringExtra("username");
 
+        Log.d(TAG, IntentUtil.getIntentInfo(getIntent()));
         // 设置通话人
         nickTextView.setText(username);
 
@@ -214,7 +219,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
                         // 通知cameraHelper可以写入数据
                         cameraHelper.setStartFlag(true);
                     } catch (EMServiceNotReadyException e) {
-                        Toast.makeText(VideoCallActivity.this, R.string.Is_not_yet_connected_to_the_server , 1).show();
+                        Toast.makeText(VideoCallActivity.this, R.string.Is_not_yet_connected_to_the_server , Toast.LENGTH_SHORT).show();
                     }
                 }
 
