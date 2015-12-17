@@ -22,7 +22,7 @@ public class LiteHttpConfiguration {
      * 配置LiteHttp
      * @param context 上下文
      */
-    public static void confige(Context context) {
+    public static void configure(Context context) {
         List<NameValuePair> commonHeaders = new ArrayList<>();
         NameValuePair pair1 = new NameValuePair("Content-type","text/html");
         NameValuePair pair2 = new NameValuePair("charset","utf-8");

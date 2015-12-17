@@ -25,7 +25,7 @@ public class AppDirConfiguration {
      * 配置App的目录和缓存
      * @param context 上下文
      */
-    public static void confige(Context context) {
+    public static void configure(Context context) {
         mContext = context;
         FileUtil.checkDir(getExternalStoragePublicDirectory());
     }

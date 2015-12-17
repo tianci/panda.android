@@ -19,7 +19,7 @@
         <!--<item name="android:text">@style/DialogWindowTitle</item>-->
     </style>
 
-    <!-- Activity切换动画 -->
+    <!-- Activity切换动画（右进） -->
     <style name="PandaTheme.ActivityAnimation" parent="@android:style/Animation.Translucent">
         <item name="android:windowEnterAnimation">@anim/slide_right_in</item>
         <!--<item name="android:windowExitAnimation">@anim/slide_right_out</item>-->
@@ -55,6 +55,13 @@
         <!--<item name="android:fragmentFadeExitAnimation">@null</item>-->
     </style>
 
+    <!-- Activity切换动画2(右进左出、右出左进) -->
+    <style name="PandaTheme.ActivityAnimation2" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
+    </style>
     <!-- layout的背景 -->
     <style name="PandaTheme.Layout">
         <item name="android:background">#f7f7f7</item>

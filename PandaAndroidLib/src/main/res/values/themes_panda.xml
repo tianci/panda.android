@@ -46,4 +46,8 @@
         <!--<item name="android:windowIsTranslucent">true</item>-->
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
+
+    <style name="PandaTheme.HorizontalSlide" parent="PandaTheme.NoTitleBar">
+        <item name="android:windowAnimationStyle">@style/PandaTheme.ActivityAnimation2</item>
+    </style>
 </resources>

@@ -17,8 +17,8 @@ public class UniversalImageLoaderConfiguration {
      * @param context 上下文
      * @param defaultImage 默认图片（用于*图片uri为空*、*加载失败*、*正在加载中的三种情形*）
      */
-    public static void confige(Context context, int defaultImage) {
-        confige(context, defaultImage, defaultImage, defaultImage);
+    public static void configure(Context context, int defaultImage) {
+        configure(context, defaultImage, defaultImage, defaultImage);
     }
 
     /**
@@ -28,7 +28,7 @@ public class UniversalImageLoaderConfiguration {
      * @param failImage 默认图片（*加载失败*)
      * @param loadingImage 默认图片（*正在加载中的三种情形*)
      */
-    public static void confige(Context context, int emptyUriImage, int failImage, int loadingImage) {
+    public static void configure(Context context, int emptyUriImage, int failImage, int loadingImage) {
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder() //
                 .showImageForEmptyUri(emptyUriImage) //
                 .showImageOnFail(failImage) //

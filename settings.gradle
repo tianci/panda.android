@@ -1,1 +1,4 @@
-include ':PandaAndroidDemo', ':PandaAndroidLib', ':PandaAndroid3rd:EaseMobChatUiDemo'
+include ':PandaAndroidDemo'
+include ':PandaAndroidLib'
+include ':PandaAndroid3rdLib:EaseMob'
+include ':PandaAndroid3rdDemo:EaseMobChatUiDemo'

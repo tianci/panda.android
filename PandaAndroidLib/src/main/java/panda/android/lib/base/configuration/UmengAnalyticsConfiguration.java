@@ -13,7 +13,7 @@ public class UmengAnalyticsConfiguration {
      * 配置友盟统计
      * @param context 上下文
      */
-    public static void confige(Context context) {
+    public static void configure(Context context) {
         MobclickAgent.openActivityDurationTrack(false);
 
         /**

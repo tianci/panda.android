@@ -10,8 +10,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/PandaAndroid3rd" />
-            <option value="$PROJECT_DIR$/PandaAndroid3rd/EaseMobChatUiDemo" />
+            <option value="$PROJECT_DIR$/PandaAndroid3rdDemo" />
+            <option value="$PROJECT_DIR$/PandaAndroid3rdDemo/EaseMobChatUiDemo" />
+            <option value="$PROJECT_DIR$/PandaAndroid3rdLib" />
+            <option value="$PROJECT_DIR$/PandaAndroid3rdLib/EaseMob" />
             <option value="$PROJECT_DIR$/PandaAndroidDemo" />
             <option value="$PROJECT_DIR$/PandaAndroidLib" />
           </set>
@@ -19,8 +21,10 @@
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/PandaAndroid3rd" />
-            <option value="$PROJECT_DIR$/PandaAndroid3rd/EaseMobChatUiDemo" />
+            <option value="$PROJECT_DIR$/PandaAndroid3rdDemo" />
+            <option value="$PROJECT_DIR$/PandaAndroid3rdDemo/EaseMobChatUiDemo" />
+            <option value="$PROJECT_DIR$/PandaAndroid3rdLib" />
+            <option value="$PROJECT_DIR$/PandaAndroid3rdLib/EaseMob" />
             <option value="$PROJECT_DIR$/PandaAndroidDemo" />
             <option value="$PROJECT_DIR$/PandaAndroidLib" />
           </set>
