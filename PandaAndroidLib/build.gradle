@@ -2,34 +2,46 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion '20.0.0'
 
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 1
+        versionCode 2015123001
         versionName "1.0"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+
+        /**
+         * lib的配置文件放在这里生效
+         * 被引入后会合并在出现在 build/intermediates/exploded-aar/panda.android/PandaAndroidLib/unspecified/proguard.txt
+         *
+         * 常用第三方库的混淆配置参考： https://github.com/krschultz/android-proguard-snippets
+         */
+        consumerProguardFiles (getDefaultProguardFile('proguard-android.txt'))
+        consumerProguardFiles './proguard/proguard-rules-common.pro'
+        consumerProguardFiles './proguard/proguard-rules-lite.pro'
+        consumerProguardFiles './proguard/proguard-rules-umeng.pro'
+        consumerProguardFiles './proguard/proguard-butterknife-6.pro'
+        consumerProguardFiles './proguard/proguard-butterknife-7.pro'
+        consumerProguardFiles './proguard/proguard-eventbus.pro'
+        consumerProguardFiles './proguard/proguard-gson.pro'
+        consumerProguardFiles './proguard/proguard-rules-panda-android-lib.pro'
     }
 
-    //app使用一下配置来引入混淆文件，PandaAndroidLib不要打开混淆，否则会引发某些编译错误
-//    buildTypes {
+    /**
+     * Warning: app使用一下配置来引入混淆文件，PandaAndroidLib不要打开混淆，否则会引发某些编译错误
+     */
+    buildTypes {
 //        release {
 //            //是否进行混淆
 //            minifyEnabled true
 //            // 混淆文件的位置
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //        }
-//        debug {
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt') , 'proguard-rules.pro'
-//        }
-//    }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt') , 'proguard-rules.pro'
+        }
+    }
 
 }
 
@@ -41,7 +53,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile ('com.weiwangcn.betterspinner:library:1.1.0') {
+    compile('com.weiwangcn.betterspinner:library:1.1.0') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
     compile 'com.percolate:caffeine:0.3.3'

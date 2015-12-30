@@ -128,6 +128,7 @@
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable
 #####################记录生成的日志数据,gradle build时在本项目根目录输出################
+#输出文件不要设置文件夹名，会遇到『No such file or directory』的错误
 #apk 包内所有 class 的内部结构
 -dump class_files.txt
 #未混淆的类和成员
@@ -137,50 +138,3 @@
 #混淆前后的映射
 -printmapping mapping.txt
 #####################记录生成的日志数据，gradle build时 在本项目根目录输出-end################
-
-#-------指定第三方jar
-##貌似build.gradle文件配置的都不会被混淆
-#-libraryjars libs/universal-image-loader-1.9.3.jar
-######butterknife
--dontwarn butterknife.internal.**
--keep class **$$ViewInjector { *; }
--keepnames class * { @butterknife.InjectView *;}
-
-######lite系列
--dontwarn com.litesuits.**
--keep class com.litesuits.** { *;}
-
-######PandaAndroidLib
--keep public class * extends android.support.v4.app.Fragment
--keepclasseswithmembernames class * extends panda.android.lib.base.ui.fragment.BaseFragment{*;}
--keepclasseswithmembernames class * extends panda.android.lib.base.model.BaseModel{*;}
--keepclasseswithmembernames class * extends com.litesuits.http.request.param.HttpParam{*;}
-
-######EventBus
--keepclassmembers class ** {
-    public void onEvent*(**);
-}
-
-######Gson
--allowaccessmodification
--repackageclasses ''
-# Preserve static fields of inner classes of R classes that might be accessed
-# through introspection.
--keep public class * {
-    public protected *;
-}
-# Gson specific classes
--keep class sun.misc.Unsafe { *; }
-#-keep class com.google.gson.stream.** { *; }
--keep class com.google.gson.** { *;}
-
-#去除log日志
-#-assumenosideeffects class android.util.Log { public * ; }
-#-assumenosideeffects class panda.android.libs.Log {
-#	public static *** d(...);
-#}
-
-#-------------------------------------
-#-------------------------------------
-## 本项目配置
-#-------------------------------------
