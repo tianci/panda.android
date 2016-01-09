@@ -12,7 +12,7 @@ public class FileUtil {
 
     private static final String TAG = FileUtil.class.getSimpleName();
 
-    private static String getSuffix(File file) {
+    public static String getSuffix(File file) {
         if (file == null || !file.exists() || file.isDirectory()) {
             return null;
         }
@@ -28,7 +28,7 @@ public class FileUtil {
         }
     }
 
-    private static String getSuffix(String url){
+    public static String getSuffix(String url){
         if (url.equals("") || url.endsWith(".")) {
             return null;
         }
@@ -69,7 +69,7 @@ public class FileUtil {
             return "file/*";
         }
         String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(suffix);
-        if (type != null || !type.isEmpty()) {
+        if (type != null && !type.isEmpty()) {
             return type;
         }
         return "file/*";

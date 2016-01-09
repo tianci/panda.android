@@ -25,7 +25,9 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import panda.android.lib.R;
+import panda.android.lib.base.model.BaseModel;
 import panda.android.lib.base.util.DevUtil;
+import panda.android.lib.base.util.FileUtil;
 import panda.android.lib.base.util.Log;
 
 /**
@@ -122,8 +124,7 @@ public class BaseRepositoryCollection {
         MultipartBody body = new MultipartBody();
         for (String file:fileList) {
             Log.d(TAG, "executeRequest, file = " + file);
-			//可以进一步优化为自动判断mime
-            body.addPart(new FilePart("files", new File(file), "image/*"));
+            body.addPart(new FilePart("files", new File(file), FileUtil.getMimeType(file)));
         }
         return executeRequest(url, body, method, resultType);
     }
@@ -143,7 +144,7 @@ public class BaseRepositoryCollection {
      * 将参数按照form形式组织，传输参数到服务端（在非UI线程执行）
      */
     public static <T> T executeRequest(String url, HttpParamModel httpparams, HttpMethods method, Type resultType){
-//        Log.d(TAG, "httpparams = " + httpparams);
+//        Log.d(TAG, "httpparams = " + BaseModel.getGson().toJson(httpparams));
         MultipartBody body = new MultipartBody();
         if (httpparams!=null){
 //            request.setHttpBody(new JsonBody(httpparams));
