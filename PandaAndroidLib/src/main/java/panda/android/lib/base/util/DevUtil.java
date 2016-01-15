@@ -1,7 +1,5 @@
 package panda.android.lib.base.util;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.IBinder;
@@ -9,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class DevUtil {
     private static final String TAG = DevUtil.class.getSimpleName();
@@ -25,6 +25,9 @@ public class DevUtil {
     }
 
     public static void closeImm(Activity activity) {
+        if(activity == null){
+            return;
+        }
         View currentFocus = activity.getCurrentFocus();
         if(currentFocus == null){
             return;

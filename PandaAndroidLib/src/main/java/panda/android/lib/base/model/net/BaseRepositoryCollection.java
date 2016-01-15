@@ -144,7 +144,12 @@ public class BaseRepositoryCollection {
      * 将参数按照form形式组织，传输参数到服务端（在非UI线程执行）
      */
     public static <T> T executeRequest(String url, HttpParamModel httpparams, HttpMethods method, Type resultType){
-//        Log.d(TAG, "httpparams = " + BaseModel.getGson().toJson(httpparams));
+        try{
+            Log.d(TAG, "httpparams = " + BaseModel.getGson().toJson(httpparams));
+        }
+        catch (Exception e){
+
+        }
         MultipartBody body = new MultipartBody();
         if (httpparams!=null){
 //            request.setHttpBody(new JsonBody(httpparams));

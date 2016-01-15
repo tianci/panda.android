@@ -9,6 +9,7 @@ import java.io.File;
 
 import panda.android.lib.R;
 import panda.android.lib.base.ui.fragment.BaseActivityWithExtrasData;
+import panda.android.lib.base.ui.fragment.BaseFragment;
 
 /**
  * Intent相关的工具类。
@@ -54,6 +55,7 @@ public class IntentUtil {
         Uri uri = Uri.parse("file://" + file.getAbsolutePath());
         intent.setDataAndType(uri, FileUtil.getMimeType(file));
         intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(context, intent);
     }
 
@@ -63,12 +65,46 @@ public class IntentUtil {
      * @param mIntent
      */
     public static void startActivity(Context context, Intent mIntent) {
+        startActivity(context, mIntent, context.getString(R.string.can_not_find_activity));
+    }
+
+    /**
+     * 发出相应的Intent
+     * @param context
+     * @param mIntent
+     */
+    public static void startActivity(Context context, Intent mIntent, String errInfo) {
         try {
             context.startActivity(mIntent);
         }
         catch (Exception e){
             e.printStackTrace();
-            DevUtil.showInfo(context, context.getString(R.string.can_not_find_activity));
+            DevUtil.showInfo(context, errInfo);
+        }
+    }
+
+
+    /**
+     * 发出相应的Intent
+     * @param context
+     * @param mIntent
+     */
+    public static void startActivityForResult(BaseFragment context, Intent mIntent, int requestCode) {
+        startActivityForResult(context, mIntent, requestCode, context.getString(R.string.can_not_find_activity));
+    }
+
+    /**
+     * 发出相应的Intent
+     * @param context
+     * @param mIntent
+     */
+    public static void startActivityForResult(BaseFragment context, Intent mIntent, int requestCode, String errInfo) {
+        try {
+            context.startActivityForResult(mIntent, requestCode);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            DevUtil.showInfo(context.getActivity(), errInfo);
         }
     }
 

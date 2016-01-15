@@ -62,6 +62,27 @@ public class UIUtil {
         return dialog;
     }
 
+    /**
+     * 获取确认框（一个确定按钮、一个取消按钮）
+     *
+     * @param context
+     * @param cancelable
+     * @param message
+     * @param negativeListener
+     * @return
+     */
+    public static Dialog getChooseDlg(final Context context, boolean cancelable, String title, String message,
+                                      DialogInterface.OnClickListener negativeListener, DialogInterface.OnClickListener positiveListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setCancelable(cancelable)
+                .setNegativeButton("确定", negativeListener)
+                .setPositiveButton("取消", positiveListener);
+        Dialog dialog = builder.create();
+        return dialog;
+    }
+
     static class DialogProgressViewHolder {
         ProgressBar mProgressBar;
         TextView mProgressBarInfo;

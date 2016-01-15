@@ -28,6 +28,11 @@ public abstract class BaseActivityWithExtrasData<T extends BaseFragment, D> exte
      * @return
      */
     public D getExtrasData(Class<? extends D> param) {
-        return BaseModel.getGson().fromJson(getIntent().getStringExtra(ACTIVITY_EXTRA_DATA), param);
+        try{
+            return BaseModel.getGson().fromJson(getIntent().getStringExtra(ACTIVITY_EXTRA_DATA), param);
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 }

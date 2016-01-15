@@ -49,13 +49,13 @@ public class FileUtil {
 //        MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath());
         String suffix = getSuffix(file);
         if (suffix == null) {
-            return "file/*";
+            return "*/*";
         }
         String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(suffix);
-        if (type != null || !type.isEmpty()) {
+        if (type != null && !type.isEmpty()) {
             return type;
         }
-        return "file/*";
+        return "*/*";
     }
 
     /**
@@ -66,13 +66,13 @@ public class FileUtil {
     public static String getMimeType(String url){
         String suffix = getSuffix(url);
         if (suffix == null) {
-            return "file/*";
+            return "*/*";
         }
         String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(suffix);
         if (type != null && !type.isEmpty()) {
             return type;
         }
-        return "file/*";
+        return "*/*";
     }
 
     /**
