@@ -39,7 +39,7 @@ public class IntentUtil {
      * @param cls
      * @param extra
      */
-    public static void gotoActivity(Context context, Class<? extends BaseActivityWithExtrasData> cls, String extra) {
+    public static void gotoActivity(Context context, Class cls, String extra) {
         Intent intent = new Intent(context, cls);
         intent.putExtra(BaseActivityWithExtrasData.ACTIVITY_EXTRA_DATA, extra);
         startActivity(context, intent);
