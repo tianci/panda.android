@@ -25,11 +25,11 @@ import panda.android.lib.base.util.Log;
 public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment {
 
 	private static final String TAG = NetFragment.class.getSimpleName();
-	private View mViewProgress;
-	private Dialog mDialogProgress;
-	private View mViewResult;
-	private View mViewNoResult;
-	private SimpleSafeTask<T> netTask;
+	protected View mViewProgress = null;
+    protected Dialog mDialogProgress = null;
+    protected View mViewResult = null;
+    protected View mViewNoResult = null;
+    protected SimpleSafeTask<T> netTask = null;
 	
 	protected abstract T onDoInBackgroundSafely();
 	
@@ -72,18 +72,23 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+        if(false){
+            /**
+             * 在机务段中出现过这样一个bug：
+             * 描述：      切换账号后，mViewResult残留上个版本的值。而savedInstanceState是为null，
+             * 原因：      可能跟Android或者java内部的对象复用机制有关。
+             * 处理措施：  对象必须初始化为null。
+             */
+            Log.w(TAG, "onCreateView, mViewResult = " + mViewResult);
+            Log.w(TAG, "onCreateView, savedInstanceState = " + savedInstanceState);
+            Log.w(TAG, "onCreateView, mViewResult = " + mViewResult);
+        }
 		View createdView = super.onCreateView(inflater, container,
 				savedInstanceState);
 		//如果顶层没有设置的话，尝试寻找默认的view
-		if (mViewProgress == null) {
-			mViewProgress = createdView.findViewById(R.id.net_progress);
-		}
-		if (mViewResult == null) {
-			mViewResult = createdView.findViewById(R.id.net_result);
-		}
-		if (mViewNoResult == null) {
-			mViewNoResult = createdView.findViewById(R.id.net_no_result);
-		}
+        mViewProgress = createdView.findViewById(R.id.net_progress);
+        mViewResult = createdView.findViewById(R.id.net_result);
+        mViewNoResult = createdView.findViewById(R.id.net_no_result);
 		mDialogProgress = UIUtil.getLoadingDlg(getActivity(), true);
 		mDialogProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override

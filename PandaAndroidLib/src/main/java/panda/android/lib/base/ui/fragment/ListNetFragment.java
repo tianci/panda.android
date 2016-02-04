@@ -1,5 +1,8 @@
 package panda.android.lib.base.ui.fragment;
 
+import android.os.Parcelable;
+import android.widget.AbsListView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,7 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 	private int mPageSize = 10;  //起始页的数据
 	private ArrayList<O> mAllDataList = new ArrayList<O>();
 	private boolean isLoadedAllNetData = false;
+	protected Parcelable mViewResultState = null;
 	
 	/**
 	 * 加载list数据
@@ -45,6 +49,14 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 		mStartIndex = 0;
 		mAllDataList.clear();
 		isLoadedAllNetData = false;
+
+        //保存位置状态
+        if (mViewResult != null) {
+            if(mViewResult instanceof AbsListView){
+                mViewResultState = ((AbsListView)mViewResult).onSaveInstanceState();
+                Log.d(TAG, "onSaveInstanceState, mViewResultState = " + mViewResultState);
+            }
+        }
 		super.loadNetData();
 	}
 	
@@ -100,6 +112,13 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 		}
 		mStartIndex += list.size();
 		showResult(list);
+        //恢复原来的位置状态
+        if (mViewResult != null) {
+            if (mViewResult instanceof AbsListView) {
+                Log.d(TAG, "onRestoreInstanceState, mViewResultState = " + mViewResultState);
+                ((AbsListView) mViewResult).onRestoreInstanceState(mViewResultState);
+            }
+        }
 	}
 
 	/**
