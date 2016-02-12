@@ -10,8 +10,10 @@ import panda.android.lib.base.ui.fragment.BaseFragment;
 import panda.android.lib.base.util.DevUtil;
 
 /**
+ * 将引导页包含在主页面的，会导致MainFragment太过复杂。
  * Created by shitianci on 15/6/16.
  */
+@Deprecated
 public class MainFragment extends BaseFragment {
 
     public View getGuideView() {

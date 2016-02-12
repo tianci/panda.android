@@ -1,4 +1,4 @@
-package panda.android.demo;
+package panda.android.demo.view;
 
 import panda.android.lib.base.ui.BaseActivity;
 

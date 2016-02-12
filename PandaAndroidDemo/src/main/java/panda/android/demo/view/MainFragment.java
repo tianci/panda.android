@@ -1,4 +1,4 @@
-package panda.android.demo;
+package panda.android.demo.view;
 
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +18,5 @@ public class MainFragment extends panda.android.lib.commonapp.MainFragment {
                 finishGuide();
             }
         });
-
     }
 }
