@@ -15,13 +15,13 @@ android {
         debug {
             minifyEnabled true
             proguardFile getDefaultProguardFile('proguard-android.txt')
-            proguardFile "build/intermediates/exploded-aar/panda.android/PandaAndroidLib/unspecified/proguard.txt"
+            proguardFile "build/intermediates/exploded-aar/"+project.PROJECT_DIRECTORY+"/PandaAndroidLib/unspecified/proguard.txt"
         }
 
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt')
-            proguardFile "build/intermediates/exploded-aar/panda.android/PandaAndroidLib/unspecified/proguard.txt"
+            proguardFile "build/intermediates/exploded-aar/"+project.PROJECT_DIRECTORY+"/PandaAndroidLib/unspecified/proguard.txt"
         }
     }
 }
