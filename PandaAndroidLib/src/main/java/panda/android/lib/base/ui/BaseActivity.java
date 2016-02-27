@@ -3,7 +3,7 @@ package panda.android.lib.base.ui;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -17,7 +17,7 @@ import panda.android.lib.base.util.FragmentUtil;
 import panda.android.lib.base.util.Log;
 
 
-public abstract class BaseActivity<T extends BaseFragment> extends FragmentActivity {
+public abstract class BaseActivity<T extends BaseFragment> extends AppCompatActivity {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
 

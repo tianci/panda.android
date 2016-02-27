@@ -2,11 +2,30 @@
 <!-- theme是一组能够应用到一个app中所有界面的格式属性，一般用于Activity，setTheme()；
     可以参考sdk里面的themes.xml-->
 <resources>
-    <style name="PandaTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="PandaTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Dialog属性 -->
         <item name="android:dialogTheme">@style/PandaTheme.Dialog</item>
         <!-- alertDialog属性 -->
         <item name="android:alertDialogTheme">@style/PandaTheme.Dialog.Alert</item>
+
+        <!-- toolbar（actionbar）颜色 -->
+        <item name="colorPrimary">#4876FF</item>
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">#3A5FCD</item>
+        <!-- 窗口的背景颜色 -->
+        <item name="android:windowBackground">@android:color/white</item>
+        <!-- SearchView -->
+        <item name="searchViewStyle">@style/Widget.AppCompat.SearchView</item>
+
+        <!-- 自定义overflow menu的样式 -->
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+    </style>
+
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+        <item name="android:paddingRight">5dp</item>
+        <!--<item name="android:popupBackground">?attr/colorPrimary</item>-->
     </style>
 
     <!-- Variant of {@link #PandaTheme} with no title bar -->
