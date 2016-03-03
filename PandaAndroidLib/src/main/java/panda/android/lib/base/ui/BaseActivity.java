@@ -30,6 +30,8 @@ public abstract class BaseActivity<T extends BaseFragment> extends AppCompatActi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //修正内存回收时重进的画面重叠问题：参考:[用Fragment制作的Tab页面产生的UI重叠问题](http://blog.csdn.net/twilight041132/article/details/43812745)
+        savedInstanceState = null;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.panda_activity_main);
         if (savedInstanceState == null) {
