@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import panda.android.lib.R;
+import panda.android.lib.base.model.BaseModel;
 import panda.android.lib.base.util.DevUtil;
 import panda.android.lib.base.util.FragmentUtil;
 import panda.android.lib.base.util.Log;
@@ -34,6 +35,27 @@ public abstract class BaseFragment extends Fragment implements
 	private boolean isCanFinishActivity = false; //退出时是否需要销毁Activity，表示它是主Fragment
 	protected boolean isExitDoubleCheck = false;
 	protected long firstTime;
+	
+	/**
+     * 设置初始化的参数
+     * @param o
+     */
+	public void setArguments(Object o) {
+		Bundle args = new Bundle();
+		args.putString("args", o.toString());
+		setArguments(args);
+	}
+
+    /**
+     * 获取初始化的参数
+     *      可应用Fragment重建的时候。
+     * @param param
+     * @param <T>
+     * @return
+     */
+	public <T> T getArguments(Class<? extends T> param){
+		return BaseModel.getGson().fromJson(getArguments().getString("args"), param);
+	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

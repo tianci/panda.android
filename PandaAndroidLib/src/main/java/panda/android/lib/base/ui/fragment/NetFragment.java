@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 import panda.android.lib.R;
 import panda.android.lib.base.control.SimpleSafeTask;
 import panda.android.lib.base.model.ListNetResultInfo;
@@ -30,6 +33,7 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
     protected View mViewResult = null;
     protected View mViewNoResult = null;
     protected SimpleSafeTask<T> netTask = null;
+	protected PtrClassicFrameLayout ptrClassicFrameLayout = null;
 	
 	protected abstract T onDoInBackgroundSafely();
 	
@@ -98,16 +102,70 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
                 exit();
             }
         });
+		ptrClassicFrameLayout = (PtrClassicFrameLayout) createdView.findViewById(R.id.net_ptr);
+		configPull();
 		hiddenNoResult();
 		hiddenProgress();
 //		hiddenResult();
 		return createdView;
 	}
 
+	private void configPull() {
+		if(ptrClassicFrameLayout == null){
+			return;
+		}
+		ptrClassicFrameLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                loadNetData();
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                Log.d(TAG, "frame = " + frame);
+                Log.d(TAG, "content = " + content);
+                Log.d(TAG, "header = " + header);
+                Log.d(TAG, "frame.getTop() = " + frame.getTop());
+                Log.d(TAG, "content.getTop() = " + content.getTop());
+                Log.d(TAG, "header.getTop() = " + header.getTop());
+                return !loadingNetData;
+            }
+        });
+		ptrClassicFrameLayout.setLastUpdateTimeRelateObject(this);
+
+		// the following are default settings
+		ptrClassicFrameLayout.setResistance(1.7f);
+		ptrClassicFrameLayout.setRatioOfHeaderHeightToRefresh(1.2f);
+		ptrClassicFrameLayout.setDurationToClose(200);
+		ptrClassicFrameLayout.setDurationToCloseHeader(1000);
+		// default is false
+		ptrClassicFrameLayout.setPullToRefresh(false);
+		// default is true
+		ptrClassicFrameLayout.setKeepHeaderWhenRefresh(true);
+
+		// scroll then refresh
+		// comment in base fragment
+		ptrClassicFrameLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrClassicFrameLayout.autoRefresh();
+            }
+        }, 150);
+	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		loadNetData();
+		if(ptrClassicFrameLayout != null){
+			ptrClassicFrameLayout.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					ptrClassicFrameLayout.autoRefresh(true);
+				}
+			}, 150);
+			return;
+		}
 	}
 	
 	boolean loadingNetData = false;
@@ -144,7 +202,7 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 				}
                 hiddenNoResult();
                 if (result instanceof ListNetResultInfo && ((ListNetResultInfo)result).getList().size() == 0){
-                    showNoResult(result);
+                    showNoResult();
                     return;
                 }
                 hiddenNoResult();
@@ -190,6 +248,9 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 			mDialogProgress.dismiss();
 		}
 		loadingNetData = false;
+		if (ptrClassicFrameLayout != null && ptrClassicFrameLayout.isRefreshing()) {
+			ptrClassicFrameLayout.refreshComplete();
+		}
 	}
 
 	protected void showResult(T result) {
