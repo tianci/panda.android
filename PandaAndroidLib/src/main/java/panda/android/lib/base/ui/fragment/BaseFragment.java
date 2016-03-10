@@ -35,26 +35,33 @@ public abstract class BaseFragment extends Fragment implements
 	private boolean isCanFinishActivity = false; //退出时是否需要销毁Activity，表示它是主Fragment
 	protected boolean isExitDoubleCheck = false;
 	protected long firstTime;
-	
+
 	/**
-     * 设置初始化的参数
-     * @param o
-     */
+	 * 设置初始化的参数
+	 * @param o
+	 */
 	public void setArguments(Object o) {
-		Bundle args = new Bundle();
-		args.putString("args", o.toString());
-		setArguments(args);
+		if (o != null){
+			Bundle args = new Bundle();
+			args.putString("args", o.toString());
+			setArguments(args);
+		}
 	}
 
-    /**
-     * 获取初始化的参数
-     *      可应用Fragment重建的时候。
-     * @param param
-     * @param <T>
-     * @return
-     */
+	/**
+	 * 获取初始化的参数
+	 *      可应用Fragment重建的时候。
+	 * @param param
+	 * @param <T>
+	 * @return
+	 */
 	public <T> T getArguments(Class<? extends T> param){
-		return BaseModel.getGson().fromJson(getArguments().getString("args"), param);
+		try{
+			return BaseModel.getGson().fromJson(getArguments().getString("args"), param);
+		}
+		catch (Exception e){
+			return null;
+		}
 	};
 
 	@Override

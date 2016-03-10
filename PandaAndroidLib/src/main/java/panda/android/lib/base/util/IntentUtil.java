@@ -18,6 +18,10 @@ import panda.android.lib.base.ui.fragment.BaseFragment;
  */
 public class IntentUtil {
 
+    public interface IStartInent{
+        void onCannotFindCommpent();
+    }
+
 
     private static final String TAG = IntentUtil.class.getSimpleName();
 
@@ -80,6 +84,21 @@ public class IntentUtil {
         catch (Exception e){
             e.printStackTrace();
             DevUtil.showInfo(context, errInfo);
+        }
+    }
+
+    /**
+     * 发出相应的Intent
+     * @param context
+     * @param mIntent
+     */
+    public static void startActivity(Context context, Intent mIntent, IStartInent iStartInent) {
+        try {
+            context.startActivity(mIntent);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            iStartInent.onCannotFindCommpent();
         }
     }
 

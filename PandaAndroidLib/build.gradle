@@ -64,6 +64,7 @@ dependencies {
     compile('com.weiwangcn.betterspinner:library:1.1.0') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
+    compile 'net.danlew:android.joda:2.9.1'
 }
 
 //buildscript{

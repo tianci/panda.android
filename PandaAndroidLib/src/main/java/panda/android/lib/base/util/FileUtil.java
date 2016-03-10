@@ -29,7 +29,7 @@ public class FileUtil {
     }
 
     public static String getSuffix(String url){
-        if (url.equals("") || url.endsWith(".")) {
+        if (TextUtil.isNull(url) || url.endsWith(".")) {
             return null;
         }
         int index = url.lastIndexOf(".");
