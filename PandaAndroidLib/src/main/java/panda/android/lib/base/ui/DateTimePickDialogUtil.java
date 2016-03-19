@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import panda.android.lib.R;
+import panda.android.lib.base.util.Log;
 import panda.android.lib.base.util.TimeUtil;
 
 /**
@@ -32,6 +33,7 @@ import panda.android.lib.base.util.TimeUtil;
  * @author dclear
  */
 public class DateTimePickDialogUtil implements OnDateChangedListener, OnTimeChangedListener {
+    private static final String TAG = DateTimePickDialogUtil.class.getSimpleName();
     private DatePicker datePicker;
     private TimePicker timePicker;
     private AlertDialog ad;
@@ -193,6 +195,7 @@ public class DateTimePickDialogUtil implements OnDateChangedListener, OnTimeChan
      */
     private void resizePikcer(FrameLayout tp) {
         List<NumberPicker> npList = findNumberPicker(tp);
+        Log.d(TAG, "npList.size() = " + npList.size());
         for (NumberPicker np : npList) {
             resizeNumberPicker(np);
         }
@@ -229,7 +232,7 @@ public class DateTimePickDialogUtil implements OnDateChangedListener, OnTimeChan
     private void resizeNumberPicker(NumberPicker np) {
         DisplayMetrics dm = activity.getResources().getDisplayMetrics();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                dm.widthPixels / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+                dm.widthPixels / 8, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(10, 0, 10, 0);
         np.setLayoutParams(params);
     }

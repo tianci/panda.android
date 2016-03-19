@@ -3,10 +3,13 @@ package panda.android.lib.base.ui.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ScrollView;
 
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -110,25 +113,90 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 		return createdView;
 	}
 
-	private void configPull() {
-		if(ptrClassicFrameLayout == null){
-			return;
-		}
-		ptrClassicFrameLayout.setPtrHandler(new PtrHandler() {
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                loadNetData();
+    private void configPull() {
+        if(ptrClassicFrameLayout == null){
+            return;
+        }
+        ptrClassicFrameLayout.setPtrHandler(new PtrHandler() {
+			@Override
+			public void onRefreshBegin(PtrFrameLayout frame) {
+				loadNetData();
+			}
+
+			@Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                /**
+                 * 经过测验：frame包括content和header两个子元素，frame[0]=content, frame[0]=header
+                 */
+                return !loadingNetData && checkContentCanBePulledDown(mViewResult);
             }
 
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                Log.d(TAG, "frame = " + frame);
-                Log.d(TAG, "content = " + content);
-                Log.d(TAG, "header = " + header);
-                Log.d(TAG, "frame.getTop() = " + frame.getTop());
-                Log.d(TAG, "content.getTop() = " + content.getTop());
-                Log.d(TAG, "header.getTop() = " + header.getTop());
-                return !loadingNetData;
+            public boolean checkContentCanBePulledDown(View content) {
+                /**
+                 * 如果 Content 不是 ViewGroup，返回 true,表示可以下拉</br>
+                 * 例如：TextView，ImageView
+                 */
+                if (!(content instanceof ViewGroup)) {
+                    return true;
+                }
+
+                ViewGroup viewGroup = (ViewGroup) content;
+
+                /**
+                 * 如果 Content 没有子 View（内容为空）时候，返回 true，表示可以下拉
+                 */
+                if (viewGroup.getChildCount() == 0) {
+                    return true;
+                }
+
+                /**
+                 * 如果 Content 是 AbsListView（ListView，GridView），当第一个 item 不可见是，返回 false，不可以下拉。
+                 */
+                if (viewGroup instanceof AbsListView) {
+                    AbsListView listView = (AbsListView) viewGroup;
+                    if (listView.getFirstVisiblePosition() > 0) {
+                        return false;
+                    }
+                }
+
+                /**
+                 * 如果 SDK 版本为 14 以上，可以用 canScrollVertically 判断是否能在竖直方向上，向上滑动</br>
+                 * 不能向上，表示已经滑动到在顶部或者 Content 不能滑动，返回 true，可以下拉</br>
+                 * 可以向上，返回 false，不能下拉
+                 */
+                if (Build.VERSION.SDK_INT >= 14) {
+                    return !content.canScrollVertically(-1);
+                } else {
+                    /**
+                     * SDK 版本小于 14，如果 Content 是 ScrollView 或者 AbsListView,通过 getScrollY 判断滑动位置 </br>
+                     * 如果位置为 0，表示在最顶部，返回 true，可以下拉
+                     */
+                    if (viewGroup instanceof ScrollView) {
+                        return viewGroup.getScrollY() == 0;
+                    }
+
+                    if (viewGroup instanceof AbsListView) {
+                        final AbsListView absListView = (AbsListView) viewGroup;
+                        return absListView.getChildCount() > 0
+                                && (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0)
+                                .getTop() < absListView.getPaddingTop());
+                    }
+                }
+
+                /**
+                 * 最终判断，判断第一个子 View 的 top 值</br>
+                 * 如果第一个子 View 有 margin，则当 top==子 view 的 marginTop+content 的 paddingTop 时，表示在最顶部，返回 true，可以下拉</br>
+                 * 如果没有 margin，则当 top==content 的 paddinTop 时，表示在最顶部，返回 true，可以下拉
+                 */
+                View child = viewGroup.getChildAt(0);
+                ViewGroup.LayoutParams glp = child.getLayoutParams();
+                int top = child.getTop();
+                if (glp instanceof ViewGroup.MarginLayoutParams) {
+                    ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) glp;
+                    return top == mlp.topMargin + viewGroup.getPaddingTop();
+                } else {
+                    return top == viewGroup.getPaddingTop();
+                }
             }
         });
 		ptrClassicFrameLayout.setLastUpdateTimeRelateObject(this);
@@ -179,6 +247,7 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 
 			protected void onPreExecuteSafely() throws Exception {
 				showProgress();
+                hiddenNoResult();
 			};
 
 			@Override

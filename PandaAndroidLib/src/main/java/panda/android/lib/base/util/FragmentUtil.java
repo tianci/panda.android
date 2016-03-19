@@ -1,5 +1,6 @@
 package panda.android.lib.base.util;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -37,7 +38,7 @@ public class FragmentUtil {
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		if (lastFragment == null) {
 			//自动检测自后一个Fragment
-			lastFragment = getLastFragment(fragmentManager, containerViewId);
+			lastFragment = (BaseFragment) getTopFragment(fragmentManager, containerViewId);
 		}
 		FragmentTransaction ft = fragmentManager.beginTransaction();
 		if(lastFragment !=null && lastFragment != newFragment){
@@ -56,12 +57,18 @@ public class FragmentUtil {
 		ft.commit();
 	}
 
-	public static BaseFragment getLastFragment(FragmentManager fragmentManager, int containerViewId) {
+	/**
+	 * 获取当前顶部的Fragment
+	 * @param fragmentManager
+	 * @param containerViewId
+	 * @return
+	 */
+	public static Fragment getTopFragment(FragmentManager fragmentManager, int containerViewId) {
 		int backStackEntryCount = fragmentManager.getBackStackEntryCount();
 		Log.d(TAG, "backStackEntryCount is " + backStackEntryCount);
-		BaseFragment lastFragment = null;
+		Fragment lastFragment = null;
 		if(backStackEntryCount >= 1){
-			lastFragment = (BaseFragment) fragmentManager.findFragmentById(containerViewId);
+			lastFragment = fragmentManager.findFragmentById(containerViewId);
 			Log.d(TAG, "lastFragment is " + lastFragment);
 		}
 		return lastFragment;

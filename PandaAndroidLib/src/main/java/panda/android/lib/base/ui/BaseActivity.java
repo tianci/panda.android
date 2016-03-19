@@ -3,6 +3,7 @@ package panda.android.lib.base.ui;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
@@ -94,7 +95,17 @@ public abstract class BaseActivity<T extends BaseFragment> extends AppCompatActi
         Log.d(TAG, "backStackEntryCount = " + backStackEntryCount);
         if (mainFragment == null || backStackEntryCount >= 2) {
             Log.d(TAG, "onBackPressed 1");
-            super.onBackPressed();
+            if (backStackEntryCount >= 2){
+                Fragment mTopFragment = FragmentUtil.getTopFragment(getSupportFragmentManager(), R.id.container);
+                Log.d(TAG, "mTopFragment = " + mTopFragment);
+                if (mTopFragment instanceof BaseFragment){
+                    ((BaseFragment) mTopFragment).exit();
+                }
+            }
+            else{
+                super.onBackPressed();
+            }
+
         } else {
             if (isDoubleClickExit){
                 if((System.currentTimeMillis()- lastExitTime) > 2000){
