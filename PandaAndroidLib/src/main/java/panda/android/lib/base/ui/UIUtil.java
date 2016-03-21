@@ -1,5 +1,6 @@
 package panda.android.lib.base.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -15,6 +16,7 @@ import com.litesuits.http.request.AbstractRequest;
 import com.litesuits.http.response.Response;
 
 import java.io.File;
+import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import panda.android.lib.R;
@@ -22,6 +24,7 @@ import panda.android.lib.base.model.net.BaseRepositoryCollection;
 import panda.android.lib.base.util.DevUtil;
 import panda.android.lib.base.util.IntentUtil;
 import panda.android.lib.base.util.Log;
+import panda.android.lib.base.util.TimeUtil;
 
 /**
  * 生成一些常用修饰性view模块，如 加载进度框、 升级框、下载框
@@ -29,6 +32,26 @@ import panda.android.lib.base.util.Log;
 public class UIUtil {
 
     private static final String TAG = UIUtil.class.getSimpleName();
+
+    public static void showDataTimePicker(Activity context, final TextView textView, final DialogInterface.OnDismissListener listener){
+        Calendar c = Calendar.getInstance();
+        long time = 0;
+        try {
+            String strTime = textView.getText().toString();
+            time = TimeUtil.stringToLong(strTime, TimeUtil.FORMAT_DATE_TIME);
+            if(time != 0){
+                c.setTimeInMillis(time);
+            }
+            else{
+                time = System.currentTimeMillis();
+            }
+        }
+        catch (Exception e){
+        }
+        DateTimePickDialogUtil dateTimePicker=new DateTimePickDialogUtil(context,time);
+        dateTimePicker.dateTimePickDialog(textView, listener);
+        return;
+    }
 
     /**
      * 获取加载进度框

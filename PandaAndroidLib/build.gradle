@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
-        versionCode 2015123001
-        versionName "1.0"
+        versionCode Integer.parseInt(VERSION_CODE)
+        versionName VERSION_NAME
 
         /**
          * lib的配置文件放在这里生效
@@ -74,3 +74,6 @@ dependencies {
 //        classpath 'com.github.dcendents:android-maven-plugin:1.2'
 //    }
 //}
+
+//aar打包
+apply from: 'maven-release-aar.gradle'

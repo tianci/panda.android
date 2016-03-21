@@ -1,0 +1,20 @@
+// 1.maven-插件
+apply plugin: 'maven'
+// 2.maven-信息
+ext {// ext is a gradle closure allowing the declaration of global properties
+    PUBLISH_GROUP_ID = 'panda.android'
+    PUBLISH_ARTIFACT_ID = 'lib'
+    PUBLISH_VERSION = android.defaultConfig.versionName
+}
+// 3.maven-路径
+uploadArchives {
+    repositories.mavenDeployer {
+        def deployPath = file(getProperty('aar.deployPath'))
+        repository(url: "file://${deployPath}")
+        pom.project {
+            groupId project.PUBLISH_GROUP_ID
+            artifactId project.PUBLISH_ARTIFACT_ID
+            version project.PUBLISH_VERSION
+        }
+    }
+}
