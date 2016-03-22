@@ -62,3 +62,16 @@ VERSION_NAME=0.1.2016032102
 ```
 - 执行`./gradlew :PandaAndroidDemo:uploadArchives`
 - 将生成文件同步到**mvn-repo**即可。
+
+
+## 分支管理
+- 主分支master：存放release的版本。每个版本都对应一个tag，并在[mvn-repo](https://github.com/tianci-panda/mvn-repo/)发布。
+- 开发分支dev：日常开发活动分支。可以用来生成代码的最新隔夜版本（nightly）
+- 临时性分支：用于应对一些特定目的的版本开发。属于临时性需要，使用完以后，应该删除，使得代码库的常设分支始终只有Master和Develop。
+	- 功能（feature）分支
+	- 预发布（release）分支
+	- 修补bug（fixbug）分支
+
+>具体理解参考[阮一峰：Git分支管理策略](http://blog.jobbole.com/23398/)
+
+
