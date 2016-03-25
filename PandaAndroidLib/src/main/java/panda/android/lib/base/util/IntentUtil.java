@@ -2,6 +2,7 @@ package panda.android.lib.base.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -145,5 +146,15 @@ public class IntentUtil {
         catch (Exception e){
         }
         return sb.toString();
+    }
+
+    public static void startService(Context context, Class<?> cls) {
+        Intent intent = new Intent(context, cls);
+        context.startService(intent);
+    }
+
+    public static void bindService(Context context, Class<?> cls, ServiceConnection serviceCon) {
+        Intent intent = new Intent(context, cls);
+        context.bindService(intent, serviceCon, Context.BIND_AUTO_CREATE);
     }
 }

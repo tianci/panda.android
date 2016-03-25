@@ -9,6 +9,8 @@ import java.util.Date;
 
 public class TimeUtil {
 
+    private static final String TAG = TimeUtil.class.getSimpleName();
+
     public final static String FORMAT_YEAR = "yyyy";
     public final static String FORMAT_MONTH_DAY = "MM月dd日";
 
@@ -279,4 +281,38 @@ public class TimeUtil {
     public static String unitFormat(int i) {
         return String.format("%02d", i);
     }
+
+    /**
+     * @param begin 开始时间
+     * @param end 结束时间
+     * @return
+     */
+    public static String getTimeDifference(long begin, long end){
+//        Log.d(TAG, "getTimeDifference, " + (end - begin) + "ms");
+        long between=(end-begin)/1000;//除以1000是为了转换成秒
+
+        StringBuffer b = new StringBuffer();
+        long day=between/(24*3600);
+        if (day > 0){
+            b.append(day+"天");
+        }
+        long hour=between%(24*3600)/3600;
+        if (hour > 0){
+            b.append(hour+"小时");
+        }
+        long minute=between%3600/60;
+        if (minute > 0){
+            b.append(minute+"分");
+        }
+        long second=between%60;
+        if (second > 0){
+            b.append(second + "秒");
+        }
+        long millisecond=(end-begin)-between*1000;//除以1000是为了转换成秒
+        if (millisecond > 0){
+            b.append(millisecond + "毫秒");
+        }
+        return b.toString();
+    }
+
 }
