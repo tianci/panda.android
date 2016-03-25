@@ -16,7 +16,7 @@ allprojects {
 
 2. 在应用模块的`build.gradle`中添加库的引用
 ```gradle
-    compile 'panda.android:lib:0.1.2016032102@aar'
+    compile 'panda.android:lib:0.1.+@aar'
     compile 'com.android.support:support-v4:22.+'
     compile 'com.android.support:appcompat-v7:22.+'
     compile 'com.jakewharton:butterknife:7.0.1'
