@@ -2,6 +2,7 @@ package panda.android.lib.base;
 
 import android.app.Activity;
 import android.app.Application;
+import android.os.Environment;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -58,6 +59,10 @@ public class BaseApp extends Application {
 	 */
 	@Deprecated
 	public String getAppDir() {
-		return AppDirConfiguration.getExternalStoragePublicDirectory();
+		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+			return AppDirConfiguration.getExternalStoragePublicDirectory();
+		}else {
+			return AppDirConfiguration.getCachePath();
+		}
 	}
 }
