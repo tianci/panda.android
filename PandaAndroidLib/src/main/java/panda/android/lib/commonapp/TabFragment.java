@@ -3,35 +3,36 @@ package panda.android.lib.commonapp;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 
 import panda.android.lib.R;
 import panda.android.lib.base.ui.fragment.BaseFragment;
 import panda.android.lib.base.util.DevUtil;
+import panda.android.lib.base.util.FragmentUtil;
 import panda.android.lib.base.util.Log;
 
 /**
  * 针对 标签栏+内容区 的结构
- * 
+ *
  * 和 panda_fragment_tab.xml配合使用
  * @author shitianci
- * 
+ *
  */
 public abstract class TabFragment extends BaseFragment {
 
 
 	private static final String TAG = TabFragment.class.getSimpleName();
 	private View[] mTabs;
-    private int currentTabIndex = -1;
+	private int currentTabIndex;
+	private long firstTime;
 	private int mDefaultPage = 0;
+	private boolean isExitDoubleCheck = false;
 
-    @Override
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		View onCreateView = super.onCreateView(inflater, container,
 				savedInstanceState);
 		initTabView(onCreateView, null);
@@ -50,8 +51,8 @@ public abstract class TabFragment extends BaseFragment {
 			}
 			mTabs[i] = findViewById;
 			mTabs[i].setOnClickListener(this);
-			mTabs[i].setOnFocusChangeListener(new OnFocusChangeListener() {
-				
+			mTabs[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
 				@Override
 				public void onFocusChange(View v, boolean hasFocus) {
 //					Log.d(TAG, v + ":" + hasFocus);
@@ -61,66 +62,63 @@ public abstract class TabFragment extends BaseFragment {
 				}
 			});
 		}
-		
+
 		mTabs[0].setNextFocusLeftId(mTabs[mTabs.length-1].getId());
 		mTabs[mTabs.length-1].setNextFocusRightId(mTabs[0].getId());
-	}
-
-	public void enableBackStackChangedListener() {
-		getActivity().getSupportFragmentManager().addOnBackStackChangedListener(onBackStackChangedListener);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 	}
-	
+
+	public void enableBackStackChangedListener() {
+		getActivity().getSupportFragmentManager().addOnBackStackChangedListener(onBackStackChangedListener);
+	}
+
+	public void enableExitDoubleCheck() {
+		isExitDoubleCheck  = true;
+	}
+
 	@Override
 	public void onClick(View v) {
 		chooseTab(v);
 	}
-	
+
 	private void chooseTab(View v) {
 		Log.d(TAG, "choose Tab:" + v);
-        int nextIndex = 0;
-        for (int i : getBtnIds()) {
-            if (i == v.getId()) {
-                break;
-            }
-            nextIndex++;
-        }
-        Log.d(TAG, "currentTabIndex = " + currentTabIndex + ", nextIndex = " + nextIndex);
-        if (currentTabIndex == nextIndex) {
-            chooseSame();
-            return;
-        }
-        unChooseTab(currentTabIndex);
-        chooseTab(nextIndex);
+		int index = 0;
+		for (int i : getBtnIds()) {
+			if (i == v.getId()) {
+				break;
+			}
+			index++;
+		}
+		if (currentTabIndex == index || index >= getBtnIds().length) {
+			return;
+		}
+		chooseTab(index);
 	}
 
-    public void chooseSame() {
-        unChooseTab(currentTabIndex);
-        currentTabIndex = -1;
-    }
-
-    public void unChooseTab(int index) {
-        Log.d(TAG, "unChooseTab " + index);
-        if (index < 0 || index >= getBtnIds().length) {
-            return;
-        }
-        mTabs[index].setSelected(false);
-        mTabs[index].setFocusable(false);
-    }
-
-    public void chooseTab(int index) {
-        Log.d(TAG, "chooseTab " + index);
-        if (index < 0 || index >= getBtnIds().length) {
-            return;
-        }
+	public void chooseTab(int index) {
+		Log.d(TAG, "chooseTab " + index);
+		mTabs[currentTabIndex].setSelected(false);
+		openFragment(getChildFragments()[currentTabIndex], getChildFragments()[index]);
 		currentTabIndex = index;
-		mTabs[index].setSelected(true);
-		mTabs[index].setFocusable(true);
-		mTabs[index].requestFocus();
+		mTabs[currentTabIndex].setSelected(true);
+		mTabs[currentTabIndex].setFocusable(true);
+		mTabs[currentTabIndex].requestFocus();
+	}
+
+	private void openFragment(BaseFragment Lastfragment,
+							  BaseFragment newfragment) {
+		FragmentUtil.addFragmentToStack(Lastfragment, newfragment, this,
+				R.id.main_content);
+	}
+
+	public static void openSecondFragment(FragmentActivity activity,
+										  BaseFragment newfragment) {
+		FragmentUtil.addFragmentToStack(newfragment, activity, R.id.container);
 	}
 
 	protected boolean needFinish() {
@@ -141,11 +139,23 @@ public abstract class TabFragment extends BaseFragment {
 		return false;
 	}
 
+	public void exit() {
+		if (needFinish()) {
+			super.exit();
+		}
+	};
+
 	/**
 	 * 获取Tab栏按钮的ID
 	 * @return
 	 */
 	public abstract int[] getBtnIds();
+
+	/**
+	 * 获取按钮栏对应的Fragment
+	 * @return
+	 */
+	public abstract BaseFragment[] getChildFragments();
 
 	public int getDefaultPage() {
 		return mDefaultPage;
@@ -157,11 +167,7 @@ public abstract class TabFragment extends BaseFragment {
 		chooseTab(defaultPage);
 	}
 
-    public int getCurrentTabIndex() {
-        return currentTabIndex;
-    }
-
-	OnBackStackChangedListener onBackStackChangedListener = new OnBackStackChangedListener() {
+	FragmentManager.OnBackStackChangedListener onBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
 		private int mLastBackStackEntryCount = 0;
 
 		public void onBackStackChanged() {

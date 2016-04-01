@@ -37,8 +37,10 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
     protected View mViewNoResult = null;
     protected SimpleSafeTask<T> netTask = null;
 	protected PtrClassicFrameLayout ptrClassicFrameLayout = null;
-	
-	protected abstract T onDoInBackgroundSafely();
+
+    private boolean enableDialogProgress;
+
+    protected abstract T onDoInBackgroundSafely();
 	
 
 	@Override
@@ -46,32 +48,43 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 		return R.layout.panda_fragment_net;
 	}
 
+    /**
+     * 是否自动显示加载框
+     * @param enableDialogProgress
+     */
+    public void setEnableDialogProgress(boolean enableDialogProgress) {
+        this.enableDialogProgress = enableDialogProgress;
+    }
+
 	/**
 	 * 设置正在加载显示的view
-	 * 
+	 * 直接采用 R.id.net_progress 标识
 	 * @param view
 	 *            the mViewNoResult to set
 	 */
+    @Deprecated
 	public void setViewProgress(View view) {
 		this.mViewProgress = view;
 	}
 
-	/**
-	 * 设置有结果时显示的view
-	 * 
-	 * @param view
-	 *            the mViewNoResult to set
-	 */
+    /**
+     * 设置有结果时显示的view
+     * 直接使用R.id.net_result标识
+     * @param view
+     *            the mViewNoResult to set
+     */
+    @Deprecated
 	public void setViewResult(View view) {
 		this.mViewResult = view;
 	}
 
 	/**
 	 * 设置没有结果时显示的view
-	 * 
+	 * 直接使用 R.id.net_no_result 标识
 	 * @param view
 	 *            the mViewNoResult to set
 	 */
+    @Deprecated
 	public void setViewNoResult(View view) {
 		this.mViewNoResult = view;
 	}
@@ -96,8 +109,8 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
         mViewProgress = createdView.findViewById(R.id.net_progress);
         mViewResult = createdView.findViewById(R.id.net_result);
         mViewNoResult = createdView.findViewById(R.id.net_no_result);
-		mDialogProgress = UIUtil.getLoadingDlg(getActivity(), true);
-		mDialogProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        mDialogProgress = UIUtil.getLoadingDlg(getActivity(), true);
+        mDialogProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
                 netTask.cancel(true);
@@ -105,13 +118,19 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
                 exit();
             }
         });
-		ptrClassicFrameLayout = (PtrClassicFrameLayout) createdView.findViewById(R.id.net_ptr);
+        ptrClassicFrameLayout = (PtrClassicFrameLayout) createdView.findViewById(R.id.net_ptr);
 		configPull();
-		hiddenNoResult();
+        if (ptrClassicFrameLayout != null || mViewNoResult != null) {
+            enableDialogProgress = false;
+        } else {
+            enableDialogProgress = true;
+        }
+        hiddenNoResult();
 		hiddenProgress();
 //		hiddenResult();
 		return createdView;
 	}
+
 
     private void configPull() {
         if(ptrClassicFrameLayout == null){
@@ -287,13 +306,17 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 		return;
 	}
 
+    /**
+     * 直接采用R.id.net_progress标识即可
+     */
+    @Deprecated
     protected void showProgress() {
 		Log.d(TAG, "showProgress, mViewProgress = " + mViewProgress);
 		if (mViewProgress != null) {
 			mViewProgress.setVisibility(View.VISIBLE);
 		}
 		Log.d(TAG, "showProgress, mDialogProgress = " + mDialogProgress);
-		if (mDialogProgress != null) {
+		if (enableDialogProgress && mDialogProgress != null) {
 			mDialogProgress.show();
 			mDialogProgress.setOnDismissListener(new OnDismissListener() {
 				
@@ -313,7 +336,7 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
 		if (mViewProgress != null) {
 			mViewProgress.setVisibility(View.GONE);
 		}
-		if (mDialogProgress != null) {
+		if (enableDialogProgress && mDialogProgress != null) {
 			mDialogProgress.dismiss();
 		}
 		loadingNetData = false;
