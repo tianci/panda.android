@@ -10,18 +10,37 @@ android {
         targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
+
+        manifestPlaceholders = [jpushAppkey: project.jPUSH_APP_KEY]
     }
+
+    signingConfigs {
+        myConfig{
+            storeFile file("keystore.jks")
+            storePassword "PandaAndroidDemoPass"
+            keyAlias "PandaAndroidDemo"
+            keyPassword "PandaAndroidDemoPass"
+        }
+    }
+
     buildTypes {
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFile getDefaultProguardFile('proguard-android.txt')
             proguardFile "build/intermediates/exploded-aar/"+project.PROJECT_DIRECTORY+"/PandaAndroidLib/unspecified/proguard.txt"
         }
 
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt')
             proguardFile "build/intermediates/exploded-aar/"+project.PROJECT_DIRECTORY+"/PandaAndroidLib/unspecified/proguard.txt"
+            signingConfig  signingConfigs.myConfig
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs-jpush']
         }
     }
 }
@@ -34,6 +53,7 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs-jpush', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.+'
     compile project(':PandaAndroidLib')
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
