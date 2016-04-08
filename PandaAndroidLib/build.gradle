@@ -8,7 +8,7 @@ android {
         minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
         versionCode Integer.parseInt(VERSION_CODE)
-        versionName VERSION_NAME
+        versionName VERSION_NAME+"."+VERSION_CODE
 
         /**
          * lib的配置文件放在这里生效
@@ -53,8 +53,8 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:22.+'
-    compile 'com.android.support:appcompat-v7:22.+'
+    compile 'com.android.support:support-v4:23.+'
+    compile 'com.android.support:appcompat-v7:23.+'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.google.code.gson:gson:2.2.4'
