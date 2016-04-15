@@ -70,7 +70,7 @@ public class IntentUtil {
      * @param mIntent
      */
     public static void startActivity(Context context, Intent mIntent) {
-        startActivity(context, mIntent, context.getString(R.string.can_not_find_activity));
+        startActivity(context, mIntent, context.getString(R.string.lib_can_not_find_activity));
     }
 
     /**
@@ -110,7 +110,7 @@ public class IntentUtil {
      * @param mIntent
      */
     public static void startActivityForResult(BaseFragment context, Intent mIntent, int requestCode) {
-        startActivityForResult(context, mIntent, requestCode, context.getString(R.string.can_not_find_activity));
+        startActivityForResult(context, mIntent, requestCode, context.getString(R.string.lib_can_not_find_activity));
     }
 
     /**

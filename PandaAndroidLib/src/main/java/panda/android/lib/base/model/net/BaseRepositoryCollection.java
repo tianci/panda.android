@@ -112,7 +112,7 @@ public class BaseRepositoryCollection {
             if (mLoadingDlg != null){
                 mLoadingDlg.dismiss();
             }
-            DevUtil.showInfo(mContext, mContext.getString(R.string.download_failure));
+            DevUtil.showInfo(mContext, mContext.getString(R.string.lib_download_failure));
         }
     }
 

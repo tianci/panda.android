@@ -1,0 +1,138 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_fragment"
+              android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="@dimen/width_720_1280_160"
+        android:layout_height="@dimen/height_720_1280_160"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/height_720_1280_112"
+        android:layout_marginTop="@dimen/height_720_1280_128"
+        android:src="@mipmap/ic_launcher"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_720_1280_200"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <View
+            style="@style/PandaTheme.Divider"/>
+
+        <EditText
+            android:inputType="phone"
+            android:id="@+id/et_uesrphone"
+            style="@style/PandaTheme.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:hint="@string/person_phone_num"
+            />
+
+        <View
+            style="@style/PandaTheme.Divider"/>
+
+        <EditText
+            android:inputType="textPassword"
+            android:id="@+id/et_userpassword"
+            style="@style/PandaTheme.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:hint="密码"
+            />
+
+        <View
+            style="@style/PandaTheme.Divider"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_login"
+        style="@style/PandaTheme.Button"
+        android:text="登录"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:id="@+id/tv_register"
+            style="@style/PandaTheme.TextView"
+            android:text="注册"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_find_password"
+            style="@style/PandaTheme.TextView"
+            android:text="找回密码"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            style="@style/PandaTheme.Divider"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用第三方账号登录"/>
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            style="@style/PandaTheme.Divider"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/height_720_1280_80"
+        android:layout_marginTop="@dimen/height_720_1280_80">
+
+        <ImageView
+            android:id="@+id/iv_wx_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/weixinlogo"/>
+
+        <ImageView
+            android:id="@+id/iv_qq_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/qqlogo"/>
+
+        <ImageView
+            android:id="@+id/iv_sina_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/sinalogo"/>
+    </LinearLayout>
+
+
+</LinearLayout>

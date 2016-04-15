@@ -285,7 +285,7 @@ public abstract class BaseFragment extends Fragment implements
 		if (firstTime + 2000 > System.currentTimeMillis()) {
 			return true;
 		} else {
-			DevUtil.showInfo(getActivity(),getString(R.string.exit_msg) );
+			DevUtil.showInfo(getActivity(),getString(R.string.lib_exit_msg) );
 		}
 		firstTime = System.currentTimeMillis();
 		return false;
@@ -303,6 +303,18 @@ public abstract class BaseFragment extends Fragment implements
 				fragmentManager.popBackStack();
 			}
 		}
-	};
+	}
+
+	public  <T extends View> T findViewById(View v, int id, OnClickListener listener) {
+		try{
+			T view = (T) v.findViewById(id);
+			view.setOnClickListener(listener);
+			return view;
+		}
+		catch (Exception e){
+			Log.printStackTrace(e);
+		}
+		return  null;
+	}
 
 }

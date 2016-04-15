@@ -6,4 +6,6 @@
     <color name="colorPrimaryDark">#049CAD</color>
     <!--强调色-->
     <color name="colorAccent">#FF4081</color>
+    <!--fragment页面背景色-->
+    <color name="bg_fragment">#f0f0f0</color>
 </resources>
