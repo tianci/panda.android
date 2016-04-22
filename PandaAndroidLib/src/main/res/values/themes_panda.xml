@@ -3,38 +3,43 @@
     可以参考sdk里面的themes.xml-->
 <resources>
     <style name="PandaTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- *****************
+        ****** 通用设置 ********
+        ********************* -->
+        <item name="colorPrimary">@color/app_primary</item>
+        <item name="colorPrimaryDark">@color/app_primary_dark</item>
+        <item name="colorAccent">@color/app_accent</item>
+        <!-- 窗口的背景颜色 -->
+        <item name="android:windowBackground">@color/bg_window</item>
+        <!-- 字体样式 -->
+        <item name="android:textAppearanceLarge">@style/PandaTheme.FirstText</item>
+        <item name="android:textAppearanceMedium">@style/PandaTheme.SecondText</item>
+        <item name="android:textAppearanceSmall">@style/PandaTheme.ThirdText</item>
+
+
+        <!-- *****************
+        ****** 各种控件主题 ********
+        ********************* -->
+        <item name="android:textColorHint">@color/text_weaken</item>
         <!-- Dialog属性 -->
         <item name="android:dialogTheme">@style/PandaTheme.Dialog</item>
         <!-- alertDialog属性 -->
         <item name="android:alertDialogTheme">@style/PandaTheme.Dialog.Alert</item>
-
-        <!-- toolbar（actionbar）颜色 -->
-        <item name="colorPrimary">#4876FF</item>
-        <!-- 状态栏颜色 -->
-        <item name="colorPrimaryDark">#3A5FCD</item>
-        <!-- 窗口的背景颜色 -->
-        <item name="android:windowBackground">@android:color/white</item>
         <!-- SearchView -->
         <item name="searchViewStyle">@style/Widget.AppCompat.SearchView</item>
-
-        <!-- 自定义overflow menu的样式 -->
-        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+        <!-- overflow menu的样式 -->
+        <item name="actionOverflowMenuStyle">@style/PandaTheme.OverflowMenuStyle</item>
+        <!-- listDivider的样式 -->
+        <item name="android:listDivider">@style/PandaTheme.DividerThin</item>
     </style>
 
-    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
-        <item name="overlapAnchor">false</item>
-        <item name="android:dropDownWidth">wrap_content</item>
-        <item name="android:paddingRight">5dp</item>
-        <!--<item name="android:popupBackground">?attr/colorPrimary</item>-->
-    </style>
+    <style name="PandaTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="PandaTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <!-- Variant of {@link #PandaTheme} with no title bar -->
     <style name="PandaTheme.NoTitleBar">
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <!-- Variant of {@link #PandaTheme} that has no title bar and no status bar.  This theme
-         sets {@link android.R.attr#windowFullscreen} to true.  -->
     <style name="PandaTheme.NoTitleBar.Fullscreen">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -57,7 +62,8 @@
         <item name="android:windowIsTranslucent">true</item>
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
         <item name="android:windowAnimationStyle">@style/PandaTheme.ActivityAnimation</item>
-        <item name="android:textColorHint">#c4c4c4</item>
+        <!--<item name="android:windowAnimationStyle">@style/PandaTheme.ActivityAnimation2</item>-->
+        <item name="android:textColorHint">@color/text_weaken</item>
     </style>
 
     <!-- MainActivity theme.(不带Activity切换动画，适用于入口Activity) -->
@@ -66,7 +72,169 @@
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
 
-    <style name="PandaTheme.HorizontalSlide" parent="PandaTheme.NoTitleBar">
-        <item name="android:windowAnimationStyle">@style/PandaTheme.ActivityAnimation2</item>
+    <!-- Activity切换动画（右进） -->
+    <style name="PandaTheme.ActivityAnimation" parent="@android:style/Animation.Translucent">
+        <item name="android:windowEnterAnimation">@anim/slide_right_in</item>
+        <!--<item name="android:windowExitAnimation">@anim/slide_right_out</item>-->
+        <!-- 当我们从 A1 启动 A2 时，A2 出现在屏幕上， -->
+        <!--<item name="android:activityOpenEnterAnimation">@anim/slide_right_in</item>-->
+        <!-- 当我们从 A1 启动 A2 时，A1 从屏幕上消失 -->
+        <!--<item name="android:activityOpenExitAnimation">@anim/slide_left_out</item>-->
+        <!-- 当我们从 A2 退出回到 A1 时，A1 出现在屏幕上 -->
+        <!--<item name="android:activityCloseEnterAnimation">@anim/slide_left_in</item>-->
+        <!-- 当我们从 A2 退出回到 A1 时，A2 从屏幕上消失 -->
+        <!--<item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>-->
+        <!--<item name="android:taskOpenEnterAnimation">@null</item>-->
+        <!--<item name="android:taskOpenExitAnimation">@null</item>-->
+        <!--<item name="android:taskCloseEnterAnimation">@null</item>-->
+        <!--<item name="android:taskCloseExitAnimation">@null</item>-->
+        <!--<item name="android:taskToFrontEnterAnimation">@null</item>-->
+        <!--<item name="android:taskToFrontExitAnimation">@null</item>-->
+        <!--<item name="android:taskToBackEnterAnimation">@null</item>-->
+        <!--<item name="android:taskToBackExitAnimation">@null</item>-->
+        <!--<item name="android:wallpaperOpenEnterAnimation">@null</item>-->
+        <!--<item name="android:wallpaperOpenExitAnimation">@null</item>-->
+        <!--<item name="android:wallpaperCloseEnterAnimation">@null</item>-->
+        <!--<item name="android:wallpaperCloseExitAnimation">@null</item>-->
+        <!--<item name="android:wallpaperIntraOpenEnterAnimation">@null</item>-->
+        <!--<item name="android:wallpaperIntraOpenExitAnimation">@null</item>-->
+        <!--<item name="android:wallpaperIntraCloseEnterAnimation">@null</item>-->
+        <!--<item name="android:wallpaperIntraCloseExitAnimation">@null</item>-->
+        <!--<item name="android:fragmentOpenEnterAnimation">@null</item>-->
+        <!--<item name="android:fragmentOpenExitAnimation">@null</item>-->
+        <!--<item name="android:fragmentCloseEnterAnimation">@null</item>-->
+        <!--<item name="android:fragmentCloseExitAnimation">@null</item>-->
+        <!--<item name="android:fragmentFadeEnterAnimation">@null</item>-->
+        <!--<item name="android:fragmentFadeExitAnimation">@null</item>-->
+    </style>
+
+    <!-- Activity切换动画2(右进左出、右出左进) -->
+    <style name="PandaTheme.ActivityAnimation2" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
+    </style>
+
+    <!-- 1级文本（标题、大按钮） -->
+    <style name="PandaTheme.FirstText" parent="android:Widget">
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textColor">@color/text_normal</item>
+    </style>
+
+    <!-- 2级文本（二级标题、列表标题） -->
+    <style name="PandaTheme.SecondText" parent="android:Widget">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/text_normal</item>
+    </style>
+
+    <!-- 2级文本（列表主标题：当有两行时候，居于上一列强调位置的标题） -->
+    <style name="PandaTheme.SecondText.Title" parent="PandaTheme.SecondText">
+        <item name="android:textSize">@dimen/text_medium</item>
+    </style>
+
+    <!-- 3级文本（列表说明） -->
+    <style name="PandaTheme.ThirdText" parent="android:Widget">
+        <item name="android:textSize">@dimen/text_tiny</item>
+        <item name="android:textColor">@color/text_normal</item>
+    </style>
+
+    <!-- 4级文本（辅助文字） -->
+    <style name="PandaTheme.FourText" parent="android:Widget">
+        <item name="android:textSize">@dimen/text_tiny</item>
+        <item name="android:textColor">@color/text_weak</item>
+    </style>
+
+    <!-- 导航条样式 -->
+    <style name="PandaTheme.Nav" parent="PandaTheme.FirstText">
+        <item name="android:background">@drawable/nav_background</item>
+        <item name="android:textColor">@color/bg_nav</item>
+    </style>
+
+    <!-- 按钮 -->
+    <style name="PandaTheme.Button" parent="PandaTheme.FirstText">
+        <item name="android:height">@dimen/app_button_height</item>
+        <item name="android:background">@drawable/btn_background</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+    </style>
+
+    <!--Dialog主题-->
+    <style name="PandaTheme.Dialog" parent="@android:style/Theme.DeviceDefault.Light.Dialog">
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 自己想要的背景 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 模糊 -->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <!-- 间隔线 -->
+    <style name="PandaTheme.DividerThin">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/divider_thin</item>
+        <item name="android:background">@color/app_divider</item>
+    </style>
+    <style name="PandaTheme.DividerThick">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/divider_thick</item>
+        <item name="android:background">@color/app_divider</item>
+    </style>
+    <style name="PandaTheme.Divider" parent="PandaTheme.DividerThin">
+    </style>
+
+    <!--ListView-->
+    <style name="PandaTheme.ListView" parent="">
+        <item name="android:divider">@color/app_divider</item>
+        <item name="android:dividerHeight">@dimen/divider_thin</item>
+    </style>
+
+    <style name="PandaTheme.EditText" parent="PandaTheme.SecondText">
+        <item name="android:background">@drawable/et_bg</item>
+    </style>
+
+    <style name="PandaTheme.BetterSpinner" parent="PandaTheme.SecondText">
+        <item name="android:background">@drawable/et_bg</item>
+    </style>
+
+    <style name="PandaTheme.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/app_primary</item>
+        <item name="android:textSize">@dimen/text_tiny</item>
+    </style>
+
+    <style name="PandaTheme.OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+        <item name="android:paddingRight">5dp</item>
+        <!--<item name="android:popupBackground">?attr/colorPrimary</item>-->
+    </style>
+
+    <style name="PandaTheme.DialogWindowTitle">
+        　　<item name="android:maxLines">1</item>
+        　　<item name="android:scrollHorizontally">true</item>
+        <!--　　<item name="android:textColor">@color/colorPrimary</item>-->
+        　　<item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <!--AlderDialog主题-->
+    <style name="PandaTheme.Dialog.Alert" parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowTitleStyle">@style/PandaTheme.DialogWindowTitle</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+        <!--<item name="android:text">@style/DialogWindowTitle</item>-->
     </style>
 </resources>

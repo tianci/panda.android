@@ -95,12 +95,21 @@ public abstract class BaseFragment extends Fragment implements
 			}
 		}
 		view.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// 防止透传点击事件。
 			}
 		});
+		View backView = view.findViewById(R.id.nav_go_back);
+		if(backView != null){
+			backView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					exit();
+				}
+			});
+		}
 		ButterKnife.bind(this, view);
 		return view;
 	}

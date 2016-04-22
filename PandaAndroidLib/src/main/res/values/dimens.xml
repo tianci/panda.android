@@ -1,9 +1,49 @@
 <resources>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">@dimen/width_720_1280_24</dimen>
-    <dimen name="activity_vertical_margin">@dimen/height_720_1280_24</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
+    <!-- *****************
+    ****** UI标准 ********
+    ********************* -->
+    <!-- margin -->
+    <dimen name="app_horizontal_margin">@dimen/width_720_1280_32</dimen>
+    <dimen name="app_vertical_margin">@dimen/height_720_1280_32</dimen>
+    <!-- 圆角 -->
+    <dimen name="app_border_radius">@dimen/width_720_1280_4</dimen>
+    <!-- 列表 -->
+    <dimen name="app_list_height">@dimen/width_720_1280_88</dimen>
+    <!-- 列表 -->
+    <dimen name="app_button_height">@dimen/width_720_1280_96</dimen>
+
+    <!--
+        文字
+     -->
+    <!-- 小字提示 -->
+    <dimen name="text_tiny">@dimen/text_size_720_1280_24</dimen>
+    <!-- 正文按钮文字 -->
+    <dimen name="text_small">@dimen/text_size_720_1280_28</dimen>
+    <!-- 小标题 -->
+    <dimen name="text_medium">@dimen/text_size_720_1280_32</dimen>
+    <!-- AppBar文字 -->
+    <dimen name="text_large">@dimen/text_size_720_1280_34</dimen>
+
+    <!-- 导航 -->
+    <dimen name="nav_height">@dimen/height_720_1280_102</dimen>
+    <dimen name="nav_horizontal_margin">@dimen/app_horizontal_margin</dimen>
+    <dimen name="nav_icon_width">@dimen/width_720_1280_40</dimen>
+    <dimen name="nav_icon_height">@dimen/height_720_1280_40</dimen>
+    <dimen name="nav_icon_area_width">@dimen/height_720_1280_80</dimen>
+
+    <!-- 间距 -->
+    <dimen name="divider_thin">@dimen/text_size_720_1280_2</dimen>
+    <dimen name="divider_thick">@dimen/text_size_720_1280_16</dimen>
+
+    <!-- *****************
+    ****** 尺寸标准 ********
+    ********************* -->
     <dimen name="width_720_1280_1">0.50dp</dimen>
     <dimen name="width_720_1280_2">1.00dp</dimen>
     <dimen name="width_720_1280_3">1.50dp</dimen>

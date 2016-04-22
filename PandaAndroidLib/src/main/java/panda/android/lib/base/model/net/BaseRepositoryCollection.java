@@ -31,9 +31,42 @@ import panda.android.lib.base.util.FileUtil;
 import panda.android.lib.base.util.Log;
 
 /**
- * 网络连接基类，对于json格式数据的读取只需1行代码
+ * Created by shitianci on 16/4/20.
  *
- * @author shitianci
+ * BaseRepositoryCollection 代码规范：
+ * 1. 所有的方法为静态方法 ；
+ * 2. 所有的方法名为  execute{返回参数类型}Request ；（返回参数类型目前有 Json、File）
+ * <p/>
+ * todo: 所有名字不合法的方法都需要被标注为 Deprecated，或者私有化
+ *
+ * 网络基础知识：
+ * 上传有
+ *     →8种操作：Get,Head,Trace,Options,Delete,Put,Post,Patch;
+ *     →4类传值的方法：拼接在url后面（get专用）；form-data形式；x-www-form-urlencoded形式；raw形式（包括json、text、xml、html）
+ *
+ * [litehttp2.x版本系列教程](https://zybuluo.com/liter/note/186533)
+
+ ************** MultipartBody代码样例 **************
+ MultipartBody body = new MultipartBody();
+ body.addPart(new StringPart("key1", "hello"));
+ body.addPart(new StringPart("key2", "很高兴见到你", "utf-8", null));
+ body.addPart(new BytesPart("key3", new byte[]{1, 2, 3}));
+ body.addPart(new FilePart("pic", new File("/sdcard/aaa.jpg"), "image/jpeg"));
+ body.addPart(new InputStreamPart("litehttp", fis, "litehttp.txt", "text/plain"));
+ postRequest.setHttpBody(body);
+
+ 或者------------------
+
+ MultipartBody body = new MultipartBody();
+ if(httpparams != null) {
+ Map maps = ClassUtils.setObjParamsToMap(httpparams);
+ Iterator i$ = maps.keySet().iterator();
+
+ while(i$.hasNext()) {
+ String key = (String)i$.next();
+ body.addPart(new StringPart(key, maps.get(key).toString()));
+ }
+ }
  */
 public class BaseRepositoryCollection {
     private static final String TAG = BaseRepositoryCollection.class.getSimpleName();
@@ -64,6 +97,96 @@ public class BaseRepositoryCollection {
         return mLiteHttp;
     }
 
+    /**
+     * 针对上传json数据、获取json数据的情形
+     * @param url 网址
+     * @param httpparams 上传参数
+     * @param method 方法
+     * @param resultType 返回参数类型
+     * @param <T> 返回参数类型
+     * @return
+     */
+    public static <T> T executeJsonRequest(String url, HttpParamModel httpparams, HttpMethods method, Type resultType) {
+        Log.d(TAG, "httpparams = " + BaseModel.getGson().toJson(httpparams));
+        if (method == HttpMethods.Get) {
+            url = getUrlWithParams(url, httpparams);
+        }
+        return executeJsonRequest(url, new JsonBody(httpparams), method, resultType);
+    }
+
+    /**
+     * 针对上传各种数据（比如MultipartBody）、获取json数据的情形
+     * @param url 网址
+     * @param body 上传参数
+     * @param method 方法
+     * @param resultType 返回参数类型
+     * @param <T> 返回参数类型
+     * @return
+     */
+    public static <T> T executeJsonRequest(String url, HttpBody body, HttpMethods method, Type resultType) {
+        Log.d(TAG, "body = " + body);
+        JsonRequest request = new JsonRequest(url, resultType);
+        request.setMethod(method);
+        request.setHttpBody(body);
+        return executeBaseRequest(request);
+    }
+
+    /**
+     * 针对上传json数据、获取文件数据的情形
+     * @param url 网址
+     * @param httpparams 上传参数
+     * @param method 方法
+     * @param <T> 返回参数类型
+     * @return
+     */
+    public static <T> T executeFileRequest(String url, HttpParamModel httpparams, HttpMethods method) {
+        Log.d(TAG, "httpparams = " + BaseModel.getGson().toJson(httpparams));
+        if (method == HttpMethods.Get) {
+            url = getUrlWithParams(url, httpparams);
+        }
+        return executeFileRequest(url, new JsonBody(httpparams), method);
+    }
+
+
+    /**
+     * 针对上传各种数据（比如MultipartBody）、获取json数据的情形
+     * @param url 网址
+     * @param body 上传参数
+     * @param method 方法
+     * @param <T> 返回参数类型
+     * @return
+     */
+    public static <T> T executeFileRequest(String url, HttpBody body, HttpMethods method) {
+        Log.d(TAG, "body = " + BaseModel.getGson().toJson(body));
+        FileRequest request = new FileRequest(url);
+        request.setMethod(method);
+        request.setHttpBody(body);
+        return executeBaseRequest(request);
+    }
+
+    /**
+     * 获取带参数的url
+     *
+     * @param url
+     * @param httpparams
+     * @return
+     */
+    private static String getUrlWithParams(String url, HttpParamModel httpparams) {
+        if (httpparams != null) {
+            url = url + "?" + ClassUtils.obj2PostParams(httpparams);
+        }
+        return url;
+    }
+
+
+    public static <T> T executeBaseRequest(AbstractRequest request) {
+        Response res = mLiteHttp.execute(request);
+        Log.d(TAG, "accessNetwork, " + res.toString());
+        Object netResult = res.getResult();
+        return (T) netResult;
+    }
+
+    @Deprecated
     public static class HttpListener<T> extends com.litesuits.http.listener.HttpListener<T> {
 
         private final Context mContext;
@@ -120,6 +243,7 @@ public class BaseRepositoryCollection {
      * 上传文件到服务端（在非UI线程执行）
      * @param fileList
      */
+    @Deprecated
     public static <T> T executeRequest(String url, String[] fileList, HttpMethods method, Type resultType){
         MultipartBody body = new MultipartBody();
         for (String file:fileList) {
@@ -132,6 +256,7 @@ public class BaseRepositoryCollection {
     /**
      * 将参数拼接到url上，传输参数到服务端（在非UI线程执行）
      */
+    @Deprecated
     public static <T> T executeGetRequest(String url, HttpParamModel httpparams, Type resultType){
         if ( httpparams!=null){
 //            request.setHttpBody(new JsonBody(httpparams));
@@ -143,6 +268,7 @@ public class BaseRepositoryCollection {
     /**
      * 将参数按照form形式组织，传输参数到服务端（在非UI线程执行）
      */
+    @Deprecated
     public static <T> T executeRequest(String url, HttpParamModel httpparams, HttpMethods method, Type resultType){
         try{
             Log.d(TAG, "httpparams = " + BaseModel.getGson().toJson(httpparams));
@@ -162,7 +288,7 @@ public class BaseRepositoryCollection {
         return executeRequest(url, (HttpBody)body, method, resultType);
     }
 
-
+    @Deprecated
     public static <T> T executeRequest(String url, HttpBody httpBody, HttpMethods method, Type resultType){
         Log.d(TAG, "url = " + url);
         if (mLiteHttp == null){
@@ -192,6 +318,7 @@ public class BaseRepositoryCollection {
      * @param resultType 输出参数的类型（extends NetResultInfo）
      * @param listener 监听器
      */
+    @Deprecated
     public static <T> void executeJsonRequestAsync(HttpParamModel httpparams, Type resultType, HttpListener<T> listener){
         AbstractRequest<T> request = new JsonRequest(httpparams, resultType);
         request.addHeader("Content-Type", "application/json");
@@ -210,6 +337,7 @@ public class BaseRepositoryCollection {
      * @param path 输出参数的类型（extends NetResultInfo）
      * @param listener 监听器
      */
+    @Deprecated
     public static void executeFileRequestAsync(String url, String path, HttpListener<File> listener){
         FileRequest request = new FileRequest(url);
         request.setDataParser(new FileParser(new File(path)));

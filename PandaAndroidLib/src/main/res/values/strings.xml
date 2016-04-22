@@ -4,9 +4,6 @@
     <string name="lib_can_not_find_activity">找不到指定的页面</string>
     <string name="lib_exit_msg">再点击一次退出程序</string>
     <string name="lib_download_failure">下载失败</string>
-
-
-    <!-- 个人管理模块 -->
-    <string name="person_phone_num">手机号</string>
+    <string name="nav_title">导航标题</string>
 
 </resources>
