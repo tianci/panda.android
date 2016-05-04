@@ -69,6 +69,7 @@ dependencies {
     compile 'net.danlew:android.joda:2.9.1'
     compile 'com.oguzbabaoglu:butterfork-binder:1.0.0'
     apt 'com.oguzbabaoglu:butterfork-compiler:1.0.0'
+    compile 'com.github.chrisbanes:PhotoView:1.2.6'
 }
 
 //buildscript{

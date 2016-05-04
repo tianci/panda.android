@@ -32,7 +32,8 @@ public class TextUtil
 
     public static boolean isPhone(String phone)
     {
-        String regex = "^((13[0-9])|(13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$";
+		String regex = "^(1)\\d{10}$";
+//        String regex = "^((13[0-9])|(13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(phone);
         return m.matches();
