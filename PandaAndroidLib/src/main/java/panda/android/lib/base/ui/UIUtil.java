@@ -18,7 +18,7 @@ import com.litesuits.http.response.Response;
 import java.io.File;
 import java.util.Calendar;
 
-import butterknife.ButterKnife;
+import butterfork.ButterFork;
 import panda.android.lib.R;
 import panda.android.lib.base.model.net.BaseRepositoryCollection;
 import panda.android.lib.base.util.DevUtil;
@@ -114,7 +114,7 @@ public class UIUtil {
         Button mBtnCancel;
 
         DialogProgressViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            ButterFork.bind(this, view);
             mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
             mProgressBarInfo = (TextView) view.findViewById(R.id.progress_bar_info);
             mFlProgress = view.findViewById(R.id.fl_progress);

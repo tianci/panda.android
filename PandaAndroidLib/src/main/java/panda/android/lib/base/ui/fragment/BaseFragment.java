@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import butterknife.ButterKnife;
+import butterfork.ButterFork;
 import panda.android.lib.R;
 import panda.android.lib.base.model.BaseModel;
 import panda.android.lib.base.util.DevUtil;
@@ -110,7 +110,7 @@ public abstract class BaseFragment extends Fragment implements
 				}
 			});
 		}
-		ButterKnife.bind(this, view);
+		ButterFork.bind(this, view);
 		return view;
 	}
 
@@ -234,7 +234,7 @@ public abstract class BaseFragment extends Fragment implements
 	public void onDestroyView() {
 		if(DEBUG)
 			Log.d(TAG, id + " onDestroyView");
-		ButterKnife.unbind(this);
+		ButterFork.unbind(this);
 		super.onDestroyView();
 	}
 	
