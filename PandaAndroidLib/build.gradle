@@ -57,7 +57,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:23.+'
     compile 'com.android.support:appcompat-v7:23.+'
-//    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
@@ -70,6 +70,11 @@ dependencies {
     compile 'com.oguzbabaoglu:butterfork-binder:1.0.0'
     apt 'com.oguzbabaoglu:butterfork-compiler:1.0.0'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
+
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'cn.bingoogolapple:bga-refreshlayout:1.1.0@aar'
+    compile 'com.android.support:recyclerview-v7:23.0.+'
+
 }
 
 //buildscript{

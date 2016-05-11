@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<in.srain.cube.views.ptr.PtrClassicFrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/net_ptr"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-    cube_ptr:ptr_duration_to_close="200"
-    cube_ptr:ptr_duration_to_close_header="1000"
-    cube_ptr:ptr_keep_header_when_refresh="true"
-    cube_ptr:ptr_pull_to_fresh="false"
-    cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-    cube_ptr:ptr_resistance="1.7">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/net_result"
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+        android:id="@+id/net_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="数据加载结果为……"
-        android:textColor="#000000" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/net_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="数据加载结果为……"
+            android:textColor="#000000"/>
+
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
     <LinearLayout
         android:id="@+id/net_progress"
@@ -31,21 +26,21 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="#ff0000"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="200dip"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:indeterminateOnly="true" />
+            android:indeterminateOnly="true"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="数据正在加载中……"
-            android:textColor="#000000" />
+            android:textColor="#000000"/>
     </LinearLayout>
 
     <TextView
@@ -55,7 +50,6 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="数据为空"
-        android:textColor="#000000" />
+        android:textColor="#000000"/>
 
-    </FrameLayout>
-</in.srain.cube.views.ptr.PtrClassicFrameLayout>
+</FrameLayout>

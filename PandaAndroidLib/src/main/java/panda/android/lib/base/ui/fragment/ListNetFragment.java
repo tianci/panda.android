@@ -1,11 +1,15 @@
 package panda.android.lib.base.ui.fragment;
 
 import android.os.Parcelable;
+import android.view.View;
 import android.widget.AbsListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 import panda.android.lib.base.model.ListNetResultInfo;
 import panda.android.lib.base.util.DevUtil;
 import panda.android.lib.base.util.Log;
@@ -25,7 +29,7 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 	private ArrayList<O> mAllDataList = new ArrayList<O>();
 	private boolean isLoadedAllNetData = false;
 	protected Parcelable mViewResultState = null;
-	
+
 	/**
 	 * 加载list数据
 	 * @param startIndex 起始数据项
@@ -66,7 +70,7 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 	public void loadNextPageNetData() {
 		Log.d(TAG, "loadNextPageNetData, isLoadedAllNetData = " + isLoadedAllNetData);
 		if (isLoadedAllNetData) {
-			showLoadAllNetData();
+			onLoadAllNetData();
 			return;
 		}
 		if (mStartIndex != mAllDataList.size()) {
@@ -80,9 +84,9 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 	/**
 	 * 所有数据加载完毕
 	 */
-	public void showLoadAllNetData() {
+	public void onLoadAllNetData() {
 		Log.d(TAG, "所有数据加载完毕");
-		isLoadedAllNetData  = true;
+		setLoadedAllNetData(true);
 	}
 	
 	@Override
@@ -93,7 +97,7 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 	@Override
 	final protected void showResult(ListNetResultInfo<O> result) {
 		super.showResult(result);
-		if (result == null){
+        if (result == null){
 			showNetErrResult();
 		}
 		if (result.getList() == null || result.getList().size() == 0) {
@@ -103,8 +107,8 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 		}
         hiddenNoResult();
 		if (result.getList().size() < mPageSize) {
-            Log.w(TAG, "showLoadAllNetData");
-			showLoadAllNetData();
+            Log.w(TAG, "onLoadAllNetData");
+			onLoadAllNetData();
 		}
 		List<O> list = result.getList();
 		for (O o : list) {
@@ -191,4 +195,28 @@ public abstract class ListNetFragment<O> extends NetFragment<ListNetResultInfo<O
 		this.isLoadedAllNetData = isLoadedAllNetData;
 	}
 
+    @Override
+    protected void configRefreshLayout(View createdView) {
+        super.configRefreshLayout(createdView);
+        if (mRefreshLayout == null){
+            return;
+        }
+        // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
+        BGARefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(getActivity(), true);
+        // 设置下拉刷新和上拉加载更多的风格
+        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
+        mRefreshLayout.setDelegate(new BGARefreshLayout.BGARefreshLayoutDelegate() {
+            @Override
+            public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+                loadNetData();
+            }
+
+            @Override
+            public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+                loadNextPageNetData();
+                return true;
+            }
+
+        });
+    }
 }
