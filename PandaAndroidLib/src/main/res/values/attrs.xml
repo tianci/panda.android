@@ -7,16 +7,27 @@
         http://blog.csdn.net/dalancon/article/details/20359675
         http://blog.csdn.net/dalancon/article/details/20359997
         http://blog.csdn.net/dalancon/article/details/20360223
+
+     常见问题：
+     1. 重复命名：http://blog.csdn.net/dangnianmingyue_gg/article/details/51336683
      -->
 <resources>
-    <declare-styleable name="CircleProgressBar">
-        <attr name="bgColor" format="color"/>
-        <attr name="primaryColor" format="color"/>
-        <attr name="strokeWidth" format="dimension"/>
-        <attr name="drawStyle">
-            <enum name="STROKE" value="0"></enum>
-            <enum name="FILL" value="1"></enum>
+    <!-- 为了防止重命名，所有自定义属性都必须增加前缀Panda_ -->
+    <attr name="Panda_bgColor" format="color"/>
+    <attr name="Panda_primaryColor" format="color"/>
+    <attr name="Panda_strokeWidth" format="dimension"/>
+    <attr name="Panda_drawStyle">
+        <enum name="Panda_STROKE" value="0"></enum>
+        <enum name="Panda_FILL" value="1"></enum>
+    </attr>
+    <attr name="Panda_max" format="integer"/>
+
+    <declare-styleable name="Panda_CircleProgressBar">
+        <attr name="Panda_bgColor" />
+        <attr name="Panda_primaryColor"/>
+        <attr name="Panda_strokeWidth"/>
+        <attr name="Panda_drawStyle">
         </attr>
-        <attr name="max" format="integer"/>
+        <attr name="Panda_max"/>
     </declare-styleable>
 </resources>

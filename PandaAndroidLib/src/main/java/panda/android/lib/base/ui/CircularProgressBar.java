@@ -60,12 +60,12 @@ public class CircularProgressBar extends View {
     public CircularProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray tArray = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressBar);
-        mBackgroundColor=tArray.getColor(R.styleable.CircleProgressBar_bgColor, Color.GRAY);
-        mPrimaryColor=tArray.getColor(R.styleable.CircleProgressBar_primaryColor, Color.RED);
-        drawStyle=tArray.getInt(R.styleable.CircleProgressBar_drawStyle, 0);
-        mStrokeWidth=tArray.getDimension(R.styleable.CircleProgressBar_strokeWidth, 10);
-        mMax=tArray.getInteger(R.styleable.CircleProgressBar_max, 100);
+        TypedArray tArray = context.obtainStyledAttributes(attrs, R.styleable.Panda_CircleProgressBar);
+        mBackgroundColor=tArray.getColor(R.styleable.Panda_CircleProgressBar_Panda_bgColor, Color.GRAY);
+        mPrimaryColor=tArray.getColor(R.styleable.Panda_CircleProgressBar_Panda_primaryColor, Color.RED);
+        drawStyle=tArray.getInt(R.styleable.Panda_CircleProgressBar_Panda_drawStyle, 0);
+        mStrokeWidth=tArray.getDimension(R.styleable.Panda_CircleProgressBar_Panda_strokeWidth, 10);
+        mMax=tArray.getInteger(R.styleable.Panda_CircleProgressBar_Panda_max, 100);
     }
 
 
