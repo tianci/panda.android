@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="@dimen/height_720_1280_1"
+        android:layout_height="768dp"
+        android:text="300px*100px"
+        android:textSize="@dimen/text_size_720_1280_30"
+        android:gravity="center"
+        android:background="#ff0000"
+        android:layout_gravity="center"/>
+</FrameLayout>

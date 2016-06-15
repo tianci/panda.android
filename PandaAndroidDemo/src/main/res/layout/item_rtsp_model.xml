@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="#ffffff"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_720_1280_194"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <ImageView
+            android:id="@+id/iv_rtsp_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/noone"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/mask"
+            android:scaleType="fitXY"/>
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/iv_rtsp_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:ellipsize="end"
+        android:paddingBottom="@dimen/height_720_1280_10"
+        android:paddingRight="@dimen/width_720_1280_30"
+        android:layout_marginTop="@dimen/width_720_1280_22"
+        android:layout_marginBottom="@dimen/width_720_1280_6"
+        android:singleLine="true"
+        android:text="热舞子怡小幸运热舞子怡小幸运热舞子怡小幸运热舞子怡小幸运热舞子怡小幸运"
+        android:textColor="#000"
+        android:textSize="@dimen/text_size_720_1280_24"/>
+
+</LinearLayout>

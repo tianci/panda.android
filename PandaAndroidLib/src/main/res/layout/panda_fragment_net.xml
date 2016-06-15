@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/net_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
-    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
-        android:id="@+id/net_refresh"
+    <TextView
+        android:id="@+id/net_result"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/net_result"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="数据加载结果为……"
-            android:textColor="#000000"/>
-
-    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="数据加载结果为……"
+        android:textColor="#000000" />
 
     <LinearLayout
         android:id="@+id/net_progress"
@@ -33,23 +28,50 @@
             android:layout_width="200dip"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:indeterminateOnly="true"/>
+            android:indeterminateOnly="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="数据正在加载中……"
-            android:textColor="#000000"/>
+            android:textColor="#000000" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/net_no_result"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="数据为空"
-        android:textColor="#000000"/>
+        android:textColor="#000000" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/net_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="数据出错"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/net_fail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="网络访问出错"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/net_cannot_access"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="不能访问网络"
+        android:textColor="#000000" />
+
+</LinearLayout>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 下拉刷新、上拉加载下一页样例 -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/net_no_result"
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:fillViewport="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:clickable="false"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/net_no_result"
+                android:textColor="#000000" />
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/net_error"
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:fillViewport="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:clickable="false"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/net_error"
+                android:textColor="#000000" />
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/net_fail"
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:fillViewport="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:clickable="false"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/net_fail"
+                android:textColor="#000000" />
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/net_cannot_access"
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:fillViewport="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:clickable="false"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/net_cannot_access"
+                android:textColor="#000000" />
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/net_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+
+        <ListView
+            android:id="@+id/net_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/width_720_1280_20"
+            android:layout_marginRight="@dimen/width_720_1280_20"
+            android:background="@color/bg_window"
+            android:clipToPadding="false"
+            android:divider="#EEEEEE"
+            android:dividerHeight="@dimen/height_720_1280_26"
+            android:paddingTop="@dimen/height_720_1280_25"></ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+</FrameLayout>

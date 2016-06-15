@@ -1,10 +1,17 @@
 package panda.android.lib.base.ui.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +25,7 @@ import panda.android.lib.base.util.DevUtil;
 import panda.android.lib.base.util.FragmentUtil;
 import panda.android.lib.base.util.Log;
 import panda.android.lib.base.util.OSUtil;
+import panda.android.lib.base.util.PermissionsChecker;
 
 /**
  * 占位符片段（配合panda_android_lib_placeholder使用）
@@ -35,6 +43,61 @@ public abstract class BaseFragment extends Fragment implements
 	private boolean isCanFinishActivity = false; //退出时是否需要销毁Activity，表示它是主Fragment
 	protected boolean isExitDoubleCheck = false;
 	protected long firstTime;
+
+	private PermissionsChecker mPermissionsChecker; // 权限检测器
+	private static final int PERMISSION_REQUEST_CODE = 0; // 系统权限管理页面的参数
+	private boolean isRequireCheck = true; // 是否需要进行权限检测
+
+
+	/** ----------------
+	 * START：外部关注的方法
+	 ** ---------------- */
+
+	/**
+	 * @return 返回布局id
+     */
+	public abstract int getLayoutId();
+
+	/**
+	 * @return  需要检测的权限列表
+	 */
+	public String[] getPermissions() {
+		return new String[]{
+		};
+	}
+
+	/**
+	 * 有权限缺失，需要提醒用户
+	 */
+	public void onShowMissingPermissionView() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle("帮助");
+		builder.setMessage(R.string.string_help_text);
+		builder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				isRequireCheck = true;
+			}
+		});
+		builder.setPositiveButton("设置", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				startAppSettings();
+			}
+		});
+		builder.setCancelable(false);
+		builder.show();
+	}
+
+	// 全部权限均已获取
+	public void onAllPermissionsGranted() {
+		Log.d(TAG, "全部权限均已获取");
+		isRequireCheck = false;
+	}
+
+	/** ----------------
+	 * END
+	 ** ---------------- */
 
 	/**
 	 * 设置初始化的参数
@@ -111,10 +174,9 @@ public abstract class BaseFragment extends Fragment implements
 			});
 		}
 		ButterFork.bind(this, view);
+		checkPermissions();
 		return view;
 	}
-
-	public abstract int getLayoutId();
 	
 	/**
 	 * 建议用butterknife来控制。
@@ -200,6 +262,7 @@ public abstract class BaseFragment extends Fragment implements
 	
 	public void onResume() {
 	    super.onResume();
+		checkPermissions();
 	    if(DEBUG)
 	    	Log.d(TAG, id + " onResume");
 	    if (isNeedPageStatistic()) {
@@ -325,5 +388,51 @@ public abstract class BaseFragment extends Fragment implements
 		}
 		return  null;
 	}
+
+	/**
+	 * 检查权限
+	 */
+	public void checkPermissions() {
+		if (isRequireCheck){
+			isRequireCheck = false;
+			mPermissionsChecker = new PermissionsChecker(getContext());// 权限检测器
+			if (mPermissionsChecker.lacksPermissions(getPermissions())) {
+				// 请求权限
+				requestPermissions(getPermissions(), PERMISSION_REQUEST_CODE);
+			}
+			else {
+				onAllPermissionsGranted();
+			}
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == PERMISSION_REQUEST_CODE && hasAllPermissionsGranted(grantResults)) {
+			onAllPermissionsGranted();
+		} else {
+			onShowMissingPermissionView();
+		}
+	}
+
+	// 是否含有的权限
+	private boolean hasAllPermissionsGranted(@NonNull int[] grantResults) {
+		for (int grantResult : grantResults) {
+			if (grantResult == PackageManager.PERMISSION_DENIED) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	// 启动应用的设置
+	protected void startAppSettings() {
+		Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+		intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
+		startActivity(intent);
+	}
+
 
 }
