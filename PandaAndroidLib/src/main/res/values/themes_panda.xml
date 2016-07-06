@@ -29,8 +29,7 @@
         <item name="searchViewStyle">@style/Widget.AppCompat.SearchView</item>
         <!-- overflow menu的样式 -->
         <item name="actionOverflowMenuStyle">@style/PandaTheme.OverflowMenuStyle</item>
-        <!-- listDivider的样式 -->
-        <item name="android:listDivider">@style/PandaTheme.DividerThin</item>
+
     </style>
 
     <style name="PandaTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
