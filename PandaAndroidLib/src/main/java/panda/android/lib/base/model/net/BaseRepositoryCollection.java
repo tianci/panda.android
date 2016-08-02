@@ -24,8 +24,11 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
 import panda.android.lib.R;
+import panda.android.lib.base.control.NetResultInfoEvent;
 import panda.android.lib.base.model.BaseModel;
+import panda.android.lib.base.model.NetResultInfo;
 import panda.android.lib.base.util.DevUtil;
 import panda.android.lib.base.util.FileUtil;
 import panda.android.lib.base.util.Log;
@@ -178,11 +181,19 @@ public class BaseRepositoryCollection {
         return url;
     }
 
-
+    /**
+     * 最基础的网络访问方法，所有的网络访问都必须调用此方法。
+     * @param request
+     * @param <T>
+     * @return
+     */
     public static <T> T executeBaseRequest(AbstractRequest request) {
         Response res = mLiteHttp.execute(request);
         Log.d(TAG, "accessNetwork, " + res.toString());
         Object netResult = res.getResult();
+        if (netResult instanceof NetResultInfo){
+            EventBus.getDefault().post(new NetResultInfoEvent((NetResultInfo) netResult));
+        }
         return (T) netResult;
     }
 

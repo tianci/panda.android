@@ -10,7 +10,9 @@ import panda.android.lib.base.util.DevUtil;
 
 /**
  * 简单的安全异步任务，仅仅指定返回结果的类型，不可输入参数（方便和调度器调度使用）
+ * 被废弃：以后的错误码的处理统一放在BaseApp里面（采用 EventBus 机制）
  */
+@Deprecated
 public abstract class SimpleSafeTaskWithTips<T extends NetResultInfo> extends SimpleSafeTask<T> {
     public SimpleSafeTaskWithTips(Context context) {
         super(context);

@@ -6,7 +6,12 @@ import android.app.Application;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import panda.android.lib.base.configuration.AppDirConfiguration;
+import panda.android.lib.base.control.NetResultInfoEvent;
+import panda.android.lib.base.model.NetResultInfo;
+import panda.android.lib.base.util.DevUtil;
+import panda.android.lib.base.util.Log;
 
 
 /**
@@ -28,9 +33,40 @@ public class BaseApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 		instance = this;
+
+		EventBus.getDefault().register(this);
 	}
 
-    // add Activity
+	public void onEventMainThread(NetResultInfoEvent e){
+		NetResultInfo result = e.getResult();
+		processNetResultInfo(result);
+	}
+
+	/**
+	 * 需要特殊处理的，请重载次方法
+	 * @param result
+     */
+	public void processNetResultInfo(NetResultInfo result) {
+		if(result == null){
+			Log.w(TAG, "网络错误");
+		}
+		else{
+			Log.d(TAG, result.getRespDesc());
+			switch (result.getRespCode()){
+				case NetResultInfo.NON_USER:
+					Log.w(TAG, "不是用户");
+					break;
+			}
+		}
+	}
+
+	@Override
+	public void onTerminate() {
+		super.onTerminate();
+		EventBus.getDefault().unregister(this);
+	}
+
+	// add Activity
 	public void addActivity(Activity activity) {
 		mList.add(activity);
 	}

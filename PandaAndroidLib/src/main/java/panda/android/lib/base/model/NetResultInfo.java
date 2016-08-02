@@ -3,10 +3,11 @@ package panda.android.lib.base.model;
 
 public class NetResultInfo extends BaseModel {
 	//由于机务段的接口成功值为1，此处需要特殊适配。
-	public static int RETURN_CODE_000000 = 0;	//成功
+	public final static int RETURN_CODE_000000 = 0;	//成功
 //	public final static int RETURN_CODE_000001 = 1;	//参数错误	提示服务端返回的描述信息
 //	public final static int RETURN_CODE_000002 = 2;	//数据库错误	提示服务端返回的描述信息
 //	public final static int RETURN_CODE_000003 = 3;	//内部错误	提示服务端返回的描述信息
+    public final static int NON_USER=110001;//不是用户
 	public final static int RETURN_CODE_999999 = 999999;	//其他错误	提示服务端返回的描述信息
 
 	
@@ -52,15 +53,23 @@ public class NetResultInfo extends BaseModel {
     private int returnCode = RETURN_CODE_999999;
     @Deprecated
     private String returnDesc = "其他错误";
+
+    @Deprecated
     public String getReturnDesc() {
         return returnDesc;
     }
+
+    @Deprecated
     public void setReturnDesc(String mReturnDesc) {
         returnDesc = mReturnDesc;
     }
+
+    @Deprecated
     public int getReturnCode() {
         return returnCode;
     }
+
+    @Deprecated
     public void setReturnCode(int mReturnCode) {
         returnCode = mReturnCode;
     }
