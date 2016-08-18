@@ -157,4 +157,14 @@ public class IntentUtil {
         Intent intent = new Intent(context, cls);
         context.bindService(intent, serviceCon, Context.BIND_AUTO_CREATE);
     }
+
+
+    /**
+     * 拨号页面
+     */
+    public static void gotoDialPhone(Context context,String phone){
+        Uri uri = Uri.parse("tel:" + phone);
+        Intent intent = new Intent(Intent.ACTION_DIAL, uri);
+        context.startActivity(intent);
+    }
 }

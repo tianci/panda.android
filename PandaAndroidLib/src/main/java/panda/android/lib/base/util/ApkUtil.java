@@ -122,9 +122,52 @@ public class ApkUtil {
 
     //跳转市场应用
     public static void gotoAppMarket(Context context, String appPackageName) {
-        Uri uri = Uri.parse("market://details?id="+appPackageName);
+        Uri uri = Uri.parse("market://details?id=" + appPackageName);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
+
+
+    /**
+     * 版本名
+     *
+     * @param context
+     * @return
+     */
+    public static String getVersionName(Context context) {
+        return getPackageInfo(context).versionName;
+    }
+
+    /**
+     * 版本号
+     *
+     * @param context
+     * @return
+     */
+    public static int getVersionCode(Context context) {
+        return getPackageInfo(context).versionCode;
+    }
+
+    /**
+     * 获取 应用PackageInfo
+     *
+     * @param context
+     * @return
+     */
+    private static PackageInfo getPackageInfo(Context context) {
+        PackageInfo pi = null;
+        try {
+            PackageManager pm = context.getPackageManager();
+            pi = pm.getPackageInfo(context.getPackageName(),
+                    PackageManager.GET_CONFIGURATIONS);
+
+            return pi;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return pi;
+    }
+
 }
