@@ -66,7 +66,6 @@ public abstract class ListNetFragment<O> extends BaseFragment {
                 swipeRefreshLayout,
                 (ListView) swipeRefreshLayout.findViewById(R.id.net_list),
                 new TestModel(-1, "-1"));
-
         return rootView;
     }
 
@@ -142,19 +141,15 @@ public abstract class ListNetFragment<O> extends BaseFragment {
         switch (state) {
             case ASK_ED_CANNOT_ACCESS:
                 showOnlyView(R.id.net_cannot_access, false);
-//                abnormalView.setText("无法访问网络");
                 break;
             case ASK_ED_FAIL:
                 showOnlyView(R.id.net_fail, false);
-//                abnormalView.setText("无法访问服务器");
                 break;
             case ASK_ED_ERROR:
                 showOnlyView(R.id.net_error, false);
-//                abnormalView.setText("请求参数错误");
                 break;
             case ASK_ED_EMPTY:
                 showOnlyView(R.id.net_no_result, false);
-//                abnormalView.setText("数据为空");
                 break;
         }
         return abnormalView;
@@ -196,23 +191,18 @@ public abstract class ListNetFragment<O> extends BaseFragment {
      * -------------------------
      */
 
-    @OnClick(B.id.net_no_result)
-    public void clickNetNoResult() {
 
+    public void clickNetNoResult() {
         mNetController.refresh();
     }
-
-    @OnClick(B.id.net_error)
     public void clickNetError() {
         mNetController.refresh();
     }
 
-    @OnClick(B.id.net_fail)
     public void clickNetFail() {
         mNetController.refresh();
     }
 
-    @OnClick(B.id.net_cannot_access)
     public void clickNetCannotAccess() {
         mNetController.refresh();
     }

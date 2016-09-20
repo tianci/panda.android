@@ -188,6 +188,11 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
         }
 
         @Override
+        public void loadNetData() {
+            super.loadNetData();
+        }
+
+        @Override
         protected boolean isEmpty(NetResultInfo result) {
             return false;
         }
