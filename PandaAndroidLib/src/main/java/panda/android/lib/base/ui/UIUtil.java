@@ -34,6 +34,7 @@ import panda.android.lib.base.util.TimeUtil;
 public class UIUtil {
 
     private static final String TAG = UIUtil.class.getSimpleName();
+    public static AbstractRequest upgradeRequest = null;
 
     public static void showDataTimePicker(Activity context, final TextView textView, final DialogInterface.OnDismissListener listener) {
         Calendar c = Calendar.getInstance();
@@ -123,8 +124,6 @@ public class UIUtil {
         }
     }
 
-
-    static AbstractRequest upgradeRequest = null;
 
     /**
      * 获取文件下载提示框
