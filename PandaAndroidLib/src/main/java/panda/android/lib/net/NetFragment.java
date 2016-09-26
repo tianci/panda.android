@@ -198,7 +198,7 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
         }
 
         @Override
-        protected void showData(BaseListModel.STATE state, T result) {
+        protected void showData(IListModel.STATE state, T result) {
             switch (state) {
                 case ASK_PRE:
                     break;
@@ -241,7 +241,7 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
     /**
      * 展示网络请求成功后的数据   包含为空的情况
      */
-    public void showSuccessData(BaseListModel.STATE state, T result){
+    public void showSuccessData(IListModel.STATE state, T result){
         showOnlyView(R.id.net_result, false);
         NetFragment.this.onDisplayResult(result);
     }

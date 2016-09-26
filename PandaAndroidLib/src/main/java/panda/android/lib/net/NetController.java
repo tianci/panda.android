@@ -5,8 +5,7 @@ import android.content.Context;
 import panda.android.lib.base.control.SimpleSafeTask;
 import panda.android.lib.base.model.NetResultInfo;
 import panda.android.lib.base.model.net.BaseRepositoryCollection;
-import panda.android.lib.base.util.Log;
-import panda.android.lib.net.BaseListModel.STATE;
+import panda.android.lib.net.IListModel.STATE;
 
 /**
  * Created by shitianci on 16/8/23.

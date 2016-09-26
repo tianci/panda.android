@@ -1,13 +1,11 @@
 package panda.android.lib.net;
 
-import panda.android.lib.base.model.BaseModel;
-
 /**
  * Created by shitianci on 16/8/24.
  */
-public class BaseListModel extends BaseModel {
+public interface IListModel {
 
-    public enum STATE {
+    enum STATE {
         ASK_PRE(-3), // 请求前
         ASK_ING(-2), // 请求中，有两种情形不会进入这种状态：1. 上一个网络请求还在进行中；2. 手机网络没有打开
         ASK_ED(-1), // 请求结束
@@ -24,6 +22,7 @@ public class BaseListModel extends BaseModel {
         }
     }
 
-    public BaseListModel.STATE state = STATE.ASK_ED_AVAILABILITY;
+    IListModel.STATE state = STATE.ASK_ED_AVAILABILITY;
 
+    STATE getState();
 }

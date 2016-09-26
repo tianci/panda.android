@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import butterfork.OnClick;
-import panda.android.lib.B;
 import panda.android.lib.R;
 import panda.android.lib.base.model.ListNetResultInfo;
 import panda.android.lib.base.ui.fragment.BaseFragment;
@@ -21,8 +19,8 @@ import panda.android.lib.base.util.Log;
  * Created by admin on 2016/9/20.
  */
 public abstract class ListNetFragment<O> extends BaseFragment {
-
     private static final String TAG = ListNetFragment.class.getSimpleName();
+    public View headView;
     public ListNetController mNetController; //网络加载控制器
 
 
@@ -49,9 +47,9 @@ public abstract class ListNetFragment<O> extends BaseFragment {
             R.string.net_cannot_access}; //无法访问网络
 
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.panda_net_list_layout;
+    //头布局Id
+    public int getHeadLayoutId() {
+        return 0;
     }
 
 
@@ -64,8 +62,13 @@ public abstract class ListNetFragment<O> extends BaseFragment {
 
         mNetController = new MyListNetController(getActivity(),
                 swipeRefreshLayout,
-                (ListView) swipeRefreshLayout.findViewById(R.id.net_list),
-                new TestModel(-1, "-1"));
+                (ListView) swipeRefreshLayout.findViewById(R.id.net_list));
+
+        if (getHeadLayoutId() != 0) {
+            headView = View.inflate(getContext(), getLayoutId(), null);
+            mNetController.addHeadView(headView);
+        }
+        mNetController.setListAdapter();
         return rootView;
     }
 
@@ -82,6 +85,10 @@ public abstract class ListNetFragment<O> extends BaseFragment {
             return null;
         }
         return (O) mNetController.mDataAdapter.getItem(position);
+    }
+
+    public View getHeadView() {
+        return headView;
     }
 
 
@@ -137,7 +144,7 @@ public abstract class ListNetFragment<O> extends BaseFragment {
      * @param state
      * @return
      */
-    public View getAbnormalView(BaseListModel.STATE state) {
+    public View getAbnormalView(IListModel.STATE state) {
         switch (state) {
             case ASK_ED_CANNOT_ACCESS:
                 showOnlyView(R.id.net_cannot_access, false);
@@ -195,6 +202,7 @@ public abstract class ListNetFragment<O> extends BaseFragment {
     public void clickNetNoResult() {
         mNetController.refresh();
     }
+
     public void clickNetError() {
         mNetController.refresh();
     }
@@ -208,15 +216,20 @@ public abstract class ListNetFragment<O> extends BaseFragment {
     }
 
 
-    public class MyListNetController extends ListNetController {
-        public MyListNetController(Context context, SwipeRefreshLayout swipeRefreshLayout, ListView listView, BaseListModel abnormalData) {
-            super(context, swipeRefreshLayout, listView, abnormalData);
+    public class MyListNetController extends ListNetController<O> {
+        public MyListNetController(Context context, SwipeRefreshLayout swipeRefreshLayout, ListView listView) {
+            super(context, swipeRefreshLayout, listView);
         }
 
         @Override
         protected ListNetResultInfo onDoInBackgroundSafely() {
             return super.onDoInBackgroundSafely();
 
+        }
+
+        @Override
+        protected O getErrItem(IListModel.STATE state) {
+            return ListNetFragment.this.getErrItem(state);
         }
 
         @Override
@@ -240,11 +253,13 @@ public abstract class ListNetFragment<O> extends BaseFragment {
         }
 
         @Override
-        public View getAbnormalView(BaseListModel.STATE state) {
+        public View getAbnormalView(IListModel.STATE state) {
             return ListNetFragment.this.getAbnormalView(state);
         }
 
     }
+
+    protected abstract O getErrItem(IListModel.STATE state);
 
 
     /**
@@ -289,7 +304,6 @@ public abstract class ListNetFragment<O> extends BaseFragment {
      * END
      * -------------------------
      */
-
 
 
 }

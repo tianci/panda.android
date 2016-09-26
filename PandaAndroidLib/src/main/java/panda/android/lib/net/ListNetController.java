@@ -19,10 +19,10 @@ import panda.android.lib.base.util.Log;
 
 /**
  * Created by shitianci on 16/8/23.
- *
+ * <p/>
  * 用于处理列表的 下拉刷新和加载更多的网络 控制逻辑
  */
-public abstract class ListNetController<O extends BaseListModel> extends NetController<ListNetResultInfo<O>> {
+public abstract class ListNetController<O> extends NetController<ListNetResultInfo<O>> {
     private String TAG = ListNetController.class.getSimpleName();
     private int mStartIndex = 0;
     private int mPageSize = 10;
@@ -36,7 +36,7 @@ public abstract class ListNetController<O extends BaseListModel> extends NetCont
     private final SwipeRefreshLayout mSwipeRefreshLayout;
     private SwipeRefreshHelper mSwipeRefreshHelper;
     private final ListView mListView;
-    private final O mMockData; //用于模拟不正常的数据
+    private final IListModel mMockData; //用于模拟不正常的数据
     public DataAdapter mDataAdapter = null;
     Type type = Type.REFRESH;
 
@@ -51,7 +51,7 @@ public abstract class ListNetController<O extends BaseListModel> extends NetCont
      * @param listView           列表布局
      * @param abnormalData       异常数据，上层new一个即可。
      */
-    public ListNetController(Context context, SwipeRefreshLayout swipeRefreshLayout, ListView listView, O abnormalData) {
+    public ListNetController(Context context, SwipeRefreshLayout swipeRefreshLayout, ListView listView, IListModel abnormalData) {
         super(context);
         mSwipeRefreshLayout = swipeRefreshLayout;
         mListView = listView;
@@ -69,7 +69,7 @@ public abstract class ListNetController<O extends BaseListModel> extends NetCont
 
     @Override
     public void loadNetData() {
-        if (loadingNetData){
+        if (loadingNetData) {
             mSwipeRefreshHelper.refreshComplete();
             return;
         }
@@ -210,7 +210,8 @@ public abstract class ListNetController<O extends BaseListModel> extends NetCont
      * @param result
      */
     @Override
-    protected void showData(BaseListModel.STATE state, ListNetResultInfo<O> result) {
+    protected void showData(IListModel.STATE state, ListNetResultInfo<O> result) {
+        android.util.Log.d(TAG, "showData: " + state.value);
         switch (state) {
             case ASK_PRE:
                 break;
@@ -243,15 +244,15 @@ public abstract class ListNetController<O extends BaseListModel> extends NetCont
     /**
      * “异常数据” View和数据的控制
      */
-    private void showErrorView(BaseListModel.STATE state) {
+    private void showErrorView(IListModel.STATE state) {
         switch (type) {
             case REFRESH:
                 if (mAllDataList.isEmpty()) {
                     mDataAdapter.clear();
                     if (mDataAdapter.getCount() == 0) {
+                        android.util.Log.d(TAG, "showErrorView: " + state.value);
                         //显示虚拟布局
-                        mMockData.state = state;
-                        mDataAdapter.add(mMockData);
+                        mDataAdapter.add(getErrItem(state));
                         mSwipeRefreshHelper.setLoadMoreEnable(false);
                     }
                 }
@@ -259,17 +260,20 @@ public abstract class ListNetController<O extends BaseListModel> extends NetCont
         }
     }
 
+
+    //获取一个错误数据项
+    protected abstract O getErrItem(IListModel.STATE state);
+
     /**
      * “空数据” View和数据的控制
      */
-    private void showEmptyView(BaseListModel.STATE state) {
+    private void showEmptyView(IListModel.STATE state) {
         switch (type) {
             case REFRESH:
                 mDataAdapter.clear();
                 if (mDataAdapter.getCount() == 0) {
                     //显示虚拟布局
-                    mMockData.state = state;
-                    mDataAdapter.add(mMockData);
+                    mDataAdapter.add(getErrItem(state));
                     mSwipeRefreshHelper.setLoadMoreEnable(false);
                 }
                 break;
@@ -344,30 +348,41 @@ public abstract class ListNetController<O extends BaseListModel> extends NetCont
         public View getView(int position, View convertView, ViewGroup parent) {
             O item = getItem(position);
             View result;
-            switch (item.state) {
-                case ASK_ED_CANNOT_ACCESS:
-                case ASK_ED_FAIL:
-                case ASK_ED_ERROR:
-                case ASK_ED_EMPTY:
-                    result = getAbnormalView(item.state);
-                    break;
-                case ASK_ED_AVAILABILITY:
-                default:
-                    result = bindView(position, super.getView(position, convertView, parent), parent);
-                    break;
+            if (item instanceof IListModel) {
+                IListModel.STATE state = ((IListModel) item).getState();
+                android.util.Log.d(TAG, "getView: " + state.value);
+                switch (state) {
+                    case ASK_ED_CANNOT_ACCESS:
+                    case ASK_ED_FAIL:
+                    case ASK_ED_ERROR:
+                    case ASK_ED_EMPTY:
+                        result = getAbnormalView(state);
+                        break;
+                    case ASK_ED_AVAILABILITY:
+                    default:
+                        result = bindView(position, super.getView(position, convertView, parent), parent);
+                        break;
+                }
+            } else {
+                result = bindView(position, super.getView(position, convertView, parent), parent);
             }
             return result;
         }
 
         @Override
         public int getViewTypeCount() {
-            return BaseListModel.STATE.ASK_ED_AVAILABILITY.value + 1;
+            return IListModel.STATE.ASK_ED_AVAILABILITY.value + 1;
         }
 
         @Override
         public int getItemViewType(int position) {
             O item = getItem(position);
-            return item.state.value;
+            int result = IListModel.STATE.ASK_ED_AVAILABILITY.value;
+            if (item instanceof IListModel) {
+                IListModel.STATE state = ((IListModel) item).getState();
+                result = state.value;
+            }
+            return result;
         }
     }
 
@@ -380,7 +395,7 @@ public abstract class ListNetController<O extends BaseListModel> extends NetCont
      * @param state
      * @return
      */
-    public View getAbnormalView(BaseListModel.STATE state) {
+    public View getAbnormalView(IListModel.STATE state) {
         switch (state) {
             case ASK_ED_CANNOT_ACCESS:
                 abnormalView.setText("无法访问网络");
