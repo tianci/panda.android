@@ -7,48 +7,48 @@ import android.view.MotionEvent;
 
 public class BaseViewPager extends ViewPager {
 
-	private boolean isCanScroll = true;
+    private boolean isCanScroll = true;
 
-	public BaseViewPager(Context context) {
-		super(context);
-	}
+    public BaseViewPager(Context context) {
+        super(context);
+    }
 
-	public BaseViewPager(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+    public BaseViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-//	@Override
-//	public void scrollTo(int x, int y) {
-//		if (isCanScroll) {
-//			super.scrollTo(x, y);
-//		}
-//	}
+    // 触摸没有反应就可以了
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        try {
+            if (isCanScroll) {
+                return super.onTouchEvent(event);
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-	// 触摸没有反应就可以了
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (isCanScroll) {
-			return super.onTouchEvent(event);
-		}
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        try {
+            if (isCanScroll) {
+                if (getChildCount() > 0) {
+                    if (getParent() != null) {
+                        getParent().requestDisallowInterceptTouchEvent(true);
+                    }
+                }
+                return super.onInterceptTouchEvent(event);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-		return false;
-	}
-
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent event) {
-		if (isCanScroll) {
-	    	 if(getChildCount()>0){
-	             if (getParent() != null) {           
-	             	getParent().requestDisallowInterceptTouchEvent(true);
-	             }
-	     	 }
-	         return super.onInterceptTouchEvent(event);
-		}
-
-		return false;
-	}
-
-	public void setPagingEnabled(boolean b) {
-		isCanScroll = b;
-	}
+    public void setPagingEnabled(boolean b) {
+        isCanScroll = b;
+    }
 }

@@ -1,30 +1,5 @@
 package panda.android.demo.view;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterfork.Bind;
-import butterfork.ButterFork;
-import panda.android.demo.B;
-import panda.android.demo.R;
-import panda.android.demo.model.ChannelModel;
-import panda.android.demo.model.ChannelModelsNetResultInfo;
-import panda.android.demo.model.RtspModel;
-import panda.android.lib.base.model.ListNetResultInfo;
-import panda.android.lib.base.ui.fragment.ListNetFragment;
-import panda.android.lib.base.util.DevUtil;
-import panda.android.lib.base.util.Log;
 import panda.android.lib.commonapp.DeviceInfoFragment;
 
 /**

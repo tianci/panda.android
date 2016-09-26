@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import panda.android.lib.R;
 import panda.android.lib.base.ui.fragment.BaseActivityWithExtrasData;
@@ -19,7 +20,7 @@ import panda.android.lib.base.ui.fragment.BaseFragment;
  */
 public class IntentUtil {
 
-    public interface IStartInent{
+    public interface IStartInent {
         void onCannotFindCommpent();
     }
 
@@ -52,6 +53,7 @@ public class IntentUtil {
 
     /**
      * 调用系统组件打开文件
+     *
      * @param context
      * @param file
      */
@@ -66,6 +68,7 @@ public class IntentUtil {
 
     /**
      * 发出相应的Intent
+     *
      * @param context
      * @param mIntent
      */
@@ -75,14 +78,14 @@ public class IntentUtil {
 
     /**
      * 发出相应的Intent
+     *
      * @param context
      * @param mIntent
      */
     public static void startActivity(Context context, Intent mIntent, String errInfo) {
         try {
             context.startActivity(mIntent);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             DevUtil.showInfo(context, errInfo);
         }
@@ -90,14 +93,14 @@ public class IntentUtil {
 
     /**
      * 发出相应的Intent
+     *
      * @param context
      * @param mIntent
      */
     public static void startActivity(Context context, Intent mIntent, IStartInent iStartInent) {
         try {
             context.startActivity(mIntent);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             iStartInent.onCannotFindCommpent();
         }
@@ -106,6 +109,7 @@ public class IntentUtil {
 
     /**
      * 发出相应的Intent
+     *
      * @param context
      * @param mIntent
      */
@@ -115,14 +119,14 @@ public class IntentUtil {
 
     /**
      * 发出相应的Intent
+     *
      * @param context
      * @param mIntent
      */
     public static void startActivityForResult(BaseFragment context, Intent mIntent, int requestCode, String errInfo) {
         try {
             context.startActivityForResult(mIntent, requestCode);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             DevUtil.showInfo(context.getActivity(), errInfo);
         }
@@ -130,6 +134,7 @@ public class IntentUtil {
 
     /**
      * 打印Intent的数据
+     *
      * @param intent
      */
     public static String getIntentInfo(Intent intent) {
@@ -137,13 +142,11 @@ public class IntentUtil {
         sb.append("IntentInfo: ");
         try {
             Bundle bundle = intent.getExtras();
-            for (String key: bundle.keySet())
-            {
-                sb.append(key + ":" +bundle.get(key) + ";");
+            for (String key : bundle.keySet()) {
+                sb.append(key + ":" + bundle.get(key) + ";");
             }
 //            Log.i(TAG, sb.toString());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
         }
         return sb.toString();
     }
@@ -162,9 +165,24 @@ public class IntentUtil {
     /**
      * 拨号页面
      */
-    public static void gotoDialPhone(Context context,String phone){
+    public static void gotoDialPhone(Context context, String phone) {
         Uri uri = Uri.parse("tel:" + phone);
         Intent intent = new Intent(Intent.ACTION_DIAL, uri);
         context.startActivity(intent);
     }
+
+    /**
+     * 原生的分享图片
+     */
+    public static void shareImages(Context context, ArrayList<Uri> uriList) {
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uriList);
+        shareIntent.setType("image/*");
+//        context.startActivity(Intent.createChooser(shareIntent, "成长记忆"));
+        context.startActivity(shareIntent);
+    }
+
 }

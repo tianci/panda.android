@@ -72,7 +72,7 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'cn.bingoogolapple:bga-refreshlayout:1.1.0@aar'
     compile 'com.android.support:recyclerview-v7:23.0.+'
-    compile 'com.chanven.lib:cptr:1.0.0'
+    compile 'com.chanven.lib:cptr:1.1.0'
 }
 
 //buildscript{

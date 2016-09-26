@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -32,23 +34,22 @@ import panda.android.lib.base.util.TimeUtil;
 public class UIUtil {
 
     private static final String TAG = UIUtil.class.getSimpleName();
+    public static AbstractRequest upgradeRequest = null;
 
-    public static void showDataTimePicker(Activity context, final TextView textView, final DialogInterface.OnDismissListener listener){
+    public static void showDataTimePicker(Activity context, final TextView textView, final DialogInterface.OnDismissListener listener) {
         Calendar c = Calendar.getInstance();
         long time = 0;
         try {
             String strTime = textView.getText().toString();
             time = TimeUtil.stringToLong(strTime, TimeUtil.FORMAT_DATE_TIME);
-            if(time != 0){
+            if (time != 0) {
                 c.setTimeInMillis(time);
-            }
-            else{
+            } else {
                 time = System.currentTimeMillis();
             }
+        } catch (Exception e) {
         }
-        catch (Exception e){
-        }
-        DateTimePickDialogUtil dateTimePicker=new DateTimePickDialogUtil(context,time);
+        DateTimePickDialogUtil dateTimePicker = new DateTimePickDialogUtil(context, time);
         dateTimePicker.dateTimePickDialog(textView, listener);
         return;
     }
@@ -124,15 +125,13 @@ public class UIUtil {
     }
 
 
-    static AbstractRequest upgradeRequest = null;
-
     /**
      * 获取文件下载提示框
      *
      * @param context
-     * @param url 下载地址
+     * @param url         下载地址
      * @param description 描述信息
-     * @param filePath 保存路径
+     * @param filePath    保存路径
      * @return
      */
     private static Dialog getFileDownloadDlg(final Context context, final String url, final String description, final String filePath, final String title, final String leftBtnText, final String rigthBtnText) {
@@ -233,25 +232,151 @@ public class UIUtil {
         return dialog;
     }
 
+
+    /**
+     * 获取Apk文件下载提示框
+     *
+     * @param context
+     * @param url         下载地址
+     * @param description 描述信息
+     * @param filePath    保存路径
+     * @return
+     */
+    public static Dialog getApkDownloadDlg(final Context context, final String url, final String description, final String filePath) {
+        return getApkDownloadDlg(context, url, description, filePath, "文件下载", "立刻下载", "稍后在说");
+    }
+
+    /**
+     * 获取Apk文件下载提示框
+     *
+     * @param context
+     * @param url         下载地址
+     * @param description 描述信息
+     * @param filePath    保存路径
+     * @return
+     */
+    private static Dialog getApkDownloadDlg(final Context context, final String url, final String description, final String filePath, final String title, final String leftBtnText, final String rigthBtnText) {
+        Log.d(TAG, "url = " + url);
+        Log.d(TAG, "description = " + description);
+        Log.d(TAG, "filePath = " + filePath);
+        final View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_progress, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title)
+                .setMessage(description)
+                .setView(contentView)
+                .setCancelable(false);
+        final Dialog dialog = builder.create();
+
+        final DialogProgressViewHolder DialogProgressViewHolder = new DialogProgressViewHolder(contentView);
+        DialogProgressViewHolder.mFlProgress.setVisibility(View.INVISIBLE);
+        DialogProgressViewHolder.mBtnOk.setText(leftBtnText);
+        DialogProgressViewHolder.mBtnCancel.setText(rigthBtnText);
+        DialogProgressViewHolder.mBtnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (upgradeRequest != null) {
+                    DevUtil.showInfo(context, "正在下载中……");
+                    return;
+                }
+                if (!BaseRepositoryCollection.tryToDetectNetwork(context)) {
+                    return;
+                }
+                DialogProgressViewHolder.mFlProgress.setVisibility(View.VISIBLE);
+                BaseRepositoryCollection.executeFileRequestAsync(url, filePath,
+                        new BaseRepositoryCollection.HttpListener<File>(context, null, true, true, false) {
+
+                            @Override
+                            public void onStart(AbstractRequest<File> request) {
+                                super.onStart(request);
+                                Log.d(TAG, "onStart, ");
+                                upgradeRequest = request;
+                            }
+
+                            @Override
+                            public void onLoading(AbstractRequest<File> request, long total, long len) {
+                                super.onLoading(request, total, len);
+                                upgradeRequest = request;
+                                Log.d(TAG, "onLoading, total = " + total + ", len = " + len);
+                                DialogProgressViewHolder.mProgressBar.setMax((int) total);
+                                DialogProgressViewHolder.mProgressBar.setProgress((int) len);
+                                DialogProgressViewHolder.mProgressBarInfo.setText(String.format("正在下载%.0f%%", len * 100.0f / total * 1.0f));
+                            }
+
+                            @Override
+                            public void onSuccess(File data, Response<File> response) {
+                                super.onSuccess(data, response);
+                                dialog.dismiss();
+                                upgradeRequest = null;
+
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //android4.0以后需要添加这行代码
+                                intent.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
+                                context.startActivity(intent);
+                            }
+
+                            @Override
+                            public void onEnd(Response<File> response) {
+                                super.onEnd(response);
+                                upgradeRequest = null;
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(HttpException e, Response<File> response) {
+                                super.onFailure(e, response);
+                                upgradeRequest = null;
+                            }
+
+                            @Override
+                            public void onCancel(File data, Response<File> response) {
+                                super.onCancel(data, response);
+                                upgradeRequest = null;
+                            }
+                        });
+            }
+        });
+        DialogProgressViewHolder.mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (upgradeRequest != null) {
+                    upgradeRequest.cancel();
+                    upgradeRequest = null;
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (upgradeRequest != null) {
+                    upgradeRequest.cancel();
+                    upgradeRequest = null;
+                }
+            }
+        });
+        return dialog;
+    }
+
     /**
      * 获取文件下载提示框
      *
      * @param context
-     * @param url 下载地址
+     * @param url         下载地址
      * @param description 描述信息
-     * @param filePath 保存路径
+     * @param filePath    保存路径
      * @return
      */
     public static Dialog getFileDownloadDlg(final Context context, final String url, final String description, final String filePath) {
         return getFileDownloadDlg(context, url, description, filePath, "文件下载", "立刻下载", "稍后在说");
     }
+
     /**
      * 获取升级提示框
      *
      * @param context
-     * @param url 下载地址
+     * @param url         下载地址
      * @param description 描述信息
-     * @param filePath 文件下载路径
+     * @param filePath    文件下载路径
      * @return
      */
     public static Dialog getUpgradeDlg(final Context context, final String url, final String description, final String filePath) {
