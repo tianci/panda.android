@@ -67,6 +67,15 @@ public abstract class ListNetController<O extends BaseListModel> extends NetCont
     }
 
 
+    @Override
+    public void loadNetData() {
+        if (loadingNetData){
+            mSwipeRefreshHelper.refreshComplete();
+            return;
+        }
+        super.loadNetData();
+    }
+
     /**
      * 加载网络数据
      */
@@ -295,6 +304,7 @@ public abstract class ListNetController<O extends BaseListModel> extends NetCont
                 if (mPageSize > list.size()) {
                     isLoadedAllNetData = true;
                     mSwipeRefreshHelper.setNoMoreData();
+                    mSwipeRefreshHelper.setLoadMoreEnable(false);
                 } else {
                     isLoadedAllNetData = false;
                 }

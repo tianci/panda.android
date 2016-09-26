@@ -17,12 +17,13 @@ public class BaseListModel extends BaseModel {
         ASK_ED_EMPTY(3), //数据为空；
         ASK_ED_AVAILABILITY(4),; //获取到有效数据
 
-        final int value;
-        STATE(int i) {
+        public final int value;
+
+         STATE(int i) {
             value = i;
         }
     }
 
-    BaseListModel.STATE state = STATE.ASK_ED_AVAILABILITY;
+    public BaseListModel.STATE state = STATE.ASK_ED_AVAILABILITY;
 
 }
