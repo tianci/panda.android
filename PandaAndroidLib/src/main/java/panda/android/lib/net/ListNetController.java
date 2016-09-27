@@ -120,8 +120,8 @@ public abstract class ListNetController<O> extends NetController<ListNetResultIn
             e.printStackTrace();
         }
 
-        mSwipeRefreshHelper.setLoadMoreEnable(true);
-        mSwipeRefreshHelper.setAutoLoadMoreEnable(true);
+//        mSwipeRefreshHelper.setLoadMoreEnable(true);
+//        mSwipeRefreshHelper.setAutoLoadMoreEnable(true);
 
         mSwipeRefreshHelper.setOnSwipeRefreshListener(new SwipeRefreshHelper.OnSwipeRefreshListener() {
             @Override
@@ -253,6 +253,7 @@ public abstract class ListNetController<O> extends NetController<ListNetResultIn
                         android.util.Log.d(TAG, "showErrorView: " + state.value);
                         //显示虚拟布局
                         mDataAdapter.add(getErrItem(state));
+                        mDataAdapter.notifyDataSetChanged();
                         mSwipeRefreshHelper.setLoadMoreEnable(false);
                     }
                 }

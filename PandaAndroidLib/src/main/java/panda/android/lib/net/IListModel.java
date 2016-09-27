@@ -22,7 +22,7 @@ public interface IListModel {
         }
     }
 
-    IListModel.STATE state = STATE.ASK_ED_AVAILABILITY;
+//    IListModel.STATE state = STATE.ASK_ED_AVAILABILITY;
 
     STATE getState();
 }

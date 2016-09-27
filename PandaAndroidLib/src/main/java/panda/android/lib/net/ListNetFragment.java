@@ -56,13 +56,19 @@ public abstract class ListNetFragment<O> extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.net_result);
+        final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.net_result);
         abnormalView = new TextView(getContext());
         initAbnormalView(); //初始化异常界面的布局
 
         mNetController = new MyListNetController(getActivity(),
                 swipeRefreshLayout,
                 (ListView) swipeRefreshLayout.findViewById(R.id.net_list));
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mNetController.refresh();
+            }
+        });
 
         if (getHeadLayoutId() != 0) {
             headView = View.inflate(getContext(), getLayoutId(), null);
@@ -75,7 +81,7 @@ public abstract class ListNetFragment<O> extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mNetController.refresh();
+//        mNetController.refresh();
 
     }
 

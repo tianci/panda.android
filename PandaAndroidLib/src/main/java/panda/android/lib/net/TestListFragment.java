@@ -20,7 +20,7 @@ public class TestListFragment extends ListNetFragment<TestModel> {
     }
 
     @Override
-    protected TestModel getErrItem(IListModel.STATE state) {
+    protected TestModel getErrItem(final IListModel.STATE state) {
         Log.d(TAG, "getErrItem: " + state.value);
         TestModel testModel = new TestModel(1, "2") {
             @Override
@@ -33,7 +33,12 @@ public class TestListFragment extends ListNetFragment<TestModel> {
 
     @Override
     protected ListNetResultInfo<TestModel> onDoInBackgroundSafely(int startIndex, int pageSize) {
-        return TestModel.getListNetResultInfo(0);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return TestModel.getListNetResultInfo(pageSize);
     }
 
     @Override

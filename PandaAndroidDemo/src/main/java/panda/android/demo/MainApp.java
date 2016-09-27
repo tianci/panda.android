@@ -8,6 +8,7 @@ import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
+import panda.android.lib.Manager.CrashHandler;
 import panda.android.lib.base.configuration.UniversalImageLoaderConfiguration;
 import panda.android.lib.commonapp.push.IPushInterface;
 import panda.android.lib.base.BaseApp;
@@ -73,5 +74,7 @@ public class MainApp extends BaseApp {
                 JPushInterface.stopPush(context);
             }
         };
+
+
     }
 }
