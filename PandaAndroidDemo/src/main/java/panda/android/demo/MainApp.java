@@ -9,7 +9,9 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import panda.android.lib.Manager.CrashHandler;
+import panda.android.lib.base.configuration.LiteHttpConfiguration;
 import panda.android.lib.base.configuration.UniversalImageLoaderConfiguration;
+import panda.android.lib.base.model.net.BaseRepositoryCollection;
 import panda.android.lib.commonapp.push.IPushInterface;
 import panda.android.lib.base.BaseApp;
 import panda.android.lib.base.util.IntentUtil;
@@ -40,6 +42,8 @@ public class MainApp extends BaseApp {
         super.onCreate();
 
         UniversalImageLoaderConfiguration.configure(getApplicationContext(), R.drawable.banner);
+        LiteHttpConfiguration.configure(getApplicationContext());//网络请求
+
 
         iPushInterface = new IPushInterface() {
             @Override

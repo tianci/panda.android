@@ -55,6 +55,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile fileTree(dir: 'libs-jpush', include: ['*.jar'])
     compile project(':PandaAndroidLib')
-
+    compile 'com.jakewharton:disklrucache:2.0.2'
     apt 'com.oguzbabaoglu:butterfork-compiler:1.0.0'
 }

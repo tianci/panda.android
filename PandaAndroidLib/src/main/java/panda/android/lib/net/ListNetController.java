@@ -247,16 +247,7 @@ public abstract class ListNetController<O> extends NetController<ListNetResultIn
     private void showErrorView(IListModel.STATE state) {
         switch (type) {
             case REFRESH:
-                if (mAllDataList.isEmpty()) {
-                    mDataAdapter.clear();
-                    if (mDataAdapter.getCount() == 0) {
-                        android.util.Log.d(TAG, "showErrorView: " + state.value);
-                        //显示虚拟布局
-                        mDataAdapter.add(getErrItem(state));
-                        mDataAdapter.notifyDataSetChanged();
-                        mSwipeRefreshHelper.setLoadMoreEnable(false);
-                    }
-                }
+
                 break;
         }
     }
