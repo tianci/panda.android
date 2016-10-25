@@ -73,7 +73,6 @@ import panda.android.lib.base.util.Log;
  */
 public class BaseRepositoryCollection {
     private static final String TAG = BaseRepositoryCollection.class.getSimpleName();
-    public static final String NET_ERR_TIPS = "网络连接失败，请稍后重试";
 
     public static LiteHttp getLiteHttp() {
         return mLiteHttp;
@@ -89,7 +88,6 @@ public class BaseRepositoryCollection {
         Network.NetType type = null;
         type = Network.getConnectedType(context);
         if (type == Network.NetType.None) {
-            DevUtil.showInfo(context, NET_ERR_TIPS);
             return false;
         }
         return true;

@@ -243,23 +243,23 @@ public class UIUtil {
      * @return
      */
     public static Dialog getApkDownloadDlg(final Context context, final String url, final String description, final String filePath) {
-        return getApkDownloadDlg(context, url, description, filePath, "文件下载", "立刻下载", "稍后在说");
+        return getApkDownloadDlg(context, R.layout.dialog_progress, url, description, filePath, "文件下载", "立刻下载", "稍后在说");
     }
 
     /**
      * 获取Apk文件下载提示框
      *
      * @param context
+     * @param layoutId
      * @param url         下载地址
      * @param description 描述信息
-     * @param filePath    保存路径
-     * @return
+     * @param filePath    保存路径    @return
      */
-    private static Dialog getApkDownloadDlg(final Context context, final String url, final String description, final String filePath, final String title, final String leftBtnText, final String rigthBtnText) {
+    private static Dialog getApkDownloadDlg(final Context context, int layoutId, final String url, final String description, final String filePath, final String title, final String leftBtnText, final String rigthBtnText) {
         Log.d(TAG, "url = " + url);
         Log.d(TAG, "description = " + description);
         Log.d(TAG, "filePath = " + filePath);
-        final View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_progress, null);
+        final View contentView = LayoutInflater.from(context).inflate(layoutId, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title)
                 .setMessage(description)

@@ -3,6 +3,7 @@ package panda.android.lib.base.control;
 import android.app.Dialog;
 import android.content.Context;
 
+import panda.android.lib.R;
 import panda.android.lib.base.model.NetResultInfo;
 import panda.android.lib.base.model.net.BaseRepositoryCollection;
 import panda.android.lib.base.util.DevUtil;
@@ -26,7 +27,7 @@ public abstract class SimpleSafeTaskWithTips<T extends NetResultInfo> extends Si
     protected void onPostExecuteSafely(T result, Exception e) {
         super.onPostExecuteSafely(result, e);
         if (result == null) {
-            DevUtil.showInfo(getContext(), BaseRepositoryCollection.NET_ERR_TIPS);
+            DevUtil.showInfo(getContext(), getContext().getResources().getString(R.string.net_cannot_access));
             return;
         }
 
