@@ -88,6 +88,7 @@ public class BaseRepositoryCollection {
         Network.NetType type = null;
         type = Network.getConnectedType(context);
         if (type == Network.NetType.None) {
+            EventBus.getDefault().post(new NetResultInfoEvent(null));
             return false;
         }
         return true;
