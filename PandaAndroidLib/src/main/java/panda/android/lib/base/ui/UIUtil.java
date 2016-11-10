@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import com.litesuits.http.response.Response;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.List;
 
 import butterfork.ButterFork;
 import panda.android.lib.R;
@@ -30,6 +32,7 @@ import panda.android.lib.base.util.TimeUtil;
 
 /**
  * 生成一些常用修饰性view模块，如 加载进度框、 升级框、下载框
+ * todo 用DialogFragment来实现升级框等功能。
  */
 public class UIUtil {
 
@@ -53,6 +56,7 @@ public class UIUtil {
         dateTimePicker.dateTimePickDialog(textView, listener);
         return;
     }
+
 
     /**
      * 获取加载进度框
@@ -381,6 +385,35 @@ public class UIUtil {
      */
     public static Dialog getUpgradeDlg(final Context context, final String url, final String description, final String filePath) {
         return getFileDownloadDlg(context, url, description, filePath, "升级提示", "立刻升级", "稍后再说");
+    }
+
+    public interface IContentGetter {
+        String getContent(Object o);
+    }
+    
+    /**
+     * 向指定的容器填充布局文件
+     * TODO: 可以利用adapter机制统一替换
+     * @param viewGroup
+     * @param inflater
+     * @param layoutId
+     * @param data
+     * @param listener
+     * @param contentGetter
+     */
+    public static void addViewsToLinearLayout(ViewGroup viewGroup, LayoutInflater inflater, int layoutId,
+                                              List data, final View.OnClickListener listener, IContentGetter contentGetter) {
+        viewGroup.removeAllViews();
+        for (int i = 0; i < data.size(); i++){
+            ViewGroup child = (ViewGroup) inflater.inflate(layoutId, null);
+            TextView tv = (TextView) child.getChildAt(0);
+            Object model = data.get(i);
+            tv.setText(contentGetter.getContent(model));
+            child.setTag(model);
+            child.setOnClickListener(listener);
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            viewGroup.addView(child, params);
+        }
     }
 
 }

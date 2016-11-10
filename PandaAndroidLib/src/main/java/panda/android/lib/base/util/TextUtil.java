@@ -9,7 +9,26 @@ import java.util.regex.Pattern;
 
 public class TextUtil
 {
-	private static DecimalFormat sDecFmt = new DecimalFormat("#0.00");
+    private static DecimalFormat sDecFmt = new DecimalFormat("#0.00");
+    
+    /**
+     * 安全地获取某个值，为null则返回""
+     * @param s
+     * @return
+     */
+    public static String getString(String s){
+        return getString(s, "");
+    }
+
+    /**
+     * 安全地获取某个值，为null则返回value
+     * @param s
+     * @param value
+     * @return
+     */
+    public static String getString(String s, String value){
+        return isNull(s) ? value : s;
+    }
 
     public static boolean isNull(CharSequence cs)
     {

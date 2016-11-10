@@ -1,15 +1,22 @@
 package panda.android.lib.base.util;
 
+import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.view.View;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import panda.android.lib.R;
+import panda.android.lib.base.control.SimpleSafeTask;
 import panda.android.lib.base.ui.fragment.BaseActivityWithExtrasData;
 import panda.android.lib.base.ui.fragment.BaseFragment;
 
@@ -185,4 +192,142 @@ public class IntentUtil {
         context.startActivity(shareIntent);
     }
 
+    /**
+     * 获取某个view的图片，并启动分享
+     * @param context
+     * @param view
+     */
+    public static void shareImage(final Context context, final View view, Dialog loadingDialog) {
+        view.setDrawingCacheEnabled(true);
+//        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+//                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        shareImage(context, bitmap, view, loadingDialog);
+    }
+
+    private static void shareImage(final Context context, final Bitmap bitmap, final View view, Dialog loadingDialog){
+        new SimpleSafeTask<Void>(context, loadingDialog){
+
+            File file;
+
+            @Override
+            protected Void doInBackgroundSafely() throws Exception {
+                FileOutputStream fos;
+                File sdRoot = Environment.getExternalStorageDirectory();
+                String filename = "share.png";
+                file = new File(sdRoot, filename);
+                try {
+                    // 判断手机设备是否有SD卡
+                    boolean isHasSDCard = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+                    if (isHasSDCard) {
+                        // SD卡根目录
+                        fos = new FileOutputStream(file);
+                    } else
+                        throw new Exception("创建文件失败!");
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.flush();
+                    fos.close();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    file = null;
+                }
+                if (view != null){
+                    view.destroyDrawingCache();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecuteSafely(Void aVoid, Exception e) {
+                super.onPostExecuteSafely(aVoid, e);
+                view.setDrawingCacheEnabled(false);
+                if (file == null){
+                    DevUtil.showInfo(context, "分享失败，请检查sdcard是否正常！");
+                }
+                else{
+//                    IntentUtil.shareImage(context, file);
+                    ArrayList<File> fileList = new ArrayList<File>();
+                    fileList.add(file);
+                    IntentUtil.shareImagesToWeixin(context, "",  fileList);
+                }
+            }
+        }.execute();
+    }
+
+    /**
+     * 分享单个图片
+     * @param context
+     * @param file
+     */
+    public static void shareImage(Context context, File file){
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+        shareIntent.setType("image/*");
+//        context.startActivity(Intent.createChooser(shareIntent, "成长记忆"));
+        context.startActivity(shareIntent);
+    }
+
+    /**
+     * 分享多图到朋友圈，多张图片加文字
+     */
+    public  static void shareImagesToWeixin(Context context, String title, ArrayList<File> files) {
+        ArrayList<Uri> uris = new ArrayList<>();
+        for (File file: files){
+            uris.add(Uri.fromFile(file));
+        }
+
+        Intent intent = new Intent();
+        ComponentName comp = new ComponentName("com.tencent.mm",
+                "com.tencent.mm.ui.tools.ShareToTimeLineUI");
+        intent.setComponent(comp);
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.setType("image/*");
+        intent.putExtra("Kdescription", title);
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+
+        try {
+            context.startActivity(intent);
+        }
+        catch (Exception e){
+            DevUtil.showInfo(context, "温馨提示：您的设备没有安装微信");
+        }
+    }
+
+//    /**
+//     * 分享多个图片
+//     * @param context
+//     * @param files
+//     */
+//    public static void shareImages(Context context, ArrayList<File> files){
+//        ArrayList<Uri> uris = new ArrayList<>();
+//        for (File file: files){
+//            uris.add(Uri.fromFile(file));
+//        }
+//
+//        Intent shareIntent = new Intent();
+//        shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+//        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+//        shareIntent.setType("image/*");
+////        context.startActivity(Intent.createChooser(shareIntent, "成长记忆"));
+//        context.startActivity(shareIntent);
+//    }
+
+
+    /**
+     * 拨打电话
+     * @param context
+     * @param phone
+     */
+    public static void callPhone(Context context, String phone){
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        Uri data = Uri.parse("tel:" + phone);
+        intent.setData(data);
+        context.startActivity(intent);
+    }
 }

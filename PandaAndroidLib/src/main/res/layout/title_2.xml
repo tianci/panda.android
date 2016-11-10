@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/app_primary"
+    android:layout_height="@dimen/y96">
+
+    <ImageView
+        android:padding="@dimen/x24"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ptr_rotate_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_goback" />
+
+    <TextView
+        android:layout_gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/x40"
+        android:text="标题"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_title" />
+
+</FrameLayout>

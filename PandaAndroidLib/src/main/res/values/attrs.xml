@@ -30,4 +30,12 @@
         </attr>
         <attr name="Panda_max"/>
     </declare-styleable>
+
+    <!-- 为了防止重命名，所有自定义属性都必须增加控件前缀 -->
+    <declare-styleable name="DragView">
+        <attr name="icon_drag" format="reference"/>
+        <attr name="color_circle" format="color"/>
+        <attr name="dot_num" format="integer"/>
+    </declare-styleable>
+
 </resources>

@@ -85,8 +85,8 @@ dependencies {
 aar.deployPath=/Users/shitianci/work/Lab/mvn-repo
 # VersionCode的格式为 发布当天的yyyyMMDD+自增长的两位数
 VERSION_CODE=2016032102
-# VersionName的格式为 大版本.小版本.VersionCode
-VERSION_NAME=0.1.2016032102
+# VersionName的格式为 大版本.小版本.VersionCode （VersionCode会自动拼接上去）
+VERSION_NAME=0.1
 ```
 - 执行`./gradlew :PandaAndroidLib:uploadArchives` windsws执行`gradlew :PandaAndroidLib:uploadArchives`
 - 将生成文件同步到**mvn-repo**即可。

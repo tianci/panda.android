@@ -1,6 +1,7 @@
 package panda.android.lib.base.ui;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -104,6 +105,7 @@ public abstract class BaseActivity<T extends BaseFragment> extends AppCompatActi
             }
             else{
                 super.onBackPressed();
+                killApp();
             }
 
         } else {
@@ -117,6 +119,14 @@ public abstract class BaseActivity<T extends BaseFragment> extends AppCompatActi
             }
             mainFragment.exit();
         }
+    }
+
+    /**
+     * 强制结束当前应用程序
+     */
+    public void killApp() {
+        ActivityManager manager = (ActivityManager)getApplicationContext().getSystemService(ACTIVITY_SERVICE); //获取应用程序管理器
+        manager.killBackgroundProcesses(getPackageName()); //强制结束当前应用程序
     }
 
     /**

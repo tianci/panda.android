@@ -12,6 +12,7 @@
     <string name="net_error">数据出错</string>
     <string name="net_fail">数据出错</string>
     <string name="net_cannot_access">数据不能访问</string>
+    <string name="loading">加载中……</string>
 
     <string name="string_help_text">当前应用缺少必要权限。\n\n请点击\"设置\"-\"权限\"-打开所需权限。</string>
 

@@ -118,12 +118,12 @@ public class TimeUtil {
     // strTime要转换的String类型的时间
     // formatType时间格式
     // strTime的时间格式和formatType的时间格式必须相同
-    public static long stringToLong(String strTime, String formatType) {
+    public static Long stringToLong(String strTime, String formatType) {
         Date date = stringToDate(strTime, formatType); // String类型转成date类型
         if (date == null) {
-            return 0;
+            return null;
         } else {
-            long currentTime = dateToLong(date); // date类型转成long类型
+            Long currentTime = dateToLong(date); // date类型转成long类型
             return currentTime;
         }
     }
@@ -313,6 +313,21 @@ public class TimeUtil {
             b.append(millisecond + "毫秒");
         }
         return b.toString();
+    }
+
+    /**
+     *
+     * @param orgTime 原始时间数据
+     * @param orgTimeformat 原始时间数据模板
+     * @param desTimeType 目标时间数据模板
+     * @return 目标时间数据
+     */
+    public static String stringToString(String orgTime, String orgTimeformat, String desTimeType) {
+        if (TextUtil.isNull(orgTime)){
+            return "";
+        }
+        long createTime = stringToLong(orgTime, orgTimeformat);
+        return longToString(createTime, desTimeType);
     }
 
 }
