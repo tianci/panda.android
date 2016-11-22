@@ -1,99 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#e678cc">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/width_720_1280_15"
-            android:layout_marginLeft="@dimen/width_720_1280_10"
-            android:layout_marginTop="@dimen/width_720_1280_2"
-            android:src="@drawable/logo"
-            />
-
-        <TextView
-            android:id="@+id/title"
-            style="@style/PandaTheme.Nav"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin">
+        <Button
+            android:id="@+id/btn_show_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_720_1280_96"
-            android:background="#e678cc"
-            android:gravity="center"
-            android:text="标题名"
-            android:visibility="gone"/>
-
-    </FrameLayout>
-
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/view_refresh" />
-
-        <LinearLayout
-            android:id="@+id/net_progress"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <ProgressBar
-                style="?android:attr/progressBarStyle"
-                android:layout_width="200dip"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:indeterminateOnly="true"
-                android:visibility="gone"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="数据正在加载中……"
-                android:textColor="#000000"
-                android:visibility="gone"/>
-        </LinearLayout>
+            android:text="演示ToolBar"/>
+    </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/net_no_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/no_live"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/height_720_1280_40"
-                android:text="没有数据"
-                android:textColor="#000000"/>
-
-        </LinearLayout>
-
-
-    </FrameLayout>
-
-
-</LinearLayout>
+</ScrollView>

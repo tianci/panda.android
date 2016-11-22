@@ -35,7 +35,7 @@ import panda.android.lib.base.util.DevUtil;
 import panda.android.lib.base.util.IntentUtil;
 
 /**
- * Created by admin on 2016/10/8.
+ * 文件管理页面
  */
 
 public class FileFragment extends BaseFragment {

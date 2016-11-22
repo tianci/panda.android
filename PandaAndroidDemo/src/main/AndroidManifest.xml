@@ -64,6 +64,11 @@
             android:label="@string/app_name"
             android:theme="@style/PandaTheme.MainActivity"></activity>
 
+
+        <activity
+            android:name=".view.ToolBarActivity"
+            android:theme="@style/PandaTheme"></activity>
+
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"

@@ -52,7 +52,8 @@
 
     <!-- Default theme with an Action Bar. -->
     <style name="PandaTheme.WithActionBar">
-        <item name="android:windowActionBar">true</item>
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <!-- Application theme.(默认带Activity切换动画) -->
