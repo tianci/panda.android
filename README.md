@@ -105,3 +105,15 @@ VERSION_NAME=0.1
 
 ## 如何初始化一个基于PandaAndroidLib的项目
 参考：[[Android流水化开发]工序1：初始化项目框架](http://www.jianshu.com/p/1d0afecab1fb)
+
+
+## 主要更新日志
+### 2016年
+总共更新17次。核心内容沉淀在[孚睿科技·ANDROID知识总结](http://www.jianshu.com/collection/cf785fcdcaea)中，支持 海南3G v3.1；机务段v1.3；深海电商；成长记忆；借易贷{1.0、2.0、3.0}、ACCA、时间农夫、蜘蛛社群 等8款产品。
+
+主要更新内容为：
+1. 建立[流水化开发](http://www.jianshu.com/p/3d2ac2818136)的理念，持续积累。
+2. 用maven构建产物，方便Gradle方式引用库。
+3. 基于[CommonPullToRefresh](https://github.com/Chanven/CommonPullToRefresh)封装出简易的下拉刷新框架。
+4. 基于[litehttp](https://github.com/litesuits/android-lite-http)封装BaseRepositoryCollection的方法，一行访问网络，获取常规的json和file数据。
+5. 将网络接口错误码处理移动到BaseApp里面，统一处理。
