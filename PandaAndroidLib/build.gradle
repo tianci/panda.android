@@ -14,7 +14,11 @@ android {
 
         /**
          * lib的配置文件放在这里生效
-         * 被引入后会合并在出现在 build/intermediates/exploded-aar/panda.android/PandaAndroidLib/unspecified/proguard.txt
+         * 被引入后会合并在出现在
+         *
+         * build/intermediates/exploded-aar/panda.android/PandaAndroidLib/unspecified/proguard.txt
+         * 或者
+         * build/intermediates/exploded-aar/panda.android/lib/0.1.2016111001/proguard.txt
          *
          * 常用第三方库的混淆配置参考： https://github.com/krschultz/android-proguard-snippets
          */

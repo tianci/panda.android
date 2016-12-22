@@ -9,3 +9,32 @@
 #-assumenosideeffects class panda.android.libs.Log {
 #	public static *** d(...);
 #}
+
+## rx混淆配置
+-dontwarn sun.misc.**
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+ long producerIndex;
+ long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+ rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+ rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}
+
+## butterfork
+-keep class butterfork.** { *; }
+-dontwarn butterfork.internal.**
+-keep class **$$ViewBinder { *; }
+
+-keepclasseswithmembernames class * {
+    @butterfork.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterfork.* <methods>;
+}
+
+## panda.android.lib
+-keep class panda.android.lib.** { *; }
