@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.oguzbabaoglu.butterfork-plugin'
 
 android {
@@ -22,7 +21,7 @@ android {
          *
          * 常用第三方库的混淆配置参考： https://github.com/krschultz/android-proguard-snippets
          */
-        consumerProguardFiles (getDefaultProguardFile('proguard-android.txt'))
+//        consumerProguardFiles (getDefaultProguardFile('proguard-android.txt'))
         consumerProguardFiles './proguard/proguard-rules-common.pro'
         consumerProguardFiles './proguard/proguard-rules-lite.pro'
         consumerProguardFiles './proguard/proguard-rules-umeng.pro'
@@ -31,6 +30,8 @@ android {
         consumerProguardFiles './proguard/proguard-eventbus.pro'
         consumerProguardFiles './proguard/proguard-gson.pro'
         consumerProguardFiles './proguard/proguard-rules-panda-android-lib.pro'
+
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
     /**
@@ -71,7 +72,7 @@ dependencies {
     }
     compile 'net.danlew:android.joda:2.9.1'
     compile 'com.oguzbabaoglu:butterfork-binder:1.0.0'
-    apt 'com.oguzbabaoglu:butterfork-compiler:1.0.0'
+    annotationProcessor 'com.oguzbabaoglu:butterfork-compiler:1.0.0'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'cn.bingoogolapple:bga-refreshlayout:1.1.0@aar'
