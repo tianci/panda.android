@@ -9,14 +9,10 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.7'
-        classpath 'com.oguzbabaoglu:butterfork-plugin:1.0.0'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
     }
 }
 
@@ -32,32 +28,14 @@ allprojects {
 
 2. 在应用模块的`build.gradle`中添加库的引用
 ```gradle
-
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'com.oguzbabaoglu.butterfork-plugin'
+apply plugin: 'com.jakewharton.butterknife'
 
 dependencies {
-    compile 'panda.android:lib:0.1.+@aar'
-    compile 'com.android.support:support-v4:23.+'
-    compile 'com.android.support:appcompat-v7:23.+'
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    compile 'com.umeng.analytics:analytics:latest.integration'
-    compile('com.weiwangcn.betterspinner:library:1.1.0') {
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-    }
-    compile 'net.danlew:android.joda:2.9.1'
-    compile 'com.oguzbabaoglu:butterfork-binder:1.0.0'
-    apt 'com.oguzbabaoglu:butterfork-compiler:1.0.0'
-    compile 'com.github.chrisbanes:PhotoView:1.2.6'
-
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'cn.bingoogolapple:bga-refreshlayout:1.1.0@aar'
-    compile 'com.android.support:recyclerview-v7:23.0.+'
+    api 'panda.android:lib:0.1.<具体版本号>@aar'
 }
 ```
+
+详情参考：[[Android流水化开发]工序1：初始化项目框架](https://www.jianshu.com/p/1d0afecab1fb)
 
 
 ## 知识沉淀
