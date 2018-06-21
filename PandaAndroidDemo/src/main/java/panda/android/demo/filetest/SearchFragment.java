@@ -20,10 +20,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import butterfork.Bind;
-import butterfork.ButterFork;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import panda.android.demo.B;
 import panda.android.demo.R;
 import panda.android.lib.base.ui.fragment.BaseFragment;
 
@@ -32,9 +30,9 @@ import panda.android.lib.base.ui.fragment.BaseFragment;
  */
 
 public class SearchFragment extends BaseFragment {
-    @Bind(B.id.et_search)
+    @BindView(R.id.et_search)
     EditText etSearch;
-    @Bind(B.id.list_view)
+    @BindView(R.id.list_view)
     ListView listView;
 
     @Override
@@ -168,11 +166,11 @@ public class SearchFragment extends BaseFragment {
         }
 
         class ViewHolder {
-            @Bind(B.id.tv_name)
+            @BindView(R.id.tv_name)
             TextView tvName;
 
             ViewHolder(View view) {
-                ButterFork.bind(this, view);
+                ButterKnife.bind(this, view);
             }
         }
     }

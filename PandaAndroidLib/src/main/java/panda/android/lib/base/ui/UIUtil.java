@@ -22,7 +22,7 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
-import butterfork.ButterFork;
+import butterknife.ButterKnife;
 import panda.android.lib.R;
 import panda.android.lib.base.model.net.BaseRepositoryCollection;
 import panda.android.lib.base.util.DevUtil;
@@ -119,7 +119,7 @@ public class UIUtil {
         Button mBtnCancel;
 
         DialogProgressViewHolder(View view) {
-            ButterFork.bind(this, view);
+            ButterKnife.bind(this, view);
             mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
             mProgressBarInfo = (TextView) view.findViewById(R.id.progress_bar_info);
             mFlProgress = view.findViewById(R.id.fl_progress);

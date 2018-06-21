@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.oguzbabaoglu.butterfork-plugin'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
@@ -15,6 +15,8 @@ android {
         manifestPlaceholders = [jpushAppkey: project.jPUSH_APP_KEY]
 
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -53,9 +55,9 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile fileTree(dir: 'libs-jpush', include: ['*.jar'])
-    compile project(':PandaAndroidLib')
-    compile 'com.jakewharton:disklrucache:2.0.2'
-    annotationProcessor 'com.oguzbabaoglu:butterfork-compiler:1.0.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs-jpush', include: ['*.jar'])
+    implementation project(':PandaAndroidLib')
+    implementation 'com.jakewharton:disklrucache:2.0.2'
+
 }

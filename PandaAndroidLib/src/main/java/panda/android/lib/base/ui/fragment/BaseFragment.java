@@ -18,7 +18,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import butterfork.ButterFork;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import panda.android.lib.R;
 import panda.android.lib.base.model.BaseModel;
 import panda.android.lib.base.util.DevUtil;
@@ -47,6 +48,7 @@ public abstract class BaseFragment extends Fragment implements
 	private PermissionsChecker mPermissionsChecker; // 权限检测器
 	private static final int PERMISSION_REQUEST_CODE = 0; // 系统权限管理页面的参数
 	private boolean isRequireCheck = true; // 是否需要进行权限检测
+	private Unbinder unbinder;
 
 
 	/** ----------------
@@ -173,7 +175,7 @@ public abstract class BaseFragment extends Fragment implements
 				}
 			});
 		}
-		ButterFork.bind(this, view);
+		unbinder = ButterKnife.bind(this, view);
 		checkPermissions();
 		return view;
 	}
@@ -297,7 +299,7 @@ public abstract class BaseFragment extends Fragment implements
 	public void onDestroyView() {
 		if(DEBUG)
 			Log.d(TAG, id + " onDestroyView");
-		ButterFork.unbind(this);
+		unbinder.unbind();
 		super.onDestroyView();
 	}
 	

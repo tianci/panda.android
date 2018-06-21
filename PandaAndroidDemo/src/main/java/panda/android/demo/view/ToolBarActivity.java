@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import panda.android.demo.R;
 import panda.android.lib.base.util.DevUtil;
@@ -20,7 +20,7 @@ import panda.android.lib.base.util.DevUtil;
  */
 public class ToolBarActivity extends AppCompatActivity {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     private ShareActionProvider mShareActionProvider;

@@ -3,9 +3,8 @@ package panda.android.demo.view;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import butterfork.Bind;
+import butterknife.BindView;
 import panda.android.demo.R;
-import panda.android.lib.B;
 import panda.android.lib.base.control.SimpleSafeTask;
 import panda.android.lib.base.ui.fragment.BaseFragment;
 import panda.android.lib.base.util.IntentUtil;
@@ -14,7 +13,7 @@ import panda.android.lib.base.util.IntentUtil;
  * Created by shitianci on 15/10/14.
  */
 public class LaunchFragment extends BaseFragment {
-    @Bind(B.id.launch_view)
+    @BindView(R.id.launch_view)
     ImageView mLaunchView;
 
     private long mLaunchViewDisplayTimeLength = 3000L; //启动页显示的时间

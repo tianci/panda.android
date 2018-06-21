@@ -15,9 +15,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import butterfork.Bind;
-import panda.android.lib.B;
+import butterknife.BindView;
 import panda.android.lib.R;
+import panda.android.lib.R2;
 import panda.android.lib.base.ui.fragment.BaseFragment;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -27,9 +27,9 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  */
 public class ImageDetailFragment extends BaseFragment {
     private static final String TAG = ImageDetailFragment.class.getSimpleName();
-    @Bind(B.id.image)
+    @BindView(R2.id.image)
     ImageView image;
-    @Bind(B.id.loading)
+    @BindView(R2.id.loading)
     ProgressBar loading;
     private String mImageUrl;
     private PhotoViewAttacher mAttacher;

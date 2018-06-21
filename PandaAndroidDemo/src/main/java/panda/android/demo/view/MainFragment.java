@@ -7,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import butterfork.Bind;
-import butterfork.OnClick;
-import panda.android.demo.B;
+import butterknife.BindView;
+import butterknife.OnClick;
 import panda.android.demo.R;
 import panda.android.lib.base.ui.fragment.BaseFragment;
 import panda.android.lib.base.util.IntentUtil;
@@ -19,7 +18,7 @@ import panda.android.lib.base.util.IntentUtil;
  */
 public class MainFragment extends BaseFragment {
 
-    @Bind(B.id.btn_show_toolbar)
+    @BindView(R.id.btn_show_toolbar)
     Button mBtnShowToolbar;
 
     @Override
@@ -33,7 +32,7 @@ public class MainFragment extends BaseFragment {
         return rootView;
     }
 
-    @OnClick(B.id.btn_show_toolbar)
+    @OnClick(R.id.btn_show_toolbar)
     public void showToolBar(){
         IntentUtil.gotoActivity(getActivity(), ToolBarActivity.class);
     }

@@ -14,10 +14,10 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterfork.Bind;
-import butterfork.OnClick;
-import panda.android.lib.B;
+import butterknife.BindView;
+import butterknife.OnClick;
 import panda.android.lib.R;
+import panda.android.lib.R2;
 import panda.android.lib.base.ui.UIUtil;
 import panda.android.lib.base.ui.fragment.BaseFragment;
 
@@ -29,12 +29,12 @@ import panda.android.lib.base.ui.fragment.BaseFragment;
  */
 public class WebViewFragment extends BaseFragment {
     private static final String TAG = WebViewFragment.class.getSimpleName();
-    @Bind(B.id.btn_goback)
+    @BindView(R2.id.btn_goback)
     ImageView navGoBack;
-    @Bind(B.id.tv_title)
+    @BindView(R2.id.tv_title)
     TextView navTvTitle;
 
-    @Bind(B.id.web_view)
+    @BindView(R2.id.web_view)
     WebView webView;
     private WebViewModel model;
 
@@ -115,7 +115,7 @@ public class WebViewFragment extends BaseFragment {
         this.loadingDialog = loadingDialog;
     }
 
-    @OnClick(B.id.btn_goback)
+    @OnClick(R2.id.btn_goback)
     @Override
     public void exit() {
         super.exit();

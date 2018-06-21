@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterfork.OnClick;
-import panda.android.lib.B;
+import butterknife.OnClick;
 import panda.android.lib.R;
+import panda.android.lib.R2;
 import panda.android.lib.base.control.SimpleSafeTask;
 import panda.android.lib.base.model.NetResultInfo;
 import panda.android.lib.base.ui.fragment.BaseFragment;
@@ -155,22 +155,22 @@ public abstract class NetFragment<T extends NetResultInfo> extends BaseFragment 
      * -------------------------
      */
 
-    @OnClick(B.id.net_no_result)
+    @OnClick(R2.id.net_no_result)
     public void clickNetNoResult() {
         mNetController.loadNetData();
     }
 
-    @OnClick(B.id.net_error)
+    @OnClick(R2.id.net_error)
     public void clickNetError() {
         mNetController.loadNetData();
     }
 
-    @OnClick(B.id.net_fail)
+    @OnClick(R2.id.net_fail)
     public void clickNetFail() {
         mNetController.loadNetData();
     }
 
-    @OnClick(B.id.net_cannot_access)
+    @OnClick(R2.id.net_cannot_access)
     public void clickNetCannotAccess() {
         mNetController.loadNetData();
     }

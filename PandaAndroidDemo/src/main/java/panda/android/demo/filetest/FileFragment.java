@@ -22,9 +22,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import butterfork.Bind;
-import butterfork.OnClick;
-import panda.android.demo.B;
+import butterknife.BindView;
+import butterknife.OnClick;
 import panda.android.demo.R;
 import panda.android.demo.filetest.Cache.FileCacheOptions;
 import panda.android.demo.filetest.Cache.LRUFileCache;
@@ -39,20 +38,20 @@ import panda.android.lib.base.util.IntentUtil;
  */
 
 public class FileFragment extends BaseFragment {
-    @Bind(B.id.btn_2)
+    @BindView(R.id.btn_2)
     Button btn2;
-    @Bind(B.id.btn_3)
+    @BindView(R.id.btn_3)
     Button btn3;
-    @Bind(B.id.btn_5)
+    @BindView(R.id.btn_5)
     Button btn_5;
-    @Bind(B.id.btn_4)
+    @BindView(R.id.btn_4)
     Button btn_4;
-    @Bind(B.id.btn_6)
+    @BindView(R.id.btn_6)
     Button btn_6;
-    @Bind(B.id.btn_7)
+    @BindView(R.id.btn_7)
     Button btn_7;
 
-    @Bind(B.id.tv_2)
+    @BindView(R.id.tv_2)
     TextView tv2;
 
     @Override
@@ -70,7 +69,7 @@ public class FileFragment extends BaseFragment {
     }
 
 
-    @OnClick(B.id.btn_2)
+    @OnClick(R.id.btn_2)
     public void btn2Click() {
         SDCardCheck sdCheck = new SDCardCheck();
         sdCheck.SDCardSize();
@@ -80,7 +79,7 @@ public class FileFragment extends BaseFragment {
     }
 
     //下载
-    @OnClick(B.id.btn_3)
+    @OnClick(R.id.btn_3)
     public void btn3Click() {
         String url = "http://games.ahgxtx.com/tvgame/Uploads/app/201604/572175e6c703f.apk";
         BaseRepositoryCollection.executeFileRequestAsync(url, Environment.getExternalStorageDirectory() + "/www.apk",
@@ -115,7 +114,7 @@ public class FileFragment extends BaseFragment {
     }
 
     //预警
-    @OnClick(B.id.btn_4)
+    @OnClick(R.id.btn_4)
     public void btn4Click() {
 //        SDSizeAlarmUtil.setAlarmSize(100, 99, new SDSizeAlarmUtil.AlarmListener() {
 //            @Override
@@ -133,7 +132,7 @@ public class FileFragment extends BaseFragment {
 
     }
 
-    @OnClick(B.id.btn_5)
+    @OnClick(R.id.btn_5)
     public void btn5Click() {
         IntentUtil.gotoActivity(getContext(), SearchActivity.class);
     }
@@ -148,13 +147,13 @@ public class FileFragment extends BaseFragment {
 
     private String url3 = "http://www.ablanxue.com/autoupload/201511/14466876121295944.jpg";
 
-    @OnClick(B.id.btn_6)
+    @OnClick(R.id.btn_6)
     public void btn6Click() {
 
 
     }
 
-    @OnClick(B.id.btn_7)
+    @OnClick(R.id.btn_7)
     public void btn7Click() {
         if (LRUFileCache.getInstance().getDiskFile(url1)==null){
             Dialog dialog = UIUtil.getFileDownloadDlg(getContext(), url1, null, distory + File.separator + LRUFileCache.getInstance().convertUrlToFileName(url1));
